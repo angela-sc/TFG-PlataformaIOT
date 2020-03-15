@@ -19,6 +19,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repositorio.SQLServer", "Re
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Libreria", "Libreria\Libreria.csproj", "{2A8ABA26-5933-40A0-8F02-406328F6C88C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4-Tests", "4-Tests", "{A059E96F-201A-4399-B80F-3ED10DFA90D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repositorio.TestsUnitarios", "Repositorio.TestsUnitarios\Repositorio.TestsUnitarios.csproj", "{10688324-A611-49BD-B07D-316224610C8A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +49,10 @@ Global
 		{2A8ABA26-5933-40A0-8F02-406328F6C88C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A8ABA26-5933-40A0-8F02-406328F6C88C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A8ABA26-5933-40A0-8F02-406328F6C88C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10688324-A611-49BD-B07D-316224610C8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10688324-A611-49BD-B07D-316224610C8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10688324-A611-49BD-B07D-316224610C8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10688324-A611-49BD-B07D-316224610C8A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +63,7 @@ Global
 		{8562C295-F044-4E70-8E0D-54A56AAAE2FE} = {3931ABC1-3085-481D-9405-BF66382AB7B1}
 		{022EE473-AEAC-465D-B809-D9A9368C0818} = {B8D53E6C-2E4F-4EB4-BB82-562750A0BA36}
 		{2A8ABA26-5933-40A0-8F02-406328F6C88C} = {B8D53E6C-2E4F-4EB4-BB82-562750A0BA36}
+		{10688324-A611-49BD-B07D-316224610C8A} = {A059E96F-201A-4399-B80F-3ED10DFA90D3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6BA24B8D-7A60-4E2D-842D-4856D9AB6881}
