@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Libreria.Entidades
 {
-    class EntidadProyecto
+    public class EntidadProyecto
     {
         public int id { get; set; }
         public string name { get; set; }

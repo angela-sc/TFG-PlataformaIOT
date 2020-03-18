@@ -1,12 +1,14 @@
 ﻿using System;
 
+
 namespace EstacionBase.Ejemplo
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main(String[] args) 
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Hello Program!");
         }
+
     }
 }

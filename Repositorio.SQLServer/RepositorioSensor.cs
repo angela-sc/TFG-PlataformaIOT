@@ -17,12 +17,24 @@ namespace Repositorio.SQLServer
 
         public void InsertaDato(EntidadDato dato)
         {
+            //query sql para insertar los datos en la tabla
+            string query;
+
+            using(SqlConnection con = new SqlConnection(conexionBD)){
+
+            }
+
             throw new NotImplementedException();
         }
 
         public void InsertaSensor(EntidadSensor sensor)
         {
+            throw new NotImplementedException();
+        }
 
+        public void InsertaUsuario(EntidadUsuario usuario)
+        {
+            throw new NotImplementedException();
         }
     }
 }
