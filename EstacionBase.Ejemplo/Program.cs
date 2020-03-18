@@ -1,6 +1,5 @@
 ﻿using System;
 
-
 namespace EstacionBase.Ejemplo
 {
     class Program
