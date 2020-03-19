@@ -7,9 +7,9 @@ namespace Libreria.Entidades
 {
     public class EntidadSensor
     {
-        public int id { get; set; }
-        public string name { get; set; }
-        public SqlGeography location { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public SqlGeography Location { get; set; }
         public int FK_basestationID { get; set; }
     }
 }
