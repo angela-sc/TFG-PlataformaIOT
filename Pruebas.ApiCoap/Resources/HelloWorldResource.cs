@@ -1,4 +1,6 @@
 ﻿using CoAP.Server.Resources;
+using Libreria.Entidades;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +22,13 @@ namespace Pruebas.ApiCoap.Resources
 		{
 			// now we get a request, respond it
 			exchange.Respond("Hello World!");
+		}
+
+		protected override void DoPost(CoAP.Server.Resources.CoapExchange exchange)
+		{
+			String payload = exchange.Request.PayloadString;
+			EntidadSensor entidadSensor = JsonConvert.DeserializeObject<EntidadSensor>(payload);
+			exchange.Respond(payload);
 		}
 	}
 }
