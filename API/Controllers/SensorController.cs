@@ -18,7 +18,7 @@ namespace API.Controllers
 
         protected override void DoPost(CoapExchange exchange)
         {
-
+            Console.WriteLine("Has llegado a la AP del SENSOR");
         }
     }
 }

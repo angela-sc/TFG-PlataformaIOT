@@ -38,10 +38,5 @@ namespace Repositorio.SQLServer
         {
             throw new NotImplementedException();
         }
-
-        public void InsertaUsuario(EntidadUsuario usuario)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

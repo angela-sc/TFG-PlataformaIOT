@@ -9,6 +9,5 @@ namespace Libreria.Interfaces
     {
         void InsertaSensor(EntidadSensor sensor);
         void InsertaDato(EntidadDato dato);
-        void InsertaUsuario(EntidadUsuario usuario);
     }
 }
