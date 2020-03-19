@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pruebas.ClienteConsola", "P
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pruebas.ApiNormal", "Pruebas.ApiNormal\Pruebas.ApiNormal.csproj", "{0D6360D0-6D54-4B61-B60E-3A40992C5904}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pruebas.ApiCoap", "Pruebas.ApiCoap\Pruebas.ApiCoap.csproj", "{4F6984DF-4E9C-406B-982C-47939E62530E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +69,10 @@ Global
 		{0D6360D0-6D54-4B61-B60E-3A40992C5904}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D6360D0-6D54-4B61-B60E-3A40992C5904}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D6360D0-6D54-4B61-B60E-3A40992C5904}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F6984DF-4E9C-406B-982C-47939E62530E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F6984DF-4E9C-406B-982C-47939E62530E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F6984DF-4E9C-406B-982C-47939E62530E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F6984DF-4E9C-406B-982C-47939E62530E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -80,6 +86,7 @@ Global
 		{10688324-A611-49BD-B07D-316224610C8A} = {A059E96F-201A-4399-B80F-3ED10DFA90D3}
 		{EE515C70-3086-4FB5-AFFB-593687DE0CE1} = {1C5D5251-E50B-43C1-AE3C-751C5304862D}
 		{0D6360D0-6D54-4B61-B60E-3A40992C5904} = {1C5D5251-E50B-43C1-AE3C-751C5304862D}
+		{4F6984DF-4E9C-406B-982C-47939E62530E} = {1C5D5251-E50B-43C1-AE3C-751C5304862D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6BA24B8D-7A60-4E2D-842D-4856D9AB6881}

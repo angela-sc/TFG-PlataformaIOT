@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CoAP;
+using System;
 using System.Threading.Tasks;
 
 namespace Pruebas.ClienteConsola
@@ -14,12 +15,17 @@ namespace Pruebas.ClienteConsola
         private static async Task TestGet_ApiNormal()
         {
             var respuesta = await ClientHelper.GetAsync();
+
             Console.WriteLine(respuesta);
         }
 
         private static async Task TestGet_ApiCoap()
         {
+            var client = new CoapClient();
+            client.Uri = new Uri("coap://localhost:5683/helloworld");
+            var res = client.Get();
 
+            Console.WriteLine(res.ResponseText);
         }
     }
 }
