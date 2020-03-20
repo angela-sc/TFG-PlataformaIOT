@@ -15,7 +15,7 @@ namespace Pruebas.ApiCoap
     {
         public static void Main(String[] args)
         {
-            CoapServer server = new CoapServer(5683);
+            CoapServer server = new CoapServer();
 
             server.Add(new HelloWorldResource());
 
