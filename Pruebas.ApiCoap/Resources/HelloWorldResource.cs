@@ -1,6 +1,8 @@
 ﻿using CoAP.Server.Resources;
 using Libreria.Entidades;
+using Libreria.Interfaces;
 using Newtonsoft.Json;
+using Servicios;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +12,14 @@ namespace Pruebas.ApiCoap.Resources
 {
 	public class HelloWorldResource : Resource
 	{
+		private IServicioInsertaInformacion servicioInsertaInformacion;
+
 		// use "helloworld" as the path of this resource
 		public HelloWorldResource() : base("helloworld")
 		{
 			// set a friendly title
 			Attributes.Title = "GET a friendly greeting!";
+			servicioInsertaInformacion = new ServicioInsertaInformacion("");
 		}
 
 		// override this method to handle GET requests
@@ -27,8 +32,11 @@ namespace Pruebas.ApiCoap.Resources
 		protected override void DoPost(CoAP.Server.Resources.CoapExchange exchange)
 		{
 			String payload = exchange.Request.PayloadString;
-			EntidadSensor entidadSensor = JsonConvert.DeserializeObject<EntidadSensor>(payload);
-			exchange.Respond(payload);
+			EntidadPeticion entidadPeticion = JsonConvert.DeserializeObject<EntidadPeticion>(payload);
+			Task.Run(async () => await servicioInsertaInformacion.InsertaPeticion(entidadPeticion));
+
+			Console.WriteLine(entidadPeticion.Sensor);
+			exchange.Respond(CoAP.StatusCode.Changed);
 		}
 	}
 }

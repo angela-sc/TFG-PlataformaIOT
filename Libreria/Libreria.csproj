@@ -8,8 +8,4 @@
     <PackageReference Include="Microsoft.SqlServer.Types" Version="14.0.1016.290" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Dominio\" />
-  </ItemGroup>
-
 </Project>

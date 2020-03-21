@@ -8,6 +8,6 @@ namespace Libreria.Entidades
     {
         public string EstacionBase { get; set; }
         public string Sensor { get; set; }
-        public IEnumerable<EntidadDato> Datos { get; set; }
+        public IEnumerable<EntidadDatoBase> Datos { get; set; }
     }
 }

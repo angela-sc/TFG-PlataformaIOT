@@ -1,9 +1,11 @@
-﻿using Libreria.Entidades;
+﻿using Dapper;
+using Libreria.Entidades;
 using Libreria.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Repositorio.SQLServer
 {
@@ -16,8 +18,16 @@ namespace Repositorio.SQLServer
             this.conexionBD = conexionBD;
         }
 
-        public void InsertaDato(EntidadDato dato)
+        public async Task InsertaDato(EntidadDato dato)
         {
+            Dictionary<string, object> queryParams = new Dictionary<string, object>
+            {
+                { "@stamp", dato.stamp },
+                { "@fk_sensor", dato.FK_sensorID },
+                { "@humity", dato.humity },
+                { "@temperature", dato.temperature }
+            };
+
             //query sql para insertar los datos en la tabla
             string query = @"INSERT INTO Data([Stamp],[FK_SensorId],[humity],[temperature]) 
                              VALUES (@stamp,@fk_sensor,@humity,@temperature)";
@@ -29,6 +39,8 @@ namespace Repositorio.SQLServer
                 //comando sql
                 SqlCommand sqlCommand = new SqlCommand(query, con);
                 sqlCommand.ExecuteNonQuery();
+
+                await con.ExecuteAsync(query, queryParams);
             }
 
             throw new NotImplementedException();
