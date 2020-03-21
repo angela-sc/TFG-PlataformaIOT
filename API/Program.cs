@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Resources;
+using CoAP;
 using CoAP.Server;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -29,9 +30,10 @@ namespace API
         //Servidor COAP que recibe las peticiones de la EB
         public static void Main(string[] args)
         {
-           
+            ICoapConfig coapConfig = new CoapConfig();
+            Console.WriteLine(coapConfig.DefaultBlockSize);
             CoapServer server = new CoapServer(5683);
-
+           
             server.Add(new RecursoPeticion());
 
             try
@@ -51,6 +53,8 @@ namespace API
             {
                 Console.WriteLine(ex.Message);
             }
+            Console.WriteLine("Press any key to exit.");
+            Console.ReadKey();
         }
     } 
 }

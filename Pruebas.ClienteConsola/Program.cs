@@ -25,6 +25,7 @@ namespace Pruebas.ClienteConsola
         private static async Task TestGet_ApiCoap()
         {
             var client = new CoapClient();
+
             client.Uri = new Uri("coap://localhost:5683/helloworld");
             var res = client.Get();
 

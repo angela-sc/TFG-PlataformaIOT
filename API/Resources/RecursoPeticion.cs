@@ -16,16 +16,17 @@ namespace API.Resources
             Attributes.Title = "PETICION COAP";
         }
 
-        protected override void DoPost(CoapExchange exchange)
+        protected override void DoPost(CoAP.Server.Resources.CoapExchange exchange)
         {
-
             String payload = exchange.Request.PayloadString;
+            if(payload == null)
+            {
+                Console.WriteLine("PETICION VACIA");
+            }
             EntidadPeticion entidadPeticion = JsonConvert.DeserializeObject<EntidadPeticion>(payload);
 
            
             Console.WriteLine("Objeto deserializado: \n");
-
-
 
             Console.WriteLine($"Estacion base: " + entidadPeticion.EstacionBase);
             Console.WriteLine("Sensor: " + entidadPeticion.Sensor);
@@ -34,5 +35,6 @@ namespace API.Resources
                 Console.WriteLine(ed.stamp);
             }
         }
+
     }
 }

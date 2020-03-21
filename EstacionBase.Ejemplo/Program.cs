@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using CoAP;
 using CoAP.Server;
@@ -27,29 +28,40 @@ namespace EstacionBase.Ejemplo
             var cliente = new CoapClient();
             cliente.Uri = uri;
 
-            var PeticionJSON = ObtenerDatos();
+            var files = Directory.EnumerateFiles(path, "*.txt");
+            foreach(string file in files)
+            {
+                var fileName = new FileInfo(file).Name;
+
+                var peticion = ObtenerMetricas(fileName);
+                cliente.Post(peticion);
+            }
+
+            /*var PeticionJSON = ObtenerDatos();
 
             Console.WriteLine(PeticionJSON);
 
-            cliente.Post(PeticionJSON); //hacemos la peticion POST al servidor
+            cliente.Post(PeticionJSON); //hacemos la peticion POST al servidor*/
+
+
         }
 
-        private static String ObtenerDatos()
+        private static String ObtenerMetricas(string fileName)
         {
-            string peticion = null;
-            //obtenemos los archivos que hay en el directorio
-            var files = Directory.EnumerateFiles(path, "*.txt");
+            String peticion = null;
+            
+            //var files = Directory.EnumerateFiles(path, "*.txt");
 
             var dateFormat = "yyyy-MM-dd HH:mm:ss";
             var dateTimeConverter = new IsoDateTimeConverter { DateTimeFormat = dateFormat };
 
-            foreach (string fileName in files)
-            {
+            //foreach (string path in files)
+            //{
                 List<EntidadDato> datos = new List<EntidadDato>();
 
-                string eb = fileName.Substring(0,4); //nombre de la estacion base
-                string se = fileName.Substring(4, 4); //nombre del sensor
-
+                //var fileName = new FileInfo(path).Name;
+                var splittedFileName = fileName.Split('_', '.');
+               
                 using(var sr = new StreamReader($@"{path}\{fileName}"))
                 {
                     while (sr.Peek() > -1)
@@ -63,14 +75,14 @@ namespace EstacionBase.Ejemplo
                     }
                 }
 
-                peticion = JsonConvert.SerializeObject(new EntidadPeticion()
+                peticion =  JsonConvert.SerializeObject(new EntidadPeticion()
                 {
-                    EstacionBase = eb,
-                    Sensor = se,
+                    EstacionBase = splittedFileName.First(),
+                    Sensor = splittedFileName.ElementAt(1),
                     Datos = datos
                 });
 
-            }
+            //}
 
             return peticion;
         }
