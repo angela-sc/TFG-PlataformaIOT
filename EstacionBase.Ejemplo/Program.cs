@@ -57,7 +57,7 @@ namespace EstacionBase.Ejemplo
 
             //foreach (string path in files)
             //{
-                List<EntidadDato> datos = new List<EntidadDato>();
+                List<EntidadDatoBase> datos = new List<EntidadDatoBase>();
 
                 //var fileName = new FileInfo(path).Name;
                 var splittedFileName = fileName.Split('_', '.');
@@ -69,7 +69,7 @@ namespace EstacionBase.Ejemplo
                         String linea = sr.ReadLine();
                         if (!String.IsNullOrEmpty(linea))
                         {
-                            var datoJSON = JsonConvert.DeserializeObject<EntidadDato>(linea, dateTimeConverter);
+                            var datoJSON = JsonConvert.DeserializeObject<EntidadDatoBase>(linea, dateTimeConverter);
                             datos.Add(datoJSON);
                         }
                     }
