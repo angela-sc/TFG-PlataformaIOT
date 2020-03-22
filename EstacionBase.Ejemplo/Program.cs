@@ -29,27 +29,14 @@ namespace EstacionBase.Ejemplo
             cliente.Uri = uri;
 
             var files = Directory.EnumerateFiles(path, "*.txt");
+            
             foreach(string file in files)
             {
                 var fileName = new FileInfo(file).Name;
 
-                var peticion = ObtenerMetricas(fileName);
-                cliente.Post(peticion);
-
-                var response = cliente.Post(peticion);
-
-                if (!response.Equals(CoAP.StatusCode.Changed)){
-                    break;
-                }
+                string peticion = ObtenerMetricas(fileName);
+                var response = cliente.Post(peticion);            
             }
-
-            /*var PeticionJSON = ObtenerDatos();
-
-            Console.WriteLine(PeticionJSON);
-
-            cliente.Post(PeticionJSON); //hacemos la peticion POST al servidor*/
-
-
         }
 
         private static String ObtenerMetricas(string fileName)

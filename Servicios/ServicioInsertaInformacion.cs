@@ -10,20 +10,41 @@ namespace Servicios
 {
     public class ServicioInsertaInformacion : IServicioInsertaInformacion
     {
-        private string conexionBD;
+        private string connectionString; 
 
         private IRepositorioSensor repositorioSensor;
+        private IRepositorioEstacionBase repositorioEstacion;
 
-        public ServicioInsertaInformacion(string conexionBD)
+        public ServicioInsertaInformacion()
         {
-            this.conexionBD = conexionBD;
+            this.connectionString = @$"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=plataformadb;Integrated Security=true";
 
-            this.repositorioSensor = new RepositorioSensor(conexionBD);
+            this.repositorioSensor = new RepositorioSensor(connectionString);
+            this.repositorioEstacion = new RepositorioEstacionBase(connectionString);
         }
 
         public async Task InsertaPeticion(EntidadPeticion entidadPeticion)
         {
-            EntidadDato dato;
+            string nombreEstacionBase = entidadPeticion.EstacionBase;
+            string nombreSensor = entidadPeticion.Sensor;
+
+            int estacionID = repositorioEstacion.GetId(nombreEstacionBase);
+            int sensorID = repositorioSensor.GetId(nombreSensor, estacionID);
+
+
+            foreach(EntidadDatoBase datoBase in entidadPeticion.Datos)
+            {
+                var dato = new EntidadDato();
+                dato.stamp = datoBase.stamp;
+                dato.humity = datoBase.humity;
+                dato.temperature = datoBase.temperature;
+                dato.FK_sensorID = sensorID;
+
+               await repositorioSensor.InsertaDato(dato);
+            }
+
+            Console.WriteLine($"ID del sensor: {sensorID}");
+
             // TODO: leer entidadPeticion e insertar en las tablas correspondientes usando los repositorios
 
         }

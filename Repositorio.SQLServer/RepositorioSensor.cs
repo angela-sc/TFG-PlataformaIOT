@@ -4,6 +4,7 @@ using Libreria.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -34,21 +35,41 @@ namespace Repositorio.SQLServer
             
             //nueva conexion con la BD. Al utilizar using nos aseguramos de que se libera la sesion
             using(SqlConnection con = new SqlConnection(conexionBD)){
-                con.Open(); //abrimos la conexion con la BD
+                //con.Open(); //abrimos la conexion con la BD
 
-                //comando sql
-                SqlCommand sqlCommand = new SqlCommand(query, con);
-                sqlCommand.ExecuteNonQuery();
+                ////comando sql
+                //SqlCommand sqlCommand = new SqlCommand(query, con);
+                //sqlCommand.ExecuteNonQuery();
 
                 await con.ExecuteAsync(query, queryParams);
             }
-
-            throw new NotImplementedException();
         }
 
         public void InsertaSensor(EntidadSensor sensor)
         {
             throw new NotImplementedException();
+        }
+
+        public int GetId(string nombreSensor, int idEstacionBase)
+        {
+            string query = String.Format("SELECT [Id] FROM [plataformadb].[dbo].[Sensor] WHERE [Name]= '{0}' AND [FK_BaseStationId] = '{1}'", nombreSensor, idEstacionBase);
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(conexionBD))
+                {
+                    var result = conn.Query<int>(query);
+
+                    Console.WriteLine($"Elementos encontrados: {result.Count()}");
+                    Console.WriteLine(result);
+                    return result.First();
+
+                }
+            }catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return -1;
         }
     }
 }

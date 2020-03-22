@@ -8,5 +8,7 @@ namespace Libreria.Interfaces
     public interface IRepositorioEstacionBase
     {
         void InsertaEstacion(EntidadEstacionBase entidadEstacion);
+        int GetId(string nombreEstacionBase);
+
     }
 }

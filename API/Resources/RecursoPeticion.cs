@@ -13,12 +13,12 @@ namespace API.Resources
 {
     public class RecursoPeticion : Resource
     {
-        private IServicioInsertaInformacion servicioInsertaInformacion
-
+        private IServicioInsertaInformacion servicioInsertaInformacion;
+        
         public RecursoPeticion() : base("COAPServer")
         {
             Attributes.Title = "Servidor CoAP";
-            servicioInsertaInformacion = new ServicioInsertaInformacion("");
+            servicioInsertaInformacion = new ServicioInsertaInformacion();
         }
 
         //protected override void DoPost(CoAP.Server.Resources.CoapExchange exchange)

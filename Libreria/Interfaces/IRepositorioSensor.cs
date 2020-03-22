@@ -10,5 +10,6 @@ namespace Libreria.Interfaces
     {
         void InsertaSensor(EntidadSensor sensor);
         Task InsertaDato(EntidadDato dato);
+        int GetId(string nombreSensor, int idEstacionBase);
     }
 }
