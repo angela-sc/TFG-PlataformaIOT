@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Libreria.Entidades
 {
-    class EntidadEstacionBase
+    public class EntidadEstacionBase
     {
     }
 }
