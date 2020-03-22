@@ -35,6 +35,12 @@ namespace EstacionBase.Ejemplo
 
                 var peticion = ObtenerMetricas(fileName);
                 cliente.Post(peticion);
+
+                var response = cliente.Post(peticion);
+
+                if (!response.Equals(CoAP.StatusCode.Changed)){
+                    break;
+                }
             }
 
             /*var PeticionJSON = ObtenerDatos();
