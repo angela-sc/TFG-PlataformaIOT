@@ -47,7 +47,25 @@ namespace Repositorio.SQLServer
 
         public void InsertaSensor(EntidadSensor sensor)
         {
-            throw new NotImplementedException();
+            Dictionary<string, object> queryParams = new Dictionary<string, object>
+            {
+                { "@name", sensor.Name },
+                { "@location", sensor.Location },
+                { "@fk_basestationid", sensor.FK_basestationID }
+            };
+
+            string query = @"INSERT INTO [Sensor] ([Name],[Location],[FK_BaseStationId])
+                                VALUES (@name, @location, @fk_basestationid)";
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(conexionBD))
+                {
+                    conn.ExecuteAsync(query, queryParams);
+                }
+            }catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         public int GetId(string nombreSensor, int idEstacionBase)
@@ -68,8 +86,8 @@ namespace Repositorio.SQLServer
             }catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
-            }
-            return -1;
+                return -1;
+            }          
         }
     }
 }

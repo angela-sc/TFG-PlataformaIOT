@@ -42,11 +42,7 @@ namespace Servicios
 
                await repositorioSensor.InsertaDato(dato);
             }
-
-            Console.WriteLine($"ID del sensor: {sensorID}");
-
-            // TODO: leer entidadPeticion e insertar en las tablas correspondientes usando los repositorios
-
+            //leer entidadPeticion e insertar en las tablas correspondientes usando los repositorios
         }
     }
 }
