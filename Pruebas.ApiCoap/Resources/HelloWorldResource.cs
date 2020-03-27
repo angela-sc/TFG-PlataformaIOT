@@ -19,7 +19,7 @@ namespace Pruebas.ApiCoap.Resources
 		{
 			// set a friendly title
 			Attributes.Title = "GET a friendly greeting!";
-			servicioInsertaInformacion = new ServicioInsertaInformacion("");
+			//servicioInsertaInformacion = new ServicioInsertaInformacion("");
 		}
 
 		// override this method to handle GET requests
