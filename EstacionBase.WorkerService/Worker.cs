@@ -57,7 +57,8 @@ namespace EstacionBase.WorkerService
                     //con _logger.LogInformation("...",result.StatusCode); 
                 }
 
-                await Task.Delay(300*1000, stoppingToken);
+                //await Task.Delay(300*1000, stoppingToken);
+                await Task.Delay(60 * 1000, stoppingToken);
             }
 
         }
