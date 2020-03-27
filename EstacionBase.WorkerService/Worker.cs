@@ -52,7 +52,15 @@ namespace EstacionBase.WorkerService
                     string payload = GetData(fileName);
                     var result = client.Post(payload);
 
-                    Console.WriteLine(result.StatusCode);
+                    //Console.WriteLine(result.StatusCode);
+                    if(result.StatusCode.ToString() == "Changed")
+                    {
+                        _logger.LogInformation("Sensor data ({fileName}) has been inserted correctly. Status code {StatusCode}", fileName, result.StatusCode);
+                    }
+                    else
+                    {
+                        _logger.LogError("An error occurred while inserting data from the {fileName} file. Status code {StatusCode}", fileName, result.StatusCode);
+                    }
 
                     //con _logger.LogInformation("...",result.StatusCode); 
                 }
