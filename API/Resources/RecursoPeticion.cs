@@ -55,7 +55,8 @@ namespace API.Resources
             }
             else
             {
-                //TODO: IMPLEMENTAR EN CASO DE ERROR
+                
+                //TODO: IMPLEMENTAR EN CASO DE ERROR > registrar en el log de la api
             }
         }
 

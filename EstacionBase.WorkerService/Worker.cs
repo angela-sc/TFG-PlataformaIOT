@@ -33,6 +33,8 @@ namespace EstacionBase.WorkerService
             client = new CoapClient();
             client.Uri = uri;
 
+            _logger.LogInformation("COAP uri: ", uri);
+
             return base.StartAsync(cancellationToken);
         }
 
@@ -63,10 +65,13 @@ namespace EstacionBase.WorkerService
                     }
 
                     //con _logger.LogInformation("...",result.StatusCode); 
+
+                    File.Delete(file); //elimina el fichero
+
                 }
 
                 //await Task.Delay(300*1000, stoppingToken);
-                await Task.Delay(60 * 1000, stoppingToken);
+                await Task.Delay(60 * 1000, stoppingToken); //¿esto hay que ponerlo aquí?
             }
 
         }
@@ -85,7 +90,7 @@ namespace EstacionBase.WorkerService
             }
         }
 
-        private static string GetData(string fileName)
+        private string GetData(string fileName)
         {
             string request = null;
 
@@ -99,7 +104,7 @@ namespace EstacionBase.WorkerService
 
             try
             {
-                using (var sr = new StreamReader($@"{path}\{fileName}"))
+                using (var sr = new StreamReader($@"{path}{fileName}"))
                 {
                     while (sr.Peek() > -1)
                     {
@@ -120,7 +125,8 @@ namespace EstacionBase.WorkerService
                 }
             }catch(Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                //Console.WriteLine(ex.Message);
+                _logger.LogError("An error ocurred when getting data: ", ex.Message);
             }
 
             return request;

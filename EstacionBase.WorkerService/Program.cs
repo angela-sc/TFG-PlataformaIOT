@@ -16,7 +16,7 @@ namespace EstacionBase.WorkerService
         {
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
-                .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+                //.MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
                 .Enrich.FromLogContext()
                 .WriteTo.File(@"C:\Users\Ángela\Desktop\git-tfg\LogFile.txt")
                 .CreateLogger();
