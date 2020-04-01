@@ -31,11 +31,11 @@ namespace Repositorio.SQLServer
             {
                 using(SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    conn.Execute(query, queryParams);
+                    conn.ExecuteAsync(query, queryParams);
                 }
             }catch(Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine("Error en el método InsertaProyecto "+ex.Message);
             }
 
             

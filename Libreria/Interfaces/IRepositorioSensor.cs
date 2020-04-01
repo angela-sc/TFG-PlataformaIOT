@@ -9,7 +9,7 @@ namespace Libreria.Interfaces
     public interface IRepositorioSensor
     {
         void InsertaSensor(EntidadSensor sensor);
-        Task InsertaDato(EntidadDato dato);
+        Task<bool> InsertaDato(EntidadDato dato);
         int GetId(string nombreSensor, int idEstacionBase);
     }
 }

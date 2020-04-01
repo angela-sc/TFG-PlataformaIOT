@@ -48,14 +48,21 @@ namespace API.Resources
             if(payload != null)
             {
                 EntidadPeticion entidadPeticion = JsonConvert.DeserializeObject<EntidadPeticion>(payload);
-                Task.Run(async () => await servicioInsertaInformacion.InsertaPeticion(entidadPeticion));
 
-                exchange.Respond(CoAP.StatusCode.Changed);
+                var a =  Task.Run(async () => await servicioInsertaInformacion.InsertaPeticion(entidadPeticion));
+                
 
+                if (a.Result)
+                {
+                    exchange.Respond(CoAP.StatusCode.Changed);
+                }
+                else
+                {
+                    exchange.Respond(CoAP.StatusCode.NotAcceptable);
+                }
             }
             else
-            {
-                
+            {   
                 //TODO: IMPLEMENTAR EN CASO DE ERROR > registrar en el log de la api
             }
         }

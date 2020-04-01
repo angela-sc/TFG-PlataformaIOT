@@ -58,6 +58,7 @@ namespace EstacionBase.WorkerService
                     if(result.StatusCode.ToString() == "Changed")
                     {
                         _logger.LogInformation("Sensor data ({fileName}) has been inserted correctly. Status code {StatusCode}", fileName, result.StatusCode);
+                        File.Delete(file); //elimina el fichero
                     }
                     else
                     {
@@ -66,7 +67,7 @@ namespace EstacionBase.WorkerService
 
                     //con _logger.LogInformation("...",result.StatusCode); 
 
-                    File.Delete(file); //elimina el fichero
+                    
 
                 }
 

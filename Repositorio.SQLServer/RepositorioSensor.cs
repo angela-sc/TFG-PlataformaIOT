@@ -12,14 +12,14 @@ namespace Repositorio.SQLServer
 {
     public class RepositorioSensor : IRepositorioSensor
     {
-        private string conexionBD;
+        private string connectionString;
 
-        public RepositorioSensor(string conexionBD)
+        public RepositorioSensor(string connectionString)
         {
-            this.conexionBD = conexionBD;
+            this.connectionString = connectionString;
         }
 
-        public async Task InsertaDato(EntidadDato dato)
+        public async Task<bool> InsertaDato(EntidadDato dato)
         {
             Dictionary<string, object> queryParams = new Dictionary<string, object>
             {
@@ -32,17 +32,22 @@ namespace Repositorio.SQLServer
             //query sql para insertar los datos en la tabla
             string query = @"INSERT INTO Data([Stamp],[FK_SensorId],[humity],[temperature]) 
                              VALUES (@stamp,@fk_sensor,@humity,@temperature)";
-            
-            //nueva conexion con la BD. Al utilizar using nos aseguramos de que se libera la sesion
-            using(SqlConnection con = new SqlConnection(conexionBD)){
-                //con.Open(); //abrimos la conexion con la BD
 
-                ////comando sql
-                //SqlCommand sqlCommand = new SqlCommand(query, con);
-                //sqlCommand.ExecuteNonQuery();
-
-                await con.ExecuteAsync(query, queryParams);
+            try
+            {
+                //nueva conexion con la BD. Al utilizar using nos aseguramos de que se libera la sesion
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    await conn.ExecuteAsync(query, queryParams);
+                }
             }
+            catch(Exception ex)
+            {
+                Console.WriteLine("Error en el método InsertaDato " + ex.Message);
+                return false;
+            }
+
+            return true;          
         }
 
         public void InsertaSensor(EntidadSensor sensor)
@@ -58,33 +63,33 @@ namespace Repositorio.SQLServer
                                 VALUES (@name, @location, @fk_basestationid)";
             try
             {
-                using (SqlConnection conn = new SqlConnection(conexionBD))
+                using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.ExecuteAsync(query, queryParams);
                 }
-            }catch(Exception ex)
+            }
+            catch(Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                //throw ex; //excepcion al establecer la conexion o al ejecutar el async
+                Console.WriteLine("Error en el método InsertaSensor: " + ex.Message);
             }
         }
 
         public int GetId(string nombreSensor, int idEstacionBase)
         {
-            string query = String.Format("SELECT [Id] FROM [plataformadb].[dbo].[Sensor] WHERE [Name]= '{0}' AND [FK_BaseStationId] = '{1}'", nombreSensor, idEstacionBase);
-
+            string query = String.Format("SELECT [Id] FROM [Sensor] WHERE [Name]= '{0}' AND [FK_BaseStationId] = '{1}'", nombreSensor, idEstacionBase);
+            
             try
             {
-                using (SqlConnection conn = new SqlConnection(conexionBD))
+                using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    var result = conn.Query<int>(query);
-
-                    Console.WriteLine($"Elementos encontrados: {result.Count()}");
-                    Console.WriteLine(result);
-                    return result.First();
-
+                    var result = conn.QueryAsync<int>(query);
+                    return result.Result.FirstOrDefault();
                 }
-            }catch(Exception ex)
+            }
+            catch(Exception ex)
             {
+                //throw ex; //excepcion al establecer la conexion
                 Console.WriteLine(ex.Message);
                 return -1;
             }          

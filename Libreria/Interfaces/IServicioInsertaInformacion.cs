@@ -8,6 +8,6 @@ namespace Libreria.Interfaces
 {
     public interface IServicioInsertaInformacion
     {
-        Task InsertaPeticion(EntidadPeticion entidadPeticion);
+        Task<bool> InsertaPeticion(EntidadPeticion entidadPeticion);
     }
 }

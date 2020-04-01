@@ -21,27 +21,21 @@ namespace Repositorio.SQLServer
         }
         public int GetId(string nombreEstacionBase)
         {
-
             string query = String.Format( "SELECT [Id] FROM [plataformadb].[dbo].[Base_station] WHERE [Name]= '{0}'", nombreEstacionBase);
            
             try
             {
-
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-
-                    var res = conn.Query<int>(query);
-
-                    return res.First();
-                   
+                    var res = conn.QueryAsync<int>(query);                    
+                    return res.Result.FirstOrDefault();
                 }
             }
-            catch(Exception e)
+            catch(Exception ex)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine("Método GetId de Repositorio.EstacionBase: "+ ex.Message);
                 return -1;
-            }
-           
+            }        
         }
 
         public void InsertaEstacion(EntidadEstacionBase entidadEstacion)

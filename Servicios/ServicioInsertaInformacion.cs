@@ -23,26 +23,49 @@ namespace Servicios
             this.repositorioEstacion = new RepositorioEstacionBase(connectionString);
         }
 
-        public async Task InsertaPeticion(EntidadPeticion entidadPeticion)
-        {
+        public async Task<bool> InsertaPeticion(EntidadPeticion entidadPeticion)
+        {           
             string nombreEstacionBase = entidadPeticion.EstacionBase;
             string nombreSensor = entidadPeticion.Sensor;
 
+            //obtenemos los datos
             int estacionID = repositorioEstacion.GetId(nombreEstacionBase);
             int sensorID = repositorioSensor.GetId(nombreSensor, estacionID);
 
+            bool result = true;
 
-            foreach(EntidadDatoBase datoBase in entidadPeticion.Datos)
+
+            if(estacionID != -1 && sensorID != -1)
             {
-                var dato = new EntidadDato();
-                dato.stamp = datoBase.stamp;
-                dato.humity = datoBase.humity;
-                dato.temperature = datoBase.temperature;
-                dato.FK_sensorID = sensorID;
+                foreach (EntidadDatoBase datoBase in entidadPeticion.Datos)
+                {
 
-               await repositorioSensor.InsertaDato(dato);
+                    var dato = new EntidadDato();
+
+                    dato.stamp = datoBase.stamp;
+                    dato.humity = datoBase.humity;
+                    dato.temperature = datoBase.temperature;
+                    dato.FK_sensorID = sensorID;
+
+                    result = (result && await repositorioSensor.InsertaDato(dato)); //si falla alguna dará false
+
+                }
+                //leer entidadPeticion e insertar en las tablas correspondientes usando los repositorio
+                return result;
             }
-            //leer entidadPeticion e insertar en las tablas correspondientes usando los repositorios
+            else
+            {
+                if(estacionID == -1)
+                {
+                    Console.WriteLine($"No existe ninguna estacion '{nombreEstacionBase}' en la base de datos.");
+                }
+                else if(sensorID == -1)
+                {
+                    Console.WriteLine($"No existe ninguna estacion '{nombreSensor}' en la base de datos.");
+                }
+
+                return false;
+            }
         }
     }
 }

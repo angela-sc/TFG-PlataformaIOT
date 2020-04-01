@@ -35,7 +35,13 @@ namespace EstacionBase.Ejemplo
                 var fileName = new FileInfo(file).Name;
 
                 string peticion = ObtenerMetricas(fileName);
-                var response = cliente.Post(peticion);            
+                var response = cliente.Post(peticion);
+
+               if(response.StatusCode.ToString() == "Changed")
+               {
+                    File.Delete(file); //elimina el fichero
+               }
+               
             }
         }
 
@@ -55,7 +61,7 @@ namespace EstacionBase.Ejemplo
                 //var fileName = new FileInfo(path).Name;
                 var splittedFileName = fileName.Split('_', '.');
                
-                using(var sr = new StreamReader($@"{path}\{fileName}"))
+                using(var sr = new StreamReader($@"{path}{fileName}"))
                 {
                     while (sr.Peek() > -1)
                     {
