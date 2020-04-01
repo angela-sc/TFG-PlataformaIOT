@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -14,12 +16,15 @@ namespace EstacionBase.WorkerService
     {
         public static void Main(string[] args)
         {
+            var config = GetConfiguration();
+            var logPath = config["LogPath"];
+
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
-                //.MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
                 .Enrich.FromLogContext()
-                .WriteTo.File(@"C:\Users\Ángela\Desktop\git-tfg\LogFile.txt")
+                .WriteTo.File(logPath)
                 .CreateLogger();
+
             try
             {
                 Log.Information("Starting up the service");
@@ -41,13 +46,25 @@ namespace EstacionBase.WorkerService
             
         }
 
+        public static IConfigurationRoot GetConfiguration()
+        {
+            return new ConfigurationBuilder()
+              .SetBasePath(Directory.GetCurrentDirectory())
+#if DEBUG
+              .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+#else
+              .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+#endif
+              .Build();
+        }
+
         public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args) 
+            Host.CreateDefaultBuilder(args)
+                .UseSerilog()
                 .UseSystemd()
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddHostedService<Worker>();
-                })
-                .UseSerilog();
+                });
     }
 }

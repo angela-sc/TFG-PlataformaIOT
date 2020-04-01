@@ -7,6 +7,7 @@ using CoAP.Server.Resources;
 using Libreria.Entidades;
 using Libreria.Interfaces;
 using Newtonsoft.Json;
+using Serilog;
 using Servicios;
 
 namespace API.Resources
@@ -15,9 +16,10 @@ namespace API.Resources
     {
         private IServicioInsertaInformacion servicioInsertaInformacion;
         
-        public RecursoPeticion() : base("COAPServer")
+        public RecursoPeticion(ILogger logger) : base("COAPServer")
         {
             Attributes.Title = "Servidor CoAP";
+            logger.Information("Creando RecursoPeticion");
             servicioInsertaInformacion = new ServicioInsertaInformacion();
         }
 

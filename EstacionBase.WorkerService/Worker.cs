@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using CoAP;
 using Libreria.Entidades;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -19,12 +20,19 @@ namespace EstacionBase.WorkerService
 
         private CoapClient client;
 
-        private static Uri uri = new Uri("coap://localhost:5683/COAPServer"); //URL donde montamos el servidor 
-        private static string path = @"C:\Users\Ángela\Desktop\git-tfg\"; //Directorio donde estan los .txt
+        //private static Uri uri = new Uri("coap://localhost:5683/COAPServer"); //URL donde montamos el servidor 
+        //private static string path = @"C:\Users\Ángela\Desktop\git-tfg\"; //Directorio donde estan los .txt
+
+        private readonly Uri uri; //URL donde montamos el servidor 
+        private readonly string path; //Directorio donde estan los .txt
 
         public Worker(ILogger<Worker> logger)
         {
             _logger = logger;
+
+            var config = Program.GetConfiguration();
+            uri = new Uri(config["CoapUri"]);
+            path = config["SensorFilesDirectory"];
         }
 
         //Inicializo el cliente cuando arranca el servicio
