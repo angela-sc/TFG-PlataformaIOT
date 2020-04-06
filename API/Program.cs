@@ -38,6 +38,7 @@ namespace API
               .Build();
 
             var logPath = config["LogPath"];
+            int port = config.GetValue<int>("Port");
 
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
@@ -45,7 +46,7 @@ namespace API
                 .WriteTo.File(logPath)
                 .CreateLogger();
 
-            CoapServer server = new CoapServer(5683);           
+            CoapServer server = new CoapServer(port);           
             server.Add(new RecursoPeticion(Log.Logger));
 
             try
@@ -53,7 +54,7 @@ namespace API
                 server.Start();
 
                 Console.Write("CoAP server [{0}] is listening on", server.Config.Version);
-                Log.Information("CoAP server [{0}] is listening on" + server.Config.Version);
+                Log.Information($"CoAP server {server.Config.Version} is listening on ");
 
                 foreach (var item in server.EndPoints)
                 {
@@ -65,7 +66,7 @@ namespace API
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                //Console.WriteLine(ex.Message);
                 Log.Fatal(ex.Message);
             }
             Console.WriteLine("Press any key to exit.");

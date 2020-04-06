@@ -19,10 +19,6 @@ namespace EstacionBase.WorkerService
         private readonly ILogger<Worker> _logger;
 
         private CoapClient client;
-
-        //private static Uri uri = new Uri("coap://localhost:5683/COAPServer"); //URL donde montamos el servidor 
-        //private static string path = @"C:\Users\Ángela\Desktop\git-tfg\"; //Directorio donde estan los .txt
-
         private readonly Uri uri; //URL donde montamos el servidor 
         private readonly string path; //Directorio donde estan los .txt
 
@@ -49,6 +45,7 @@ namespace EstacionBase.WorkerService
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             var files = Directory.EnumerateFiles(path, "*.txt");
+            Console.WriteLine(files);
 
             while (!stoppingToken.IsCancellationRequested)
             {
@@ -65,12 +62,12 @@ namespace EstacionBase.WorkerService
                     //Console.WriteLine(result.StatusCode);
                     if(result.StatusCode.ToString() == "Changed")
                     {
-                        _logger.LogInformation("Sensor data ({fileName}) has been inserted correctly. Status code {StatusCode}", fileName, result.StatusCode);
+                        _logger.LogInformation($"Sensor data ({fileName}) has been inserted correctly. Status code {result.StatusCode}", fileName, result.StatusCode);
                         File.Delete(file); //elimina el fichero
                     }
                     else
                     {
-                        _logger.LogError("An error occurred while inserting data from the {fileName} file. Status code {StatusCode}", fileName, result.StatusCode);
+                        _logger.LogError($"An error occurred while inserting data from the {fileName} file. Status code {result.StatusCode}", fileName, result.StatusCode);
                     }
 
                     //con _logger.LogInformation("...",result.StatusCode); 

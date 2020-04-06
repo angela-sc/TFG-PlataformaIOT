@@ -15,33 +15,16 @@ namespace API.Resources
     public class RecursoPeticion : Resource
     {
         private IServicioInsertaInformacion servicioInsertaInformacion;
-        
+        private ILogger log;
+
         public RecursoPeticion(ILogger logger) : base("COAPServer")
         {
+            this.log = logger;
+            
             Attributes.Title = "Servidor CoAP";
-            logger.Information("Creando RecursoPeticion");
-            servicioInsertaInformacion = new ServicioInsertaInformacion();
+  
+            servicioInsertaInformacion = new ServicioInsertaInformacion(log);
         }
-
-        //protected override void DoPost(CoAP.Server.Resources.CoapExchange exchange)
-        //{
-        //    String payload = exchange.Request.PayloadString;
-        //    if(payload == null)
-        //    {
-        //        Console.WriteLine("PETICION VACIA");
-        //    }
-        //    EntidadPeticion entidadPeticion = JsonConvert.DeserializeObject<EntidadPeticion>(payload);
-
-
-        //    Console.WriteLine("Objeto deserializado: \n");
-
-        //    Console.WriteLine($"Estacion base: " + entidadPeticion.EstacionBase);
-        //    Console.WriteLine("Sensor: " + entidadPeticion.Sensor);
-        //    foreach (EntidadDato ed in entidadPeticion.Datos)
-        //    {
-        //        Console.WriteLine(ed.stamp);
-        //    }
-        //}
 
         protected override void DoPost(CoapExchange exchange)
         {
@@ -49,25 +32,27 @@ namespace API.Resources
 
             if(payload != null)
             {
+                //Deserializamos la peticion en un objeto de tipo json
                 EntidadPeticion entidadPeticion = JsonConvert.DeserializeObject<EntidadPeticion>(payload);
 
+                //Lanzamos la peticion para que inserte los datos de forma asincrona
                 var a =  Task.Run(async () => await servicioInsertaInformacion.InsertaPeticion(entidadPeticion));
                 
-
                 if (a.Result)
                 {
                     exchange.Respond(CoAP.StatusCode.Changed);
                 }
                 else
                 {
+                    log.Error("Error al insertar la información en la base de datos.");
                     exchange.Respond(CoAP.StatusCode.NotAcceptable);
                 }
             }
             else
-            {   
+            {
                 //TODO: IMPLEMENTAR EN CASO DE ERROR > registrar en el log de la api
+                log.Error("Petición vacía");             
             }
         }
-
     }
 }

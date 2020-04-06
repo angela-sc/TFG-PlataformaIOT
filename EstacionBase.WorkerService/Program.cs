@@ -30,7 +30,6 @@ namespace EstacionBase.WorkerService
                 Log.Information("Starting up the service");
                 CreateHostBuilder(args).Build().Run();
                 return;
-
             }
             catch(Exception ex)
             {
@@ -41,8 +40,7 @@ namespace EstacionBase.WorkerService
             finally
             {
                 Log.CloseAndFlush();
-            }
-            
+            }           
         }
 
         public static IConfigurationRoot GetConfiguration()
@@ -60,7 +58,7 @@ namespace EstacionBase.WorkerService
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .UseSerilog()
-                .UseSystemd()
+                .UseSystemd()               
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddHostedService<Worker>();
