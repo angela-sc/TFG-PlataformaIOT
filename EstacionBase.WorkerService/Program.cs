@@ -34,10 +34,9 @@ namespace EstacionBase.WorkerService
             }
             catch(Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                //Console.WriteLine(ex.Message);
                 Log.Fatal(ex, "There was a problem starting the service");
                 return;
-
             }
             finally
             {
@@ -51,7 +50,7 @@ namespace EstacionBase.WorkerService
             return new ConfigurationBuilder()
               .SetBasePath(Directory.GetCurrentDirectory())
 #if DEBUG
-              .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+              .AddJsonFile("appsettings-debug.json", optional: true, reloadOnChange: true)
 #else
               .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
 #endif
