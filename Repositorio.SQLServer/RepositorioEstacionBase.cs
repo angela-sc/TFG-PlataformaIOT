@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 
 using Repositorio.SQLServer;
+using System.Threading.Tasks;
+using Serilog;
 
 namespace Repositorio.SQLServer
 {
@@ -15,11 +17,11 @@ namespace Repositorio.SQLServer
     {
         private string connectionString;
 
-        public RepositorioEstacionBase(string connectionString)
+        public RepositorioEstacionBase(string connectionString, ILogger logger)
         {
             this.connectionString = connectionString;
         }
-        public int GetId(string nombreEstacionBase)
+        public async Task<int> GetId(string nombreEstacionBase)
         {
             string query = String.Format( "SELECT [Id] FROM [plataformadb].[dbo].[Base_station] WHERE [Name]= '{0}'", nombreEstacionBase);
            
@@ -27,13 +29,13 @@ namespace Repositorio.SQLServer
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    var res = conn.QueryAsync<int>(query);                    
-                    return res.Result.FirstOrDefault();
+                    var res = await conn.QueryAsync<int>(query);
+                    return res.FirstOrDefault();
                 }
             }
             catch(Exception ex)
             {
-                Console.WriteLine("Método GetId de Repositorio.EstacionBase: "+ ex.Message);
+                Console.WriteLine(ex.Message);       
                 return -1;
             }        
         }
@@ -42,6 +44,5 @@ namespace Repositorio.SQLServer
         {
             throw new NotImplementedException();
         }
-
     }
 }

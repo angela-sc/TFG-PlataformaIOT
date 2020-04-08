@@ -2,13 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Libreria.Interfaces
 {
     public interface IRepositorioEstacionBase
     {
         void InsertaEstacion(EntidadEstacionBase entidadEstacion);
-        int GetId(string nombreEstacionBase);
+        Task<int> GetId(string nombreEstacionBase);
 
     }
 }

@@ -32,10 +32,7 @@ namespace API
         //Servidor COAP que recibe las peticiones de la EB
         public static void Main(string[] args)
         {
-            var config = new ConfigurationBuilder()
-              .SetBasePath(Directory.GetCurrentDirectory())
-              .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-              .Build();
+            var config = GetConfiguration();
 
             var logPath = config["LogPath"];
             int port = config.GetValue<int>("Port");
@@ -54,7 +51,7 @@ namespace API
                 server.Start();
 
                 Console.Write("CoAP server [{0}] is listening on", server.Config.Version);
-                Log.Information($"CoAP server {server.Config.Version} is listening on ");
+                Log.Debug($"CoAP server {server.Config.Version} is listening on ");
 
                 foreach (var item in server.EndPoints)
                 {
@@ -73,6 +70,15 @@ namespace API
             Console.ReadKey();
 
             Log.CloseAndFlush();
+        }
+
+        //Metodo que devuelve un objeto IConfiguration para poder acceder a la informacion del fichero settings.json        
+        public static IConfigurationRoot GetConfiguration()
+        {
+            return new ConfigurationBuilder()
+              .SetBasePath(Directory.GetCurrentDirectory())
+              .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+              .Build();
         }
     } 
 }

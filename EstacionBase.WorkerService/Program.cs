@@ -29,13 +29,13 @@ namespace EstacionBase.WorkerService
             {
                 Log.Information("Starting up the service");
                 CreateHostBuilder(args).Build().Run();
-                return;
+                //return;
             }
             catch(Exception ex)
             {
                 //Console.WriteLine(ex.Message);
                 Log.Fatal(ex, "There was a problem starting the service");
-                return;
+                //return;
             }
             finally
             {

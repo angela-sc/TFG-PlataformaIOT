@@ -30,7 +30,7 @@ namespace Repositorio.SQLServer
             };
 
             //query sql para insertar los datos en la tabla
-            string query = @"INSERT INTO Data([Stamp],[FK_SensorId],[humity],[temperature]) 
+            string query = @"INSERT INTO [plataformadb].[dbo].[Data] ([Stamp],[FK_SensorId],[humity],[temperature]) 
                              VALUES (@stamp,@fk_sensor,@humity,@temperature)";
 
             try
@@ -41,16 +41,16 @@ namespace Repositorio.SQLServer
                     await conn.ExecuteAsync(query, queryParams);
                 }
             }
-            catch(Exception ex)
+            catch(Exception)
             {
-                Console.WriteLine("Error en el método InsertaDato " + ex.Message);
+                //Console.WriteLine("Error en el método InsertaDato " + ex.Message);
                 return false;
             }
 
             return true;          
         }
 
-        public void InsertaSensor(EntidadSensor sensor)
+        public async Task<bool> InsertaSensor(EntidadSensor sensor)
         {
             Dictionary<string, object> queryParams = new Dictionary<string, object>
             {
@@ -59,38 +59,40 @@ namespace Repositorio.SQLServer
                 { "@fk_basestationid", sensor.FK_basestationID }
             };
 
-            string query = @"INSERT INTO [Sensor] ([Name],[Location],[FK_BaseStationId])
+            string query = @"INSERT INTO [plataformadb].[dbo].[Sensor] ([Name],[Location],[FK_BaseStationId])
                                 VALUES (@name, @location, @fk_basestationid)";
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    conn.ExecuteAsync(query, queryParams);
+                    await conn.ExecuteAsync(query, queryParams);
                 }
             }
             catch(Exception ex)
             {
                 //throw ex; //excepcion al establecer la conexion o al ejecutar el async
-                Console.WriteLine("Error en el método InsertaSensor: " + ex.Message);
+                Console.WriteLine(ex.Message, "Error en RepositorioSensor en el metodo InsertaSensor");
+                return false; //si sucede algo, directamente devuelve false
             }
+            return true;
         }
 
-        public int GetId(string nombreSensor, int idEstacionBase)
+        public async Task<int> GetId(string nombreSensor, int idEstacionBase)
         {
-            string query = String.Format("SELECT [Id] FROM [Sensor] WHERE [Name]= '{0}' AND [FK_BaseStationId] = '{1}'", nombreSensor, idEstacionBase);
+            string query = String.Format("SELECT [Id] FROM [plataformadb].[dbo].[Sensor] WHERE [Name]= '{0}' AND [FK_BaseStationId] = '{1}'", nombreSensor, idEstacionBase);
             
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    var result = conn.QueryAsync<int>(query);
-                    return result.Result.FirstOrDefault();
+                    var result = await conn.QueryAsync<int>(query);
+                    return result.FirstOrDefault();
                 }
             }
             catch(Exception ex)
             {
                 //throw ex; //excepcion al establecer la conexion
-                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.Message, "Error en RepositorioSensor en el metodo GetID");
                 return -1;
             }          
         }

@@ -8,8 +8,8 @@ namespace Libreria.Interfaces
 {
     public interface IRepositorioSensor
     {
-        void InsertaSensor(EntidadSensor sensor);
+        Task<bool> InsertaSensor(EntidadSensor sensor);
         Task<bool> InsertaDato(EntidadDato dato);
-        int GetId(string nombreSensor, int idEstacionBase);
+        Task<int> GetId(string nombreSensor, int idEstacionBase);
     }
 }

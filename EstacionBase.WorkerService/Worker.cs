@@ -18,6 +18,7 @@ namespace EstacionBase.WorkerService
     {
         private readonly ILogger<Worker> _logger;
 
+
         private CoapClient client;
         private readonly Uri uri; //URL donde montamos el servidor 
         private readonly string path; //Directorio donde estan los .txt
@@ -37,52 +38,56 @@ namespace EstacionBase.WorkerService
             client = new CoapClient();
             client.Uri = uri;
 
-            _logger.LogInformation("COAP uri: ", uri);
+            _logger.LogInformation("COAP uri: " + uri.ToString());
 
             return base.StartAsync(cancellationToken);
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            var files = Directory.EnumerateFiles(path, "*.txt");
-            Console.WriteLine(files);
-
             while (!stoppingToken.IsCancellationRequested)
             {
-                //_logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-
-                //acción que queremos ejecutar, post > PostPetition();
-                foreach (string file in files)
+                try
                 {
-                    var fileName = new FileInfo(file).Name;
+                    var files = Directory.EnumerateFiles(path, "*.txt");
+                    //_logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
 
-                    string payload = GetData(fileName);
-                    var result = client.Post(payload);
-
-                    //Console.WriteLine(result.StatusCode);
-                    if(result.StatusCode.ToString() == "Changed")
+                    //acción que queremos ejecutar, post > PostPetition();
+                    foreach (string file in files)
                     {
-                        _logger.LogInformation($"Sensor data ({fileName}) has been inserted correctly. Status code {result.StatusCode}", fileName, result.StatusCode);
-                        File.Delete(file); //elimina el fichero
+                        var fileName = new FileInfo(file).Name;
+
+                        string payload = GetData(fileName);
+                        if (!string.IsNullOrEmpty(payload))
+                        {
+                            var result = client.Post(payload);
+
+                            //Console.WriteLine(result.StatusCode);
+                            if (result.StatusCode.ToString() == "Changed")
+                            {
+                                _logger.LogInformation($"Sensor data ({fileName}) has been inserted correctly. Status code {result.StatusCode}", fileName, result.StatusCode);
+                                File.Delete(file); //elimina el fichero
+                            }
+                            else
+                            {
+                                _logger.LogError($"An error occurred while inserting data from the {fileName} file. Status code {result.StatusCode}", fileName, result.StatusCode);
+                                //File.Delete(file); //elimina el fichero
+                            }
+                        }
+                        //con _logger.LogInformation("...",result.StatusCode); 
                     }
-                    else
-                    {
-                        _logger.LogError($"An error occurred while inserting data from the {fileName} file. Status code {result.StatusCode}", fileName, result.StatusCode);
-                    }
-
-                    //con _logger.LogInformation("...",result.StatusCode); 
-
-                    
-
                 }
-
-                //await Task.Delay(300*1000, stoppingToken);
-                await Task.Delay(60 * 1000, stoppingToken); //¿esto hay que ponerlo aquí?
+                catch(Exception ex)
+                {
+                    _logger.LogError("Error al leer el fichero: " + ex.Message);
+                }
+                
+                await Task.Delay(60 * 1000, stoppingToken);
+                //await Task.Delay(300*1000, stoppingToken);                
             }
-
         }
 
-        private async Task PostPetition()
+        /*private async Task PostPetition()
         {
             var files = Directory.EnumerateFiles(path, "*.txt");
 
@@ -94,7 +99,7 @@ namespace EstacionBase.WorkerService
                 var response = client.Post(request);
 
             }
-        }
+        }*/
 
         private string GetData(string fileName)
         {
@@ -114,8 +119,8 @@ namespace EstacionBase.WorkerService
                 {
                     while (sr.Peek() > -1)
                     {
-                        String linea = sr.ReadLine();
-                        if (!String.IsNullOrEmpty(linea))
+                        string linea = sr.ReadLine();
+                        if (!string.IsNullOrEmpty(linea))
                         {
                             var datoJSON = JsonConvert.DeserializeObject<EntidadDatoBase>(linea, dateTimeConverter);
                             data.Add(datoJSON);
@@ -132,9 +137,9 @@ namespace EstacionBase.WorkerService
             }catch(Exception ex)
             {
                 //Console.WriteLine(ex.Message);
-                _logger.LogError("An error ocurred when getting data: ", ex.Message);
+                //_logger.LogError("An error ocurred when getting data: ", ex.Message);
+                _logger.LogError(ex.Message, "An error ocurred when getting data: ");
             }
-
             return request;
         }
     }

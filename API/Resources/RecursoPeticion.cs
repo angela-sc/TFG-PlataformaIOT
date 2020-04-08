@@ -22,8 +22,8 @@ namespace API.Resources
             this.log = logger;
             
             Attributes.Title = "Servidor CoAP";
-  
-            servicioInsertaInformacion = new ServicioInsertaInformacion(log);
+            var connectionString = Program.GetConfiguration()["ConnectionString"];
+            servicioInsertaInformacion = new ServicioInsertaInformacion(log, connectionString);
         }
 
         protected override void DoPost(CoapExchange exchange)
