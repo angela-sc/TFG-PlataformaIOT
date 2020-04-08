@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using Libreria.Entidades;
 using Libreria.Interfaces;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -11,10 +12,12 @@ namespace Repositorio.SQLServer
     public class RepositorioProyecto : IRepositorioProyecto
     {
         private string connectionString;
+        private ILogger log;
 
-        public RepositorioProyecto(string connectionString)
+        public RepositorioProyecto(string connectionString, ILogger logger)
         {
             this.connectionString = connectionString;
+            this.log = logger;
         }
         public void InsertaProyecto(EntidadProyecto proyecto)
         {
@@ -35,7 +38,8 @@ namespace Repositorio.SQLServer
                 }
             }catch(Exception ex)
             {
-                Console.WriteLine("Error en el método InsertaProyecto "+ex.Message);
+                //Console.WriteLine("Error en el método InsertaProyecto "+ex.Message);
+                log.Error($"Se ha producido un error al insertar el proyecto {proyecto.name} en la base de datos.");
             }
 
             

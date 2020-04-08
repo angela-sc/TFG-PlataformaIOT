@@ -16,10 +16,12 @@ namespace Repositorio.SQLServer
     public class RepositorioEstacionBase : IRepositorioEstacionBase
     {
         private string connectionString;
+        private ILogger log;
 
         public RepositorioEstacionBase(string connectionString, ILogger logger)
         {
             this.connectionString = connectionString;
+            this.log = logger;
         }
         public async Task<int> GetId(string nombreEstacionBase)
         {
@@ -35,7 +37,7 @@ namespace Repositorio.SQLServer
             }
             catch(Exception ex)
             {
-                Console.WriteLine(ex.Message);       
+                log.Warning($"No se ha encontrado ningun id para la estacion base {nombreEstacionBase}");
                 return -1;
             }        
         }
