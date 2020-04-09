@@ -23,7 +23,7 @@ namespace Servicios
         public ServicioInsertaInformacion(ILogger logger, string connectionString)
         {
             this.log = logger;
-            this.repositorioSensor = new RepositorioSensor(connectionString);
+            this.repositorioSensor = new RepositorioSensor(connectionString, log);
             this.repositorioEstacion = new RepositorioEstacionBase(connectionString, log);
         }
 
