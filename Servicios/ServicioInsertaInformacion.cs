@@ -30,7 +30,6 @@ namespace Servicios
         public async Task<bool> InsertaPeticion(EntidadPeticion entidadPeticion)
         {           
             string nombreEstacionBase = entidadPeticion.EstacionBase;
-            Console.WriteLine(nombreEstacionBase);
             string nombreSensor = entidadPeticion.Sensor;
 
             //obtenemos los datos: id de la estacion e id del sensor
