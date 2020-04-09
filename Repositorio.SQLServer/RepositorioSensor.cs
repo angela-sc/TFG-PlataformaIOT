@@ -22,6 +22,34 @@ namespace Repositorio.SQLServer
             this.log = logger;
         }
 
+        public async Task<bool> InsertaSensor(EntidadSensor sensor)
+        {
+            Dictionary<string, object> queryParams = new Dictionary<string, object>
+            {
+                { "@name", sensor.Name },
+                { "@location", sensor.Location },
+                { "@fk_basestationid", sensor.FK_basestationID }
+            };
+
+            string query = @"INSERT INTO [plataformadb].[dbo].[Sensor] ([Name],[Location],[FK_BaseStationId])
+                                VALUES (@name, @location, @fk_basestationid)";
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    await conn.ExecuteAsync(query, queryParams);
+                }
+            }
+            catch (Exception ex)
+            {
+                //throw ex; //excepcion al establecer la conexion o al ejecutar el async
+                //Console.WriteLine(ex.Message, "Error en RepositorioSensor en el metodo InsertaSensor");
+                log.Error($"Error al insertar el sensor {sensor.Name} en la base de datos");
+                return false; //si sucede algo, directamente devuelve false
+            }
+            return true;
+        }
+
         public async Task<bool> InsertaDato(EntidadDato dato)
         {
             Dictionary<string, object> queryParams = new Dictionary<string, object>
@@ -54,38 +82,29 @@ namespace Repositorio.SQLServer
             return true;          
         }
 
-        public async Task<bool> InsertaSensor(EntidadSensor sensor)
+        public async Task<List<EntidadDatoBase>> GetData(int idSensor)
         {
-            Dictionary<string, object> queryParams = new Dictionary<string, object>
-            {
-                { "@name", sensor.Name },
-                { "@location", sensor.Location },
-                { "@fk_basestationid", sensor.FK_basestationID }
-            };
+            string query =string.Format( @"SELECT * FROM [plataformadb].[dbo].[Data] WHERE [id] = {0}", idSensor);
 
-            string query = @"INSERT INTO [plataformadb].[dbo].[Sensor] ([Name],[Location],[FK_BaseStationId])
-                                VALUES (@name, @location, @fk_basestationid)";
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    await conn.ExecuteAsync(query, queryParams);
+                    var result = await conn.QueryAsync<EntidadDatoBase>(query);                   
+                    return result.AsList();
                 }
             }
-            catch(Exception ex)
+            catch (Exception)
             {
-                //throw ex; //excepcion al establecer la conexion o al ejecutar el async
-                //Console.WriteLine(ex.Message, "Error en RepositorioSensor en el metodo InsertaSensor");
-                log.Error($"Error al insertar el sensor {sensor.Name} en la base de datos");
-                return false; //si sucede algo, directamente devuelve false
+                log.Warning($"No se ha encontrado el sensor {idSensor} en la base de datos.");
+                return null;
             }
-            return true;
         }
 
         public async Task<int> GetId(string nombreSensor, int idEstacionBase)
         {
             string query = String.Format("SELECT [Id] FROM [plataformadb].[dbo].[Sensor] WHERE [Name]= '{0}' AND [FK_BaseStationId] = '{1}'", nombreSensor, idEstacionBase);
-            
+
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
@@ -94,13 +113,15 @@ namespace Repositorio.SQLServer
                     return result.FirstOrDefault();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 //throw ex; //excepcion al establecer la conexion
                 //Console.WriteLine(ex.Message, "Error en RepositorioSensor en el metodo GetID");
                 log.Warning($"No se ha encontrado ningun id para el sensor {nombreSensor} en la estacion base {idEstacionBase}");
                 return -1;
-            }          
+            }
         }
+
+
     }
 }
