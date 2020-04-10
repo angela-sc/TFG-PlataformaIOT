@@ -22,6 +22,8 @@ namespace Repositorio.SQLServer
             this.log = logger;
         }
 
+       
+
         public async Task<bool> InsertaSensor(EntidadSensor sensor)
         {
             Dictionary<string, object> queryParams = new Dictionary<string, object>
@@ -84,7 +86,7 @@ namespace Repositorio.SQLServer
 
         public async Task<List<EntidadDatoBase>> GetData(int idSensor)
         {
-            string query =string.Format( @"SELECT * FROM [plataformadb].[dbo].[Data] WHERE [id] = {0}", idSensor);
+            string query = string.Format(@"SELECT * FROM [plataformadb].[dbo].[Data] WHERE [FK_SensorId] = '{0}'", idSensor);
 
             try
             {

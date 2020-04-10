@@ -1,0 +1,46 @@
+﻿@page "/data"
+
+@using Libreria.Entidades
+@using Servicios
+
+<h1>Plataforma IoT</h1>
+<p>Este módulo muestra los datos obtenidos por los sensores.</p>
+
+@if (datos == null)
+{
+    <p><em>Cargando datos...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Temp. (C)</th>
+                <th>Humidity</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var dato in datos)
+            {
+            <tr>
+                <td>@dato.stamp</td>
+                <td>@dato.temperature</td>
+                <td>@dato.humity</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+@code {
+    private ServicioSensor servicioSensor = new ServicioSensor("Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = plataformadb; Integrated Security = true", null);
+    private List<EntidadDatoBase> datos = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        int id = 2;
+        datos = await servicioSensor.ObtenerDatos(id);
+    }
+}

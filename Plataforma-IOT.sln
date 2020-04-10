@@ -33,7 +33,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "API\API.csproj", "{6
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Servicios", "Servicios\Servicios.csproj", "{62AE9AB1-91ED-4336-BA93-B34B58A98EBB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EstacionBase.WorkerService", "EstacionBase.WorkerService\EstacionBase.WorkerService.csproj", "{D313F392-E4BC-4F07-B982-F7146FAC9602}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EstacionBase.WorkerService", "EstacionBase.WorkerService\EstacionBase.WorkerService.csproj", "{D313F392-E4BC-4F07-B982-F7146FAC9602}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
