@@ -180,4 +180,19 @@ app {
         /* Never collapse the sidebar for wide screens */
         display: block;
     }
+
+    .map {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        color: white;
+        text-decoration: none;
+        font-size: 1px;
+    }
+
+    .map a {
+        color:white;
+        visibility:hidden;
+    }
 }

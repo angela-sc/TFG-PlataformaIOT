@@ -1,9 +1,36 @@
 ﻿@page "/maps"
+@using Syncfusion.Blazor.Maps
 
+<h1>🗺 Geolocalización de sensores</h1>
 
-<h1>Pruebas de JS en Blazor</h1>
-
-
+<div class="map">
+    <SfMaps>
+        <MapsLayers>
+            <MapsLayer LayerType="ShapeLayerType.OSM">
+                <MapsMarkerSettings>
+                    <MapsMarker Visible='true' DataSource='MarkerDataSource'>
+                    </MapsMarker>
+                </MapsMarkerSettings>
+            </MapsLayer>
+        </MapsLayers>
+        <MapsZoomSettings Enable="true"
+                          HorizontalAlignment="Syncfusion.Blazor.Maps.Alignment.Near"
+                          EnableSelectionZooming="true"
+                          ShouldZoomInitially="true"
+                          ZoomFactor="16" MaxZoom="20" MinZoom="10">
+        </MapsZoomSettings>
+    </SfMaps>
+</div>
 
 @code {
+    public class MapMarkerDataSource
+    {
+        public double latitude;
+        public double longitude;
+        public string name;
+    };
+    public List<MapMarkerDataSource> MarkerDataSource = new List<MapMarkerDataSource> {
+        new MapMarkerDataSource{ latitude= 38.14261488138473, longitude= -0.7653415203094482, name= "Alejandro" },
+        new MapMarkerDataSource{ latitude= 38.13929118949828, longitude= -0.7670044898986816, name= "Angela" }
+    };
 }

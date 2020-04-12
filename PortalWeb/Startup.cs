@@ -11,11 +11,20 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PortalWeb.Data;
+using Syncfusion.Blazor;
 
 namespace PortalWeb
 {
     public class Startup
     {
+        /**
+         * Documentacion Syncfusion (mapas de pago)
+         * https://blazor.syncfusion.com/documentation/maps/providers/openstreetmap/
+         * https://blazor.syncfusion.com/documentation/maps/markers/
+         * 
+         * Documentacion Blazorise (graficas)
+         * https://blazorise.com/docs/extensions/chart/
+         * */
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -30,6 +39,7 @@ namespace PortalWeb
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
+            services.AddSyncfusionBlazor();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
