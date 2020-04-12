@@ -36,7 +36,7 @@ namespace Repositorio.SQLServer
                 {
                     conn.ExecuteAsync(query, queryParams);
                 }
-            }catch(Exception ex)
+            }catch(Exception)
             {
                 //Console.WriteLine("Error en el método InsertaProyecto "+ex.Message);
                 log.Error($"Se ha producido un error al insertar el proyecto {proyecto.name} en la base de datos.");

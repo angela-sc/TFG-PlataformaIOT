@@ -42,7 +42,7 @@ namespace Repositorio.SQLServer
                     await conn.ExecuteAsync(query, queryParams);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //throw ex; //excepcion al establecer la conexion o al ejecutar el async
                 //Console.WriteLine(ex.Message, "Error en RepositorioSensor en el metodo InsertaSensor");
@@ -115,7 +115,7 @@ namespace Repositorio.SQLServer
                     return result.FirstOrDefault();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //throw ex; //excepcion al establecer la conexion
                 //Console.WriteLine(ex.Message, "Error en RepositorioSensor en el metodo GetID");

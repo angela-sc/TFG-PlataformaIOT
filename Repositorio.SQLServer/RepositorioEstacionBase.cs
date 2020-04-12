@@ -35,7 +35,7 @@ namespace Repositorio.SQLServer
                     return res.FirstOrDefault();
                 }
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 log.Warning($"No se ha encontrado ningun id para la estacion base {nombreEstacionBase}");
                 return -1;
