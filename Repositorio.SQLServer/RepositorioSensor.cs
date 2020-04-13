@@ -86,21 +86,21 @@ namespace Repositorio.SQLServer
 
         public async Task<IEnumerable<EntidadDatoBase>> GetData(int idSensor)
         {
-            string query = String.Format(@"SELECT [Stamp], [FK_SensorId], [humity], [temperature] FROM [plataformadb].[dbo].[Data] WHERE [FK_SensorId] = {0}", idSensor);
-
+            string query = String.Format(@"SELECT top (20) [Stamp] as [stamp], [humity], [temperature] FROM [plataformadb].[dbo].[Data] WHERE [FK_SensorId] = {0}", idSensor);
+            IEnumerable<EntidadDatoBase> result = null;
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    var result = await conn.QueryAsync<EntidadDatoBase>(query);                   
-                    return result;
+                    result = await conn.QueryAsync<EntidadDatoBase>(query);
                 }
             }
             catch (Exception)
             {
                 log.Warning($"No se ha encontrado el sensor {idSensor} en la base de datos.");
-                return null;
             }
+
+            return result;
         }
 
         public async Task<int> GetId(string nombreSensor, int idEstacionBase)

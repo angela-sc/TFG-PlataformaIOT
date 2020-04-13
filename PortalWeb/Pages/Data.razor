@@ -1,64 +1,12 @@
 ﻿@page "/data"
-
 @using Libreria.Entidades
 @using Servicios
-
 @using Blazorise.Charts
+@using PortalWeb.ViewModel 
+@inherits DataViewModel
 
 <h1>Plataforma IoT 🦕</h1>
 <p>Este módulo muestra los datos obtenidos por los sensores.</p>
 
-
-<LineChart @ref="lineChart" TItem="double" />
-
-
-
-@code {
-
-    LineChart<double> lineChart;
-
-
-    private ServicioSensor servicio = new ServicioSensor("Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = plataformadb; Integrated Security = true", null);
-    private int id = 2;
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await HandleRedraw();
-        }
-    }
-
-    async Task HandleRedraw()
-    {
-        lineChart.Clear();
-
-        lineChart.AddLabel(Labels);
-
-        lineChart.AddDataSet(await GetLineChartDataset());
-
-        await lineChart.Update();
-    }
-
-    async Task<LineChartDataset<double>> GetLineChartDataset()
-    {
-        var chartData = new LineChartDataset<double>
-        {
-            Label = "Humedad",
-            Data = (await servicio.ObtenerTemperatura(id)).ToList(),
-            BackgroundColor = backgroundColors,
-            BorderColor = borderColors,
-            Fill = true,
-            PointRadius = 2,
-            BorderDash = new List<int> { }
-        };
-
-        return chartData;
-    }
-
-    string[] Labels = { "Red", "Blue", "Yellow", "Green", "Purple", "Orange" };
-    List<string> backgroundColors = new List<string> { ChartColor.FromRgba(255, 99, 132, 0.2f), ChartColor.FromRgba(54, 162, 235, 0.2f), ChartColor.FromRgba(255, 206, 86, 0.2f), ChartColor.FromRgba(75, 192, 192, 0.2f), ChartColor.FromRgba(153, 102, 255, 0.2f), ChartColor.FromRgba(255, 159, 64, 0.2f) };
-    List<string> borderColors = new List<string> { ChartColor.FromRgba(255, 99, 132, 1f), ChartColor.FromRgba(54, 162, 235, 1f), ChartColor.FromRgba(255, 206, 86, 1f), ChartColor.FromRgba(75, 192, 192, 1f), ChartColor.FromRgba(153, 102, 255, 1f), ChartColor.FromRgba(255, 159, 64, 1f) };
-
-  
-}
+<LineChart @ref="lineChartTemperature" TItem="double" />
+<LineChart @ref="lineChartHumity" TItem="double" />
