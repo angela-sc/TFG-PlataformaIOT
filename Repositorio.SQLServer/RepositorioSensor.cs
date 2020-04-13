@@ -86,7 +86,7 @@ namespace Repositorio.SQLServer
 
         public async Task<IEnumerable<EntidadDatoBase>> GetData(int idSensor)
         {
-            string query = String.Format(@"SELECT * FROM [plataformadb].[dbo].[Data] WHERE [FK_SensorId] = '{0}'", idSensor);
+            string query = String.Format(@"SELECT [Stamp], [FK_SensorId], [humity], [temperature] FROM [plataformadb].[dbo].[Data] WHERE [FK_SensorId] = {0}", idSensor);
 
             try
             {
