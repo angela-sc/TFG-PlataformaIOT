@@ -23,9 +23,9 @@ namespace Servicios
         
 
         //Obtiene todos los datos asociados a un sensor, sin filtros
-        public async Task<List<EntidadDatoBase>> ObtenerDatos(int idSensor)
+        public async Task<IEnumerable<EntidadDatoBase>> ObtenerDatos(int idSensor)
         {
-            List<EntidadDatoBase> datos = null; 
+            IEnumerable<EntidadDatoBase> datos = null;
 
             try
             {
@@ -44,5 +44,19 @@ namespace Servicios
         //{
         //    List<EntidadDatoBase> datos = null;
         //}
+
+        //Devuelve una lista con los datos de temperatura de un sensor determinado
+        public async Task<IEnumerable<double>> ObtenerTemperatura(int idSensor)
+        {
+            IEnumerable<EntidadDatoBase> AllData = await repositorioSensor.GetData(idSensor);
+            List<double> temperatura = new List<double>();
+
+            foreach(EntidadDatoBase dato in AllData)
+            {
+                temperatura.Add((double)dato.temperature);
+            }
+
+            return temperatura;
+        }  
     }
 }

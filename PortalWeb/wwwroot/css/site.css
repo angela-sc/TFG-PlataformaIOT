@@ -181,6 +181,7 @@ app {
         display: block;
     }
 
+    /* Estilo aplicado a los mapas de syncfusion para eliminar la nota de version */
     .map {
         -webkit-user-select: none;
         -moz-user-select: none;

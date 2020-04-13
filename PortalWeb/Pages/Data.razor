@@ -3,44 +3,62 @@
 @using Libreria.Entidades
 @using Servicios
 
-<h1>Plataforma IoT</h1>
+@using Blazorise.Charts
+
+<h1>Plataforma IoT 🦕</h1>
 <p>Este módulo muestra los datos obtenidos por los sensores.</p>
 
-@if (datos == null)
-{
-    <p><em>Cargando datos...</em></p>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Temp. (C)</th>
-                <th>Humidity</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var dato in datos)
-            {
-            <tr>
-                <td>@dato.stamp</td>
-                <td>@dato.temperature</td>
-                <td>@dato.humity</td>
-            </tr>
-            }
-        </tbody>
-    </table>
-}
+
+<LineChart @ref="lineChart" TItem="double" />
+
 
 
 @code {
-    private ServicioSensor servicioSensor = new ServicioSensor("Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = plataformadb; Integrated Security = true", null);
-    private List<EntidadDatoBase> datos = null;
 
-    protected override async Task OnInitializedAsync()
+    LineChart<double> lineChart;
+
+
+    private ServicioSensor servicio = new ServicioSensor("Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = plataformadb; Integrated Security = true", null);
+    private int id = 2;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        int id = 2;
-        datos = await servicioSensor.ObtenerDatos(id);
+        if (firstRender)
+        {
+            await HandleRedraw();
+        }
     }
+
+    async Task HandleRedraw()
+    {
+        lineChart.Clear();
+
+        lineChart.AddLabel(Labels);
+
+        lineChart.AddDataSet(await GetLineChartDataset());
+
+        await lineChart.Update();
+    }
+
+    async Task<LineChartDataset<double>> GetLineChartDataset()
+    {
+        var chartData = new LineChartDataset<double>
+        {
+            Label = "Humedad",
+            Data = (await servicio.ObtenerTemperatura(id)).ToList(),
+            BackgroundColor = backgroundColors,
+            BorderColor = borderColors,
+            Fill = true,
+            PointRadius = 2,
+            BorderDash = new List<int> { }
+        };
+
+        return chartData;
+    }
+
+    string[] Labels = { "Red", "Blue", "Yellow", "Green", "Purple", "Orange" };
+    List<string> backgroundColors = new List<string> { ChartColor.FromRgba(255, 99, 132, 0.2f), ChartColor.FromRgba(54, 162, 235, 0.2f), ChartColor.FromRgba(255, 206, 86, 0.2f), ChartColor.FromRgba(75, 192, 192, 0.2f), ChartColor.FromRgba(153, 102, 255, 0.2f), ChartColor.FromRgba(255, 159, 64, 0.2f) };
+    List<string> borderColors = new List<string> { ChartColor.FromRgba(255, 99, 132, 1f), ChartColor.FromRgba(54, 162, 235, 1f), ChartColor.FromRgba(255, 206, 86, 1f), ChartColor.FromRgba(75, 192, 192, 1f), ChartColor.FromRgba(153, 102, 255, 1f), ChartColor.FromRgba(255, 159, 64, 1f) };
+
+  
 }

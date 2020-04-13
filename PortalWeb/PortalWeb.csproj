@@ -5,7 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Blazorise" Version="0.8.8.4" />
+    <PackageReference Include="Blazorise.Bootstrap" Version="0.8.8.4" />
     <PackageReference Include="Blazorise.Charts" Version="0.8.8.4" />
+    <PackageReference Include="Blazorise.Icons.FontAwesome" Version="0.8.8.4" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.2" />
     <PackageReference Include="Syncfusion.Blazor" Version="18.1.0.43" />
   </ItemGroup>
@@ -13,5 +16,20 @@
   <ItemGroup>
     <ProjectReference Include="..\Libreria\Libreria.csproj" />
     <ProjectReference Include="..\Servicios\Servicios.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>

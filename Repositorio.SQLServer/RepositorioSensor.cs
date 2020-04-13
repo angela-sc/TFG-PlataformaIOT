@@ -84,16 +84,16 @@ namespace Repositorio.SQLServer
             return true;          
         }
 
-        public async Task<List<EntidadDatoBase>> GetData(int idSensor)
+        public async Task<IEnumerable<EntidadDatoBase>> GetData(int idSensor)
         {
-            string query = string.Format(@"SELECT * FROM [plataformadb].[dbo].[Data] WHERE [FK_SensorId] = '{0}'", idSensor);
+            string query = String.Format(@"SELECT * FROM [plataformadb].[dbo].[Data] WHERE [FK_SensorId] = '{0}'", idSensor);
 
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     var result = await conn.QueryAsync<EntidadDatoBase>(query);                   
-                    return result.AsList();
+                    return result;
                 }
             }
             catch (Exception)
@@ -124,6 +124,6 @@ namespace Repositorio.SQLServer
             }
         }
 
-
+        
     }
 }

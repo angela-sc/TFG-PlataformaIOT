@@ -1,5 +1,17 @@
 ﻿@page "/"
 
-<h1 class="display-4">¡Bienvenido!</h1>
+@using PortalWeb.Resources
+
+<h1 class="display-4">¡Bienvenido! <img src="data:image/png;base64,@imagen"></h1>
+
 
 Welcome to your new app.
+
+@code{
+    private string imagen;
+
+    protected override async Task OnInitializedAsync()
+    {
+        imagen = Convert.ToBase64String(ObtenerRecurso.Obtener());
+    }
+}
