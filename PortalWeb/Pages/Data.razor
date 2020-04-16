@@ -2,11 +2,15 @@
 @using Libreria.Entidades
 @using Servicios
 @using Blazorise.Charts
-@using PortalWeb.ViewModel 
+@using PortalWeb.ViewModel
+
 @inherits DataViewModel
 
-<h1>Plataforma IoT 🦕</h1>
-<p>Este módulo muestra los datos obtenidos por los sensores.</p>
+<h1>DATOS SENSOR 🦕</h1>
+<p>Este módulo muestra los datos obtenidos por el sensor SE01</p>
 
 <LineChart @ref="lineChartTemperature" TItem="double" />
 <LineChart @ref="lineChartHumity" TItem="double" />
+
+
+
