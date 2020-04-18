@@ -46,5 +46,46 @@ namespace Repositorio.SQLServer
         {
             throw new NotImplementedException();
         }
+
+        public async Task<IEnumerable<EntidadSensorResultado>> ObtenerSensores(string nombreEstacionBase)
+        {
+            /*SELECT 
+	s.[Name]			as [NombreSensor]
+	,s.[Location]		as [Coordenada]
+	,d.[Stamp]			as [Fecha]
+	,d.[humity]			as [Humedad]
+	,d.[temperature]	as [Temperatura]
+FROM [plataformadb]..[Data] d
+JOIN [plataformadb]..[Sensor] s ON d.[FK_SensorId] = s.[Id]
+JOIN [plataformadb]..[Base_Station] eb ON s.[FK_BaseStationId] = eb.[Id]
+JOIN (
+	SELECT 
+		s.[Name] as [NombreSensor]
+		,max(d.[stamp]) as [Ultimo]
+	FROM [plataformadb]..[Data] d
+	JOIN [plataformadb]..[Sensor] s ON d.[FK_SensorId] = s.[Id]
+	JOIN [plataformadb]..[Base_Station] eb ON s.[FK_BaseStationId] = eb.[Id]
+	WHERE eb.[Name] = 'EB01'
+	GROUP BY s.[Name]
+) as ls ON d.[Stamp] = ls.[Ultimo] AND s.[Name] = ls.[NombreSensor] */
+
+
+            string query = String.Format("SELECT s.[Name] as [NombreSensor], d.[Stamp] as [Fecha], d.[humity] as [Humedad], d.[temperature] as [Temperatura] FROM [plataformadb].[dbo].[Data] d JOIN [plataformadb].[dbo].[Sensor] s ON d.[FK_SensorId] = s.[Id] JOIN [plataformadb].[dbo].[Base_Station] eb ON s.[FK_BaseStationId] = eb.[Id] JOIN (SELECT s.[Name] as [NombreSensor], max(d.[stamp]) as [Ultimo] FROM [plataformadb].[dbo].[Data] d JOIN [plataformadb].[dbo].[Sensor] s ON d.[FK_SensorId] = s.[Id] JOIN [plataformadb].[dbo].[Base_Station] eb ON s.[FK_BaseStationId] = eb.[Id] WHERE eb.[Name] = '{0}' GROUP BY s.[Name] ) as ls ON d.[Stamp] = ls.[Ultimo] AND s.[Name] = ls.[NombreSensor]", nombreEstacionBase);
+
+            IEnumerable<EntidadSensorResultado> resultado = null;
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    resultado = await conn.QueryAsync<EntidadSensorResultado>(query);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return resultado;
+        }
     }
 }

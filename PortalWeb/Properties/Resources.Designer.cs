@@ -69,5 +69,15 @@ namespace PortalWeb.Properties {
                 return ((byte[])(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] SE01 {
+            get {
+                object obj = ResourceManager.GetObject("SE01", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

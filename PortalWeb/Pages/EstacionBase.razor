@@ -1,7 +1,49 @@
 ﻿@page "/estacionbase"
 
-<h1>Estación Base</h1>
+@using Libreria.Entidades
+
+
+<!-- Page Content -->
+    <div class="container">
+        <!-- Jumbotron Header -->
+        <header class="jumbotron">
+            <h3>Estación @nombreEstacionBase </h3>
+            <!--<p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa, ipsam, eligendi, in quo sunt possimus non incidunt odit vero aliquid similique quaerat nam nobis illo aspernatur vitae fugiat numquam repellat.</p>-->
+            <!--<a href="#" class="btn btn-primary btn-lg">Call to action!</a>-->
+        </header>
+
+        <!-- Page Features -->
+        <div class="row ">
+
+            @foreach (EntidadSensorResultado sensor in listaSensores)
+            {
+                <div class="col-lg-4 col-md-7 mb-5">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h4 class="card-title"><span class="oi oi-rss" aria-hidden="true"></span>   @sensor.NombreSensor</h4>
+                            <p>Última actualización: @sensor.Fecha</p>
+                            <p>Temperatura: @sensor.Temperatura ºC</p>
+                            <p>Humedad: @sensor.Humedad %</p>
+                            <a href="/data" class="btn btn-primary">Ir al sensor</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <!-- /.row -->
+
+    </div>
+<!-- /.container -->
 
 @code {
 
+    private string nombreEstacionBase = "EB01";
+    private IEnumerable<EntidadSensorResultado> listaSensores = new List<EntidadSensorResultado>();
+
+    private Servicios.ServicioEstacionBase servicio = new Servicios.ServicioEstacionBase("Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = plataformadb; Integrated Security = true", null);
+
+    protected override async Task OnInitializedAsync()
+    {
+        listaSensores = await servicio.ObtenerSensores(nombreEstacionBase);
+    }
 }
