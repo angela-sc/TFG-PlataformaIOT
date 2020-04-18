@@ -4,13 +4,51 @@
 @using Blazorise.Charts
 @using PortalWeb.ViewModel
 
+
 @inherits DataViewModel
 
-<h1>DATOS SENSOR 🦕</h1>
-<p>Este módulo muestra los datos obtenidos por el sensor SE01</p>
+<div class="container-fluid">
+    <h1>Sensor @nombreSensor</h1>
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="card mb-4">
+                <div class="card-header"><span class="oi oi-sun mr-1"></span>Datos de temperatura</div>
+                <div class="card-body"><LineChart @ref="lineChartTemperature" TItem="double" /></div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="card mb-4">
+                <div class="card-header"><span class="oi oi-droplet mr-1"></span>Datos de humedad</div>
+                <div class="card-body"><LineChart @ref="lineChartHumity" TItem="double" /></div>
+            </div>
+        </div>
+    </div>
+    <div class="card mb-4">
+        <div class="card-header"><span class="oi oi-spreadsheet mr-1"></span>DataTable Example</div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Temperatura (ºC)</th>
+                            <th>Humedad (%)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (EntidadDatoBase dato in datos)
+                        {
+                            <tr>
+                                <td>@dato.stamp</td>
+                                <td>@dato.temperature</td>
+                                <td>@dato.humity</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
-<LineChart @ref="lineChartTemperature" TItem="double" />
-<LineChart @ref="lineChartHumity" TItem="double" />
-
-
-
+<!-- iconos obtenido de 'Open Iconic — www.useiconic.com/open' -->
