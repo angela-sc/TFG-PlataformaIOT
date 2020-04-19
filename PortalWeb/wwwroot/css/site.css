@@ -179,21 +179,34 @@ app {
     .sidebar .collapse {
         /* Never collapse the sidebar for wide screens */
         display: block;
-    }
+    }     
+}
 
-    /* Estilo aplicado a los mapas de syncfusion para eliminar la nota de version */
-    .map {
+/* Estilo aplicado a los mapas de syncfusion para eliminar la nota de version */
+/* .map {
         -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
         user-select: none;
-        color: white;
+        color: #e9ecef;
         text-decoration: none;
         font-size: 1px;
     }
 
     .map a {
-        color:white;
-        visibility:hidden;
-    }
+        color: #e9ecef;
+        visibility: hidden;
+    }*/
+
+
+.sf-license-warning {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    color: #e9ecef;
+    text-decoration: none;
+    font-size: 1px;
+
+    visibility: hidden;
 }

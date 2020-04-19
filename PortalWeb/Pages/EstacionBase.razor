@@ -1,6 +1,7 @@
 ﻿@page "/estacionbase"
 
 @using Libreria.Entidades
+@using Syncfusion.Blazor.Maps
 
 
 <!-- Page Content -->
@@ -10,11 +11,28 @@
             <h3>Estación @nombreEstacionBase </h3>
             <!--<p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa, ipsam, eligendi, in quo sunt possimus non incidunt odit vero aliquid similique quaerat nam nobis illo aspernatur vitae fugiat numquam repellat.</p>-->
             <!--<a href="#" class="btn btn-primary btn-lg">Call to action!</a>-->
+            <div class="map">
+                <SfMaps>
+                    <MapsLayers>
+                        <MapsLayer LayerType="ShapeLayerType.OSM">
+                            <MapsMarkerSettings>
+                                <MapsMarker Visible='true' DataSource='MarkerDataSource'>
+                                </MapsMarker>
+                            </MapsMarkerSettings>
+                        </MapsLayer>
+                    </MapsLayers>
+                    <MapsZoomSettings Enable="true"
+                                      HorizontalAlignment="Syncfusion.Blazor.Maps.Alignment.Near"
+                                      EnableSelectionZooming="true"
+                                      ShouldZoomInitially="true"
+                                      ZoomFactor="16" MaxZoom="20" MinZoom="10">
+                    </MapsZoomSettings>
+                </SfMaps>
+            </div>
         </header>
 
         <!-- Page Features -->
         <div class="row ">
-
             @foreach (EntidadSensorResultado sensor in listaSensores)
             {
                 <div class="col-lg-4 col-md-7 mb-5">
@@ -46,4 +64,16 @@
     {
         listaSensores = await servicio.ObtenerSensores(nombreEstacionBase);
     }
+
+    public class MapMarkerDataSource
+    {
+        public double latitude;
+        public double longitude;
+        public string name;
+    };
+
+    public List<MapMarkerDataSource> MarkerDataSource = new List<MapMarkerDataSource> {
+        new MapMarkerDataSource{ latitude= 38.14261488138473, longitude= -0.7653415203094482, name= "Alejandro" },
+        new MapMarkerDataSource{ latitude= 38.13929118949828, longitude= -0.7670044898986816, name= "Angela" }
+    };
 }
