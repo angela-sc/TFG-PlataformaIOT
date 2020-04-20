@@ -12,11 +12,11 @@
             <!--<p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa, ipsam, eligendi, in quo sunt possimus non incidunt odit vero aliquid similique quaerat nam nobis illo aspernatur vitae fugiat numquam repellat.</p>-->
             <!--<a href="#" class="btn btn-primary btn-lg">Call to action!</a>-->
             <div class="map">
-                <SfMaps>
+                <SfMaps @ref="mapa">
                     @* To zoom and pan *@
                     <MapsZoomSettings Enable="true"
                                       Toolbars='new string[]{"Zoom", "ZoomIn", "ZoomOut", "Reset" }'
-                                      ZoomFactor="4">
+                                      ZoomFactor="4" MaxZoom="20">
                     </MapsZoomSettings>
 
                     <MapsLayers>
@@ -69,7 +69,7 @@
 
     //public IEnumerable<EntidadMarcadorMapa> MarkerDataSource = new List<EntidadMarcadorMapa>();
     public List<MapMarkerDataSource> MarkerDataSource = new List<MapMarkerDataSource>();
-
+    SfMaps mapa;
 
 
 
@@ -82,7 +82,7 @@
             MarkerDataSource.Add(new MapMarkerDataSource { latitude = Convert.ToDouble(sensor.Latitud), longitude = Convert.ToDouble(sensor.Longitud), name = sensor.NombreSensor });
         }
 
-        //MarkerDataSource = await servicio.ObtenerCoordenadasSensores(nombreEstacionBase);
+        mapa.Refresh(); // Refrescar mapa
     }
 
     public class MapMarkerDataSource

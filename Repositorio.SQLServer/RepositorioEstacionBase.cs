@@ -49,29 +49,76 @@ namespace Repositorio.SQLServer
 
         public async Task<IEnumerable<EntidadSensorResultado>> ObtenerSensores(string nombreEstacionBase)
         {
-            /*SELECT 
-	                s.[Name]			as [NombreSensor]
-	                ,s.[Location]		as [Coordenada]
-	                ,d.[Stamp]			as [Fecha]
-	                ,d.[humity]			as [Humedad]
-	                ,d.[temperature]	as [Temperatura]
-            FROM [plataformadb]..[Data] d
-            JOIN [plataformadb]..[Sensor] s ON d.[FK_SensorId] = s.[Id]
-            JOIN [plataformadb]..[Base_Station] eb ON s.[FK_BaseStationId] = eb.[Id]
-            JOIN (
-	            SELECT 
-		            s.[Name] as [NombreSensor]
-		            ,max(d.[stamp]) as [Ultimo]
-	            FROM [plataformadb]..[Data] d
-	            JOIN [plataformadb]..[Sensor] s ON d.[FK_SensorId] = s.[Id]
-	            JOIN [plataformadb]..[Base_Station] eb ON s.[FK_BaseStationId] = eb.[Id]
-	            WHERE eb.[Name] = 'EB01'
-	            GROUP BY s.[Name]
-            ) as ls ON d.[Stamp] = ls.[Ultimo] AND s.[Name] = ls.[NombreSensor] 
-            */
+            /**
+                OPCION 1
 
+                SELECT  
+	                ls.[NombreSensor] 
+                    ,ls.[Latitud]
+                    ,ls.[Longitud]
+                    ,d.[Stamp] as [Fecha]
+                    ,d.[humity] as [Humedad]
+                    ,d.[temperature] as [Temperatura] 
+                FROM [plataformadb].[dbo].[Data] d 
+                RIGHT JOIN (
+                    SELECT 
+                        s.[Name] as [NombreSensor]
+		                ,[Latitud]
+		                ,[Longitud]
+		                ,[FK_BaseStationId]
+                        ,max(d.[stamp]) as [Ultimo] 
+                    FROM [plataformadb].[dbo].[Data] d 
+                    RIGHT JOIN [plataformadb].[dbo].[Sensor] s ON d.[FK_SensorId] = s.[Id] 
+                    JOIN [plataformadb].[dbo].[Base_Station] eb ON s.[FK_BaseStationId] = eb.[Id]
+	                WHERE eb.[Name] = 'EB01'
+	                GROUP BY s.[Name],[Latitud],[Longitud],[FK_BaseStationId]
+                ) as ls ON d.[Stamp] = ls.[Ultimo]
+                JOIN [plataformadb].[dbo].[Base_Station] eb ON ls.[FK_BaseStationId] = eb.[Id] 
 
-            string query = String.Format("SELECT s.[Name] as [NombreSensor], s.[Latitud], s.[Longitud], d.[Stamp] as [Fecha], d.[humity] as [Humedad], d.[temperature] as [Temperatura] FROM [plataformadb].[dbo].[Data] d JOIN [plataformadb].[dbo].[Sensor] s ON d.[FK_SensorId] = s.[Id] JOIN [plataformadb].[dbo].[Base_Station] eb ON s.[FK_BaseStationId] = eb.[Id] JOIN (SELECT s.[Name] as [NombreSensor], max(d.[stamp]) as [Ultimo] FROM [plataformadb].[dbo].[Data] d JOIN [plataformadb].[dbo].[Sensor] s ON d.[FK_SensorId] = s.[Id] JOIN [plataformadb].[dbo].[Base_Station] eb ON s.[FK_BaseStationId] = eb.[Id] WHERE eb.[Name] = '{0}' GROUP BY s.[Name] ) as ls ON d.[Stamp] = ls.[Ultimo] AND s.[Name] = ls.[NombreSensor]", nombreEstacionBase);
+                OPCION 2 (OPTIMA)
+
+                SELECT 
+	                x.[NombreSensor]
+	                ,x.[Latitud]
+	                ,x.[Longitud]
+	                ,x.[stamp]
+	                ,x.[Humedad]
+	                ,x.[Temperatura]
+                FROM
+                (
+	                SELECT 
+		                s.[Name] as [NombreSensor] ,[Latitud] ,[Longitud] ,d.[stamp], d.[humity] [Humedad], d.[temperature] [Temperatura]
+		                ,DENSE_RANK() OVER(PARTITION BY s.[Name] ORDER BY d.[stamp] DESC) AS [rk]
+	                FROM [plataformadb].[dbo].[Data] d 
+	                RIGHT JOIN [plataformadb].[dbo].[Sensor] s ON d.[FK_SensorId] = s.[Id] 
+	                JOIN [plataformadb].[dbo].[Base_Station] eb ON s.[FK_BaseStationId] = eb.[Id]
+	                WHERE eb.[Name] = 'EB01'
+                ) AS x
+                WHERE x.[rk] = 1
+                ORDER BY x.[NombreSensor]
+            **/
+
+            string query = String.Format(@"
+                SELECT 
+	                x.[NombreSensor]
+	                ,x.[Latitud]
+	                ,x.[Longitud]
+	                ,x.[Fecha]
+	                ,x.[Humedad]
+	                ,x.[Temperatura]
+                FROM
+                (
+	                SELECT 
+		                RTRIM(s.[Name]) as [NombreSensor] ,[Latitud] ,[Longitud] ,d.[stamp] [Fecha], d.[humity] [Humedad], d.[temperature] [Temperatura]
+		                ,DENSE_RANK() OVER(PARTITION BY s.[Name] ORDER BY d.[stamp] DESC) AS [rk]
+	                FROM [plataformadb].[dbo].[Data] d 
+	                RIGHT JOIN [plataformadb].[dbo].[Sensor] s ON d.[FK_SensorId] = s.[Id] 
+	                JOIN [plataformadb].[dbo].[Base_Station] eb ON s.[FK_BaseStationId] = eb.[Id]
+	                WHERE eb.[Name] = '{0}'
+                ) AS x
+                WHERE x.[rk] = 1
+                ORDER BY x.[NombreSensor]
+            ", nombreEstacionBase);
 
             IEnumerable<EntidadSensorResultado> resultado = null;
             try
