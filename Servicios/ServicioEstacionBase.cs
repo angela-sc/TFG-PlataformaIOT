@@ -33,6 +33,20 @@ namespace Servicios
             return sensores;
         }
 
-       
+        //public async Task<IEnumerable<EntidadMarcadorMapa>> ObtenerCoordenadasSensores(string nombreEstacionBase)
+        //{
+        //    IEnumerable<EntidadCoordenada> coordenadas = new List<EntidadCoordenada>();
+        //    coordenadas = await repositorioEstacionBase.ObtenerCoordenadasSensores(nombreEstacionBase);
+            
+        //    List<EntidadMarcadorMapa> resultado = new List<EntidadMarcadorMapa>();
+        //    foreach(EntidadCoordenada coord in coordenadas)
+        //    {
+        //        double aux_latitud = Convert.ToDouble(coord.latitud);
+        //        double aux_longitud = Convert.ToDouble(coord.longitud);
+        //        resultado.Add(new EntidadMarcadorMapa(coord.nombreSensor, aux_latitud, aux_longitud));
+        //    }
+
+        //    return resultado;
+        //}
     }
 }

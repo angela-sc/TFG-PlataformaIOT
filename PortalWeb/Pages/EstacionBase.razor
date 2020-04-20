@@ -13,21 +13,27 @@
             <!--<a href="#" class="btn btn-primary btn-lg">Call to action!</a>-->
             <div class="map">
                 <SfMaps>
+                    @* To zoom and pan *@
+                    <MapsZoomSettings Enable="true"
+                                      Toolbars='new string[]{"Zoom", "ZoomIn", "ZoomOut", "Reset" }'
+                                      ZoomFactor="4">
+                    </MapsZoomSettings>
+
                     <MapsLayers>
                         <MapsLayer LayerType="ShapeLayerType.OSM">
+                            @* Add marker *@
                             <MapsMarkerSettings>
-                                <MapsMarker Visible='true' DataSource='MarkerDataSource'>
+                                <MapsMarker Visible="true"
+                                            Height="25"
+                                            Width="25"
+                                            DataSource="MarkerDataSource">
                                 </MapsMarker>
                             </MapsMarkerSettings>
+
                         </MapsLayer>
                     </MapsLayers>
-                    <MapsZoomSettings Enable="true"
-                                      HorizontalAlignment="Syncfusion.Blazor.Maps.Alignment.Near"
-                                      EnableSelectionZooming="true"
-                                      ShouldZoomInitially="true"
-                                      ZoomFactor="16" MaxZoom="20" MinZoom="10">
-                    </MapsZoomSettings>
                 </SfMaps>
+
             </div>
         </header>
 
@@ -60,20 +66,36 @@
 
     private Servicios.ServicioEstacionBase servicio = new Servicios.ServicioEstacionBase("Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = plataformadb; Integrated Security = true", null);
 
+
+    //public IEnumerable<EntidadMarcadorMapa> MarkerDataSource = new List<EntidadMarcadorMapa>();
+    public List<MapMarkerDataSource> MarkerDataSource = new List<MapMarkerDataSource>();
+
+
+
+
     protected override async Task OnInitializedAsync()
     {
         listaSensores = await servicio.ObtenerSensores(nombreEstacionBase);
+
+        foreach(EntidadSensorResultado sensor in listaSensores)
+        {
+            MarkerDataSource.Add(new MapMarkerDataSource { latitude = Convert.ToDouble(sensor.Latitud), longitude = Convert.ToDouble(sensor.Longitud), name = sensor.NombreSensor });
+        }
+
+        //MarkerDataSource = await servicio.ObtenerCoordenadasSensores(nombreEstacionBase);
     }
 
     public class MapMarkerDataSource
     {
+        public string name;
         public double latitude;
         public double longitude;
-        public string name;
-    };
+    }
 
-    public List<MapMarkerDataSource> MarkerDataSource = new List<MapMarkerDataSource> {
-        new MapMarkerDataSource{ latitude= 38.14261488138473, longitude= -0.7653415203094482, name= "Alejandro" },
-        new MapMarkerDataSource{ latitude= 38.13929118949828, longitude= -0.7670044898986816, name= "Angela" }
-    };
+    //public List<MapMarkerDataSource> MarkerDataSource = new List<MapMarkerDataSource>();
+    //public List<MapMarkerDataSource> MarkerDataSource = new List<MapMarkerDataSource> {
+    //    new MapMarkerDataSource{ latitude= 38.14261488138473, longitude= -0.7653415203094482, name= "Alejandro" },
+    //    new MapMarkerDataSource{ latitude= 38.13929118949828, longitude= -0.7670044898986816, name= "Angela" }
+    //};
+
 }
