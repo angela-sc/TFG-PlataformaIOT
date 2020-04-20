@@ -13,7 +13,7 @@ namespace PortalWeb.ViewModel
     public class DataViewModel : ComponentBase
     {
         public LineChart<double> lineChartTemperature, lineChartHumity; //graficas
-        public string nombreSensor = "SE01";
+        public string nombreSensor = "SE01"; //¡hay que cambiar esto!
 
         public IEnumerable<EntidadDatoBase> datos;
 
