@@ -50,7 +50,8 @@ namespace Pruebas.ClienteConsola
                 FK_basestationID = 1,
                 Id = 11,
                 Name = "EB01SE11",
-                Location = null
+                Latitud= 0.00,
+                Longitud = 0.00
             });
             var res = client.Post(json);
 

@@ -9,7 +9,11 @@ namespace Libreria.Entidades
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public SqlGeography Location { get; set; }
+
+        //Coordenadas del sensor - public SqlGeography Location { get; set; }
+        public double Longitud { get; set; }
+        public double Latitud { get; set; }
+        
         public int FK_basestationID { get; set; }
     }
 }

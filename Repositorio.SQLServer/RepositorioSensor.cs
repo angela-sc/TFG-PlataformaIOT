@@ -29,7 +29,8 @@ namespace Repositorio.SQLServer
             Dictionary<string, object> queryParams = new Dictionary<string, object>
             {
                 { "@name", sensor.Name },
-                { "@location", sensor.Location },
+                {"@longitud", sensor.Longitud },
+                {"@latitud", sensor.Latitud },
                 { "@fk_basestationid", sensor.FK_basestationID }
             };
 
