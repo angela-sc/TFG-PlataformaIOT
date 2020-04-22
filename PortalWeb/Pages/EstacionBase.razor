@@ -15,11 +15,14 @@
         <!--<a href="#" class="btn btn-primary btn-lg">Call to action!</a>-->
         <div class="map">
             <SfMaps @ref="mapa">
+                <!--<MapsTitleSettings Text="Sensores"></MapsTitleSettings>-->
                 @* To zoom and pan *@
                 <MapsZoomSettings Enable="true"
-                                  Toolbars='new string[]{"Zoom", "ZoomIn", "ZoomOut", "Reset" }'
-                                  ZoomFactor="4" MaxZoom="20">
+                                  Toolbars='new string[]{"ZoomIn", "ZoomOut", "Reset" }'
+                                  ZoomFactor="13" MaxZoom="20"
+                                  MouseWheelZoom="true">
                 </MapsZoomSettings>
+                <MapsCenterPosition Latitude=latitudInicial Longitude=longitudInicial></MapsCenterPosition>
 
                 <MapsLayers>
                     <MapsLayer LayerType="ShapeLayerType.OSM">
@@ -28,14 +31,15 @@
                             <MapsMarker Visible="true"
                                         Height="25"
                                         Width="25"
-                                        DataSource="MarkerDataSource">
+                                        DataSource="MarkerDataSource"
+                                        ColorValuePath="color">
+                                <MapsMarkerTooltipSettings ValuePath="name" Visible="true"></MapsMarkerTooltipSettings>
+                                @*para dar formato y añadir más valores Format="<b>${name}</b><br>Finalist: <b>${Winner}</b><br>Win: <b>${Finalist} en MapsMarkerTooltipSettings*@
                             </MapsMarker>
                         </MapsMarkerSettings>
-
                     </MapsLayer>
                 </MapsLayers>
             </SfMaps>
-
         </div>
     </header>
 
@@ -48,24 +52,24 @@
                     <div class="card-body">
                         @if (sensor.Fecha == default(DateTime))
                         {
+                            <!-- si el sensor no tiene datos muestra el nombre en naranja-->
                             <h4 class="card-title" style="color:#F34D1E"><span class="oi oi-rss" aria-hidden="true"></span>   @sensor.NombreSensor</h4>
-
                             <p>No se han encontrado datos del sensor</p>
                         }
                         else
                         {
+                            <!-- si el sensor  tiene datos muestra el nombre en verde-->
                             <h4 class="card-title" style="color:#149E00"><span class="oi oi-rss" aria-hidden="true"></span>   @sensor.NombreSensor</h4>
                             <p>Última actualización: @sensor.Fecha</p>
                             <p>Temperatura: @sensor.Temperatura ºC</p>
                             <p>Humedad: @sensor.Humedad %</p>
                         }
-                        <a href="/data" class="btn btn-primary">Ir al sensor</a>
+                        <a href="/data" class="btn btn-primary">Ver más detalles</a>
                     </div>
                 </div>
             </div>
         }
     </div>
     <!-- /.row -->
-
 </div>
 <!-- /.container -->

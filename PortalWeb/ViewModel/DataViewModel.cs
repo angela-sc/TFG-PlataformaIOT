@@ -12,6 +12,9 @@ namespace PortalWeb.ViewModel
 {
     public class DataViewModel : ComponentBase
     {
+        //[Parameter]
+        //public string sensor { get; set; }
+
         public LineChart<double> lineChartTemperature, lineChartHumity; //graficas
         public string nombreSensor = "SE01"; //¡hay que cambiar esto!
 
@@ -36,6 +39,13 @@ namespace PortalWeb.ViewModel
         private int id = 2; //para obtener el id del sensor debemos tener el nombre y la estación base
         private List<double> datosTemperatura = new List<double>();
         private List<double> datosHumedad = new List<double>();
+
+        //protected override void OnParametersSet()
+        //{
+        //    //the param will be set now
+        //    nombreSensor = sensor;
+        //}
+
 
         protected override async Task OnInitializedAsync()
         {
