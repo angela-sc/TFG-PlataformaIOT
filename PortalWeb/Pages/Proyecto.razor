@@ -1,6 +1,11 @@
 ﻿@page "/proyecto"
+@page "/proyecto/{name}"
 
-<h3>Proyecto</h3>
+@using PortalWeb.ViewModel
+
+@inherits ProyectoViewModel
+
+<h3>Proyecto </h3>
 
 @code {
 

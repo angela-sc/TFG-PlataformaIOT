@@ -1,6 +1,7 @@
 ﻿using Blazorise.Charts;
 using Libreria.Entidades;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Configuration;
 using PortalWeb.Resources;
 using Servicios;
 using System;
@@ -8,20 +9,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace PortalWeb.ViewModel
 {
     public class DataViewModel : ComponentBase
     {
+        
+       
         //[Parameter]
+        
         //public string sensor { get; set; }
 
         public LineChart<double> lineChartTemperature, lineChartHumity; //graficas
-        public string nombreSensor = "SE01"; //¡hay que cambiar esto!
+        public string nombreSensor = "SE04"; //¡hay que cambiar esto!
 
         public IEnumerable<EntidadDatoBase> datos;
 
         //public string imagen;
-
+        
         private ServicioSensor servicio = new ServicioSensor("Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = plataformadb; Integrated Security = true", null);
         
         //Etiquetas del eje X

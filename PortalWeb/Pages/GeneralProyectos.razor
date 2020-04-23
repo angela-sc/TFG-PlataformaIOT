@@ -1,0 +1,60 @@
+﻿@page "/proyecto"
+
+@inject NavigationManager NavigationManager
+
+@using Libreria.Entidades
+@using Servicios
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">Proyecto de prueba - P01</h3>
+    </div>
+    <div class="panel-body">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac sagittis leo. Pellentesque vestibulum urna at libero bibendum, quis accumsan magna blandit. Maecenas dictum sapien vel ipsum convallis blandit. Phasellus molestie suscipit leo vel lobortis. In ullamcorper enim condimentum ipsum blandit, nec porta eros tristique.
+    </div>
+</div>
+
+<div class="list-group">
+    <p>Proyectos disponibles</p>
+
+    @if (proyectos == null)
+    {
+        <p><em>Cargando proyectos...</em></p>
+    }
+    else
+    {
+        @foreach (EntidadProyecto p in proyectos)
+        {
+            <a href="#" class="list-group-item list-group-item-action">@p.name</a>
+            <button class="btn btn-primary" @onclick="NavigateToEstacionBaseComponent"> ir a la estacion base por defecto</button>
+
+            <a asp-page="./proyecto" asp-route-id="@p.name">Edit</a>
+
+}
+    }
+
+</div>
+
+@code {
+
+    private IEnumerable<EntidadProyecto> proyectos;
+    private ServicioProyecto servicio;
+
+    private int usuario = 1;
+
+    protected override async Task OnInitializedAsync()
+    {
+        proyectos = new List<EntidadProyecto>();
+        servicio = new ServicioProyecto("Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = plataformadb; Integrated Security = true", null);
+
+        proyectos = await servicio.ObtenerProyectos(usuario);
+
+    }
+
+
+    private void NavigateToEstacionBaseComponent()
+    {
+        NavigationManager.NavigateTo($"proyecto");
+    }
+
+}
