@@ -1,6 +1,6 @@
-﻿@page "/proyecto"
+﻿@page "/generalproyectos"
 
-@inject NavigationManager NavigationManager
+@*@inject NavigationManager NavigationManager*@
 
 @using Libreria.Entidades
 @using Servicios
@@ -25,12 +25,18 @@
     {
         @foreach (EntidadProyecto p in proyectos)
         {
+            var link = $"proyecto/{p.name}";
+
             <a href="#" class="list-group-item list-group-item-action">@p.name</a>
-            <button class="btn btn-primary" @onclick="NavigateToEstacionBaseComponent"> ir a la estacion base por defecto</button>
+            @*<button class="btn btn-primary" @onclick="NavigateToEstacionBaseComponent"> ir a la estacion base por defecto</button>
+            <NavLink class="nav-link" href=@link>
+                <span class="oi oi-laptop" aria-hidden="true"></span> Proyecto
+            </NavLink>*@
+            <a href=@link class="btn btn-info">Mas detalles</a>
 
-            <a asp-page="./proyecto" asp-route-id="@p.name">Edit</a>
+            @*<a asp-page="./proyecto" asp-route-id="@p.name">Edit</a>*@
 
-}
+        }
     }
 
 </div>
@@ -52,9 +58,9 @@
     }
 
 
-    private void NavigateToEstacionBaseComponent()
-    {
-        NavigationManager.NavigateTo($"proyecto");
-    }
+    //private void NavigateToEstacionBaseComponent()
+    //{
+    //    NavigationManager.NavigateTo($"proyecto/asdkfhalkjsdfhalksdjfhl");
+    //}
 
 }

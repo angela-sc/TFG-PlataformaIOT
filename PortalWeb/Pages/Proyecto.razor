@@ -1,12 +1,12 @@
-﻿@page "/proyecto"
-@page "/proyecto/{name}"
+﻿@page "/proyecto/{Name}"
 
-@using PortalWeb.ViewModel
+@*@using PortalWeb.ViewModel*@
 
-@inherits ProyectoViewModel
+@*@inherits ProyectoViewModel*@
 
-<h3>Proyecto </h3>
+<h3>Proyecto @Name  </h3>
 
 @code {
-
+    [Parameter]
+    public string Name { get; set; }
 }

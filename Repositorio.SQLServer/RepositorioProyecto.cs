@@ -46,9 +46,9 @@ namespace Repositorio.SQLServer
 
         public async Task<IEnumerable<EntidadProyecto>> ObtenerProyectos(int idUsuario)
         {
-            Dictionary<string, int> queryParams = new Dictionary<string, int>
+            Dictionary<string, object> queryParams = new Dictionary<string, object>
             {
-                {"@id", idUsuario }              
+                { "@id", idUsuario }              
             };
 
             string query = String.Format(@"
