@@ -242,3 +242,23 @@ app {
     padding: 15px;
     box-sizing: border-box;
 }
+
+
+.hero-image {
+    background-image: url("/img/project-banner.jpg");
+    background-color: lightblue; /*#cccccc*/
+    height: 1750px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+.hero-text {
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: darkblue;
+}
