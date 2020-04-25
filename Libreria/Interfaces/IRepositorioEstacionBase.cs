@@ -11,7 +11,9 @@ namespace Libreria.Interfaces
         void InsertaEstacion(EntidadEstacionBase entidadEstacion);
         Task<int> GetId(string nombreEstacionBase);
         Task<IEnumerable<EntidadSensorResultado>> ObtenerSensores(string nombreEstacionBase);
-       // Task<IEnumerable<EntidadCoordenada>> ObtenerCoordenadasSensores(string nombreEstacionBase);
+        // Task<IEnumerable<EntidadCoordenada>> ObtenerCoordenadasSensores(string nombreEstacionBase);
+
+        Task<IEnumerable<EntidadEstacionBase>> ObtenerEstacionesBase(string nombreProyecto);
 
     }
 }

@@ -1,11 +1,11 @@
-﻿@page "/estacionbase"
+﻿@*@page "/estacionbase"*@
+@page "/estacionbase/{nombreEstacionBase}"
 
 @using Libreria.Entidades
 @using Syncfusion.Blazor.Maps
 @using PortalWeb.ViewModel
 
 @inherits EstacionBaseViewModel
-
 <!-- Page Content -->
 <div class="container">
     <!-- Jumbotron Header -->
@@ -17,12 +17,29 @@
             <SfMaps @ref="mapa">
                 <!--<MapsTitleSettings Text="Sensores"></MapsTitleSettings>-->
                 @* To zoom and pan *@
-                <MapsZoomSettings Enable="true"
-                                  Toolbars='new string[]{"ZoomIn", "ZoomOut", "Reset" }'
-                                  ZoomFactor="13" MaxZoom="20"
-                                  MouseWheelZoom="true">
-                </MapsZoomSettings>
-                <MapsCenterPosition Latitude=latitudInicial Longitude=longitudInicial></MapsCenterPosition>
+
+
+                @if (latitudInicial != 99 && longitudInicial != 199)
+                {
+                    <MapsZoomSettings Enable="true"
+                                      Toolbars='new string[]{"ZoomIn", "ZoomOut", "Reset" }'
+                                      ZoomFactor="13" MaxZoom="20"
+                                      MouseWheelZoom="true">
+                    </MapsZoomSettings>
+                    <MapsCenterPosition Latitude=latitudInicial Longitude=longitudInicial></MapsCenterPosition>
+
+                }
+                else
+                {
+                    <MapsZoomSettings Enable="true"
+                                      Toolbars='new string[]{"ZoomIn", "ZoomOut", "Reset" }'
+                                      ZoomFactor="5" MaxZoom="20"
+                                      MouseWheelZoom="true">
+                    </MapsZoomSettings>
+                    <MapsCenterPosition Latitude=39.009 Longitude=-2.550></MapsCenterPosition>
+                }
+
+
 
                 <MapsLayers>
                     <MapsLayer LayerType="ShapeLayerType.OSM">
@@ -45,30 +62,37 @@
 
     <!-- Page Features -->
     <div class="row ">
-        @foreach (EntidadSensorResultado sensor in listaSensores)
-        {
-            <div class="col-lg-4 col-md-7 mb-5">
-                <div class="card h-100">
-                    <div class="card-body">
-                        @if (sensor.Fecha == default(DateTime))
-                        {
-                            <!-- si el sensor no tiene datos muestra el nombre en naranja-->
-                            <h4 class="card-title" style="color:#F34D1E"><span class="oi oi-rss" aria-hidden="true"></span>   @sensor.NombreSensor</h4>
-                            <p>No se han encontrado datos del sensor</p>
-                        }
-                        else
-                        {
-                            <!-- si el sensor  tiene datos muestra el nombre en verde-->
-                            <h4 class="card-title" style="color:#149E00"><span class="oi oi-rss" aria-hidden="true"></span>   @sensor.NombreSensor</h4>
-                            <p>Última actualización: @sensor.Fecha</p>
-                            <p>Temperatura: @sensor.Temperatura ºC</p>
-                            <p>Humedad: @sensor.Humedad %</p>
-                        }
-                        <a href="/data" class="btn btn-primary">Ver más detalles</a>
+        @if(listaSensores.Count() > 0){
+            @foreach (EntidadSensorResultado sensor in listaSensores)
+            {
+                <div class="col-lg-4 col-md-7 mb-5">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            @if (sensor.Fecha == default(DateTime))
+                            {
+                                <!-- si el sensor no tiene datos muestra el nombre en naranja-->
+                                <h4 class="card-title" style="color:#F34D1E"><span class="oi oi-rss" aria-hidden="true"></span>   @sensor.NombreSensor</h4>
+                                <p>No se han encontrado datos del sensor</p>
+                            }
+                            else
+                            {
+                                <!-- si el sensor  tiene datos muestra el nombre en verde-->
+                                <h4 class="card-title" style="color:#149E00"><span class="oi oi-rss" aria-hidden="true"></span>   @sensor.NombreSensor</h4>
+                                <p>Última actualización: @sensor.Fecha</p>
+                                <p>Temperatura: @sensor.Temperatura ºC</p>
+                                <p>Humedad: @sensor.Humedad %</p>
+                            }
+                            <a href="/data/@nombreEstacionBase/@sensor.NombreSensor" class="btn btn-primary">Ver más detalles</a>
+                        </div>
                     </div>
                 </div>
-            </div>
+            }
         }
+        else
+        {
+            <p>Esta estacion base no tiene sensores asociados.</p>
+        }
+
     </div>
     <!-- /.row -->
 </div>

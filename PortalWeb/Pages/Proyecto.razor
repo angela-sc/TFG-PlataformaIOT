@@ -1,12 +1,29 @@
-﻿@page "/proyecto/{Name}"
+﻿@page "/proyecto/{proyecto}"
 
-@*@using PortalWeb.ViewModel*@
+@using Libreria.Entidades
+@using Servicios
+@using Blazorise.Charts
 
-@*@inherits ProyectoViewModel*@
+@using PortalWeb.ViewModel
 
-<h3>Proyecto @Name  </h3>
+@inherits ProyectoViewModel
 
-@code {
-    [Parameter]
-    public string Name { get; set; }
-}
+<!-- hero-image: encabezado-->
+<div class="hero-image">
+    <div class="hero-text" style="font-size:100px;">
+        <h2>@proyecto</h2> <!--nombre del proyecto-->
+    </div>
+</div>
+<!-- .hero-image-->
+
+<div>
+    <h4>Estaciones bases del proyecto</h4>
+
+
+    @foreach (EntidadEstacionBase eb in estacionesBase)
+    {
+        var link = $"estacionbase/{eb.Name}";
+        <a href=@link class="list-group-item list-group-item-action">Estacion base @eb.Name</a>
+    }
+
+</div>

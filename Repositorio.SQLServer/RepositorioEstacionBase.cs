@@ -10,6 +10,7 @@ using System.Text;
 using Repositorio.SQLServer;
 using System.Threading.Tasks;
 using Serilog;
+using System.Globalization;
 
 namespace Repositorio.SQLServer
 {
@@ -158,5 +159,32 @@ namespace Repositorio.SQLServer
         //    }
         //    return resultado;
         //}
+
+        public async Task<IEnumerable<EntidadEstacionBase>> ObtenerEstacionesBase(string nombreProyecto)
+        {
+            Dictionary<string, object> parametros = new Dictionary<string, object>() 
+            {
+                {"@proyecto", nombreProyecto}
+            };
+            string query = @"
+                             SELECT eb.* FROM [plataformadb].[dbo].[Base_Station] eb
+                             JOIN [plataformadb].[dbo].[Project] p ON eb.[FK_ProjectId] = p.[Id]
+                             WHERE p.[Name] = @proyecto
+                            ";
+
+            IEnumerable<EntidadEstacionBase> estaciones = null;
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    estaciones = await conn.QueryAsync<EntidadEstacionBase>(query, parametros);
+                }
+            }
+            catch (Exception)
+            {
+                //log.Error($"Error en el repositorio de estación base: no se ha podido obtener la lista del sensor {nombreProyecto}");
+            }
+            return estaciones;
+        }
     }
 }

@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Libreria.Interfaces
 {
-    public interface IRepositorioUsuario
+    public interface IServicioUsuario
     {
-        void InsertaUsuario(EntidadUsuario usuario);
-        //Task <IEnumerable<EntidadProyecto>> ObtenerProyectosAsync(int idUsuario);
+        //Task<IEnumerable<EntidadProyecto>> Proyectos(int idUsuario);
     }
 }

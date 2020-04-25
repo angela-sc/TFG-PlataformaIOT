@@ -1,9 +1,12 @@
 ﻿@page "/generalproyectos"
-
 @*@inject NavigationManager NavigationManager*@
 
 @using Libreria.Entidades
 @using Servicios
+
+@using PortalWeb.ViewModel
+
+@inherits GeneralProyectoViewModel
 
 <div class="panel panel-primary">
     <div class="panel-heading">
@@ -29,9 +32,9 @@
 
             <a href="#" class="list-group-item list-group-item-action">@p.name</a>
             @*<button class="btn btn-primary" @onclick="NavigateToEstacionBaseComponent"> ir a la estacion base por defecto</button>
-            <NavLink class="nav-link" href=@link>
-                <span class="oi oi-laptop" aria-hidden="true"></span> Proyecto
-            </NavLink>*@
+                <NavLink class="nav-link" href=@link>
+                    <span class="oi oi-laptop" aria-hidden="true"></span> Proyecto
+                </NavLink>*@
             <a href=@link class="btn btn-info">Mas detalles</a>
 
             @*<a asp-page="./proyecto" asp-route-id="@p.name">Edit</a>*@
@@ -41,26 +44,26 @@
 
 </div>
 
-@code {
+@*@code {
 
-    private IEnumerable<EntidadProyecto> proyectos;
-    private ServicioProyecto servicio;
+        private IEnumerable<EntidadProyecto> proyectos;
+        private ServicioProyecto servicio;
 
-    private int usuario = 1;
+        private int usuario = 1;
 
-    protected override async Task OnInitializedAsync()
-    {
-        proyectos = new List<EntidadProyecto>();
-        servicio = new ServicioProyecto("Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = plataformadb; Integrated Security = true", null);
+        protected override async Task OnInitializedAsync()
+        {
+            proyectos = new List<EntidadProyecto>();
+            servicio = new ServicioProyecto("Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = plataformadb; Integrated Security = true", null);
 
-        proyectos = await servicio.ObtenerProyectos(usuario);
+            proyectos = await servicio.ObtenerProyectos(usuario);
 
-    }
+        }
 
 
-    //private void NavigateToEstacionBaseComponent()
-    //{
-    //    NavigationManager.NavigateTo($"proyecto/asdkfhalkjsdfhalksdjfhl");
-    //}
+        //private void NavigateToEstacionBaseComponent()
+        //{
+        //    NavigationManager.NavigateTo($"proyecto/asdkfhalkjsdfhalksdjfhl");
+        //}
 
-}
+    }*@

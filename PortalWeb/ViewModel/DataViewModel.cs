@@ -14,23 +14,25 @@ namespace PortalWeb.ViewModel
 {
     public class DataViewModel : ComponentBase
     {
-        
-       
-        //[Parameter]
-        
-        //public string sensor { get; set; }
 
-        public LineChart<double> lineChartTemperature, lineChartHumity; //graficas
-        public string nombreSensor = "SE04"; //¡hay que cambiar esto!
+        [Parameter]
+        public string sensor { get; set; }
+        [Parameter]
+        public string estacionbase { get; set; }
 
-        public IEnumerable<EntidadDatoBase> datos;
-
-        //public string imagen;
         
         private ServicioSensor servicio = new ServicioSensor("Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = plataformadb; Integrated Security = true", null);
+       
+        private int id; // = 2; //para obtener el id del sensor debemos tener el nombre y la estación base
         
+        private List<double> datosTemperatura = new List<double>();
+        private List<double> datosHumedad = new List<double>();
+
+        public IEnumerable<EntidadDatoBase> datos; //Datos que se representan en la página web
+        public LineChart<double> lineChartTemperature, lineChartHumity; //graficaS        
+
         //Etiquetas del eje X
-        string[] Labels = { };
+        string[] Labels = { }; 
 
         //La grafica de temperatura en naranja
         List<string> backgroundColors = new List<string> { ChartColor.FromRgba(241, 120, 95, 0.2f)};
@@ -40,22 +42,12 @@ namespace PortalWeb.ViewModel
         List<string> backgroundColorsHumedad = new List<string> { ChartColor.FromRgba(0, 180, 175, 0.2f)};
         List<string> borderColorsHumedad = new List<string> { ChartColor.FromRgba(0, 180, 175, 1f)};
 
-        
-        private int id = 2; //para obtener el id del sensor debemos tener el nombre y la estación base
-        private List<double> datosTemperatura = new List<double>();
-        private List<double> datosHumedad = new List<double>();
-
-        //protected override void OnParametersSet()
-        //{
-        //    //the param will be set now
-        //    nombreSensor = sensor;
-        //}
-
 
         protected override async Task OnInitializedAsync()
         {
+            id = await servicio.ObtenerIdSensor(sensor, estacionbase);
 
-            //imagen = Convert.ToBase64String(ObtenerRecurso.ObtenerSensor());
+          
 
             //var datos = await servicio.ObtenerDatos(id);
             datos = new List<EntidadDatoBase>();

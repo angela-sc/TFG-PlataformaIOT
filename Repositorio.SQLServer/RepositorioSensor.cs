@@ -106,13 +106,19 @@ namespace Repositorio.SQLServer
 
         public async Task<int> GetId(string nombreSensor, int idEstacionBase)
         {
-            string query = String.Format("SELECT [Id] FROM [plataformadb].[dbo].[Sensor] WHERE [Name]= '{0}' AND [FK_BaseStationId] = '{1}'", nombreSensor, idEstacionBase);
+            Dictionary<string, object> queryParams = new Dictionary<string, object>
+            {
+                { "@sensor", nombreSensor },
+                { "@fk_estacionbase", idEstacionBase }
+            };
+
+            string query = String.Format(@"SELECT [Id] FROM [plataformadb].[dbo].[Sensor] WHERE [Name]= @sensor AND [FK_BaseStationId] = @fk_estacionbase");
 
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    var result = await conn.QueryAsync<int>(query);
+                    var result = await conn.QueryAsync<int>(query, queryParams);
                     return result.FirstOrDefault();
                 }
             }

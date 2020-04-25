@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Mvc;
+﻿using Libreria.Entidades;
+using Libreria.Interfaces;
+using Microsoft.AspNetCore.Components;
+using Servicios;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +11,23 @@ namespace PortalWeb.ViewModel
 {
     public class ProyectoViewModel : ComponentBase
     {
-        [ViewData]
-        public string proyecto { get; } = "prueba";
+        [Parameter]
+        public string proyecto { get; set; } //nombre del proyecto
 
-        public void OnGet()
-        {            
+        //Lista con las estaciones base del proyecto
+        protected IEnumerable<EntidadEstacionBase> estacionesBase;
+
+        //private ServicioProyecto servicioProyecto;
+        private IServicioEstacionBase servicioEstacionBase;
+
+        protected override async Task OnInitializedAsync()
+        {
+            estacionesBase = new List<EntidadEstacionBase>();
+            //servicio = new ServicioProyecto("Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = plataformadb; Integrated Security = true", null);
+            servicioEstacionBase = new ServicioEstacionBase("Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = plataformadb; Integrated Security = true", null);
+
+            //obtenemos las estaciones pertenecientes al proyecto
+            estacionesBase = await servicioEstacionBase.ListaEstacionesBase(proyecto);
         }
     }
 }

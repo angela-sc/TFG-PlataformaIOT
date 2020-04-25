@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Servicios
 {
-    public class ServicioEstacionBase
+    public class ServicioEstacionBase : IServicioEstacionBase
     {
         private IRepositorioEstacionBase repositorioEstacionBase;
 
@@ -48,5 +48,23 @@ namespace Servicios
 
         //    return resultado;
         //}
+
+        //Metodo para obtener la lista de estaciones base pertenecientes a un proyecto > ¿pasamos id o nombre del proyeecto?
+        public async Task<IEnumerable<EntidadEstacionBase>> ListaEstacionesBase(string nombreProyecto)
+        {
+            IEnumerable<EntidadEstacionBase> estacionesBase = new List<EntidadEstacionBase>();
+            try
+            {
+                estacionesBase = await repositorioEstacionBase.ObtenerEstacionesBase(nombreProyecto);
+
+            }
+            catch (Exception)
+            {
+                estacionesBase = null;
+
+            }
+
+            return estacionesBase;
+        }
     }
 }

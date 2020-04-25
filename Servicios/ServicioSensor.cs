@@ -58,5 +58,20 @@ namespace Servicios
 
             return temperatura;
         }  
+
+        public async Task<int> ObtenerIdSensor(string nombreSensor, string nombreEstacionBase)
+        {
+            int resultado = -1;
+            try
+            {
+                resultado = await repositorioSensor.GetId(nombreSensor, 2);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return resultado;
+        }
     }
 }
