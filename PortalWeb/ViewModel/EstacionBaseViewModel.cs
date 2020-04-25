@@ -53,14 +53,14 @@ namespace PortalWeb.ViewModel
                 
             }
             else
-            {
-                //latitud: [0 a 90] [0 a -90]
-                latitudInicial = 99.0;
+            //{
+            //    //latitud: [0 a 90] [0 a -90]
+            //    latitudInicial = 99.0;
 
-                //longitud: [0 a 180] [0 a -180]
-                longitudInicial = 199;
+            //    //longitud: [0 a 180] [0 a -180]
+            //    longitudInicial = 199;
 
-            }
+            //}
             mapa.Refresh(); // Refrescar mapa
         }
 

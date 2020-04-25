@@ -16,14 +16,18 @@
 </div>
 <!-- .hero-image-->
 
-<div>
+<div class="container">
     <h4>Estaciones bases del proyecto</h4>
 
-
-    @foreach (EntidadEstacionBase eb in estacionesBase)
+    @if (estacionesBase.Count()> 0)
     {
-        var link = $"estacionbase/{eb.Name}";
-        <a href=@link class="list-group-item list-group-item-action">Estacion base @eb.Name</a>
+        foreach (EntidadEstacionBase eb in estacionesBase)
+        {
+            var link = $"estacionbase/{eb.Name}";
+            <a href=@link class="list-group-item list-group-item-action">Estacion base @eb.Name</a>
+        }
     }
-
+    else{
+    <div class="row"><span class="oi oi-warning">  </span>Este proyecto no tiene estaciones base asociadas.</div>
+    }
 </div>
