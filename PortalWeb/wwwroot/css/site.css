@@ -247,7 +247,7 @@ app {
 .hero-image {
     background-image: url("/img/project-banner.jpg");
     background-color: lightblue; /*#cccccc*/
-    height: 1750px;
+    height: 165px;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
