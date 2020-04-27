@@ -1,6 +1,7 @@
 ﻿using Blazorise.Charts;
 using Libreria.Entidades;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using PortalWeb.Resources;
 using Servicios;
@@ -20,7 +21,7 @@ namespace PortalWeb.ViewModel
         [Parameter]
         public string estacionbase { get; set; }
 
-        
+
         private ServicioSensor servicio = new ServicioSensor("Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = plataformadb; Integrated Security = true", null);
        
         private int id; // = 2; //para obtener el id del sensor debemos tener el nombre y la estación base
@@ -116,5 +117,6 @@ namespace PortalWeb.ViewModel
                 BorderDash = new List<int> { }
             };
         }
+
     }
 }

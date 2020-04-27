@@ -20,22 +20,43 @@
 <div class="list-group">
     <p>Proyectos disponibles</p>
 
+    <input @bind-value="SearchTerm" @bind-value:event="oninput" />
+
+
+
     @if (proyectos == null)
     {
         <p><em>Cargando proyectos...</em></p>
     }
     else
     {
+        @*<div class="col-md-9">
+                <input type="text" onkeyup="@SearchBoxkeyPress"/>
+                <button class="btn" type="submit"> Buscar</button>
+            </div>*@
+
+        <h4 class="mt-4">Proyectos disponibles</h4>
+        <ul>
+            @foreach (var p in proyectosFiltrados)
+            {
+                @*<li>@p.name</li>*@
+
+                var link = $"proyecto/{p.name}";
+
+                <a href=@link class="list-group-item list-group-item-action">@p.name</a>
+            }
+        </ul>
+
         @foreach (EntidadProyecto p in proyectos)
         {
             var link = $"proyecto/{p.name}";
 
-            <a href="#" class="list-group-item list-group-item-action">@p.name</a>
+            <a href=@link class="list-group-item list-group-item-action">@p.name</a>
             @*<button class="btn btn-primary" @onclick="NavigateToEstacionBaseComponent"> ir a la estacion base por defecto</button>
                 <NavLink class="nav-link" href=@link>
                     <span class="oi oi-laptop" aria-hidden="true"></span> Proyecto
                 </NavLink>*@
-            <a href=@link class="btn btn-info">Mas detalles</a>
+            @*<a href=@link class="btn btn-info">Mas detalles</a>*@
 
             @*<a asp-page="./proyecto" asp-route-id="@p.name">Edit</a>*@
 

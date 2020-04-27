@@ -17,6 +17,9 @@ namespace PortalWeb.ViewModel
 
         private int usuario = 1;
 
+        // Initialize SearchTerm to "" to prevent null's
+        public string SearchTerm { get; set; } = "";
+
         protected override async Task OnInitializedAsync()
         {
             proyectos = new List<EntidadProyecto>();
@@ -25,5 +28,11 @@ namespace PortalWeb.ViewModel
             proyectos = await servicio.ObtenerProyectos(usuario);
 
         }
+
+        //Metodos para la búsqueda de proyectos+
+
+        public List<EntidadProyecto> proyectosFiltrados => proyectos.Where(i => i.name.ToLower().Contains(SearchTerm.ToLower())).ToList();
+        
+
     }
 }
