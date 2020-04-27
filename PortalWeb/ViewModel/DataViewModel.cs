@@ -2,9 +2,11 @@
 using Libreria.Entidades;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using PortalWeb.Resources;
 using Servicios;
+using Syncfusion.Blazor.PivotView;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +22,9 @@ namespace PortalWeb.ViewModel
         public string sensor { get; set; }
         [Parameter]
         public string estacionbase { get; set; }
+
+        [Parameter]
+        public int selectedValue { get; set; }
 
 
         private ServicioSensor servicio = new ServicioSensor("Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = plataformadb; Integrated Security = true", null);
@@ -52,7 +57,7 @@ namespace PortalWeb.ViewModel
 
             //var datos = await servicio.ObtenerDatos(id);
             datos = new List<EntidadDatoBase>();
-            datos = await servicio.ObtenerDatos(id);
+            datos = await servicio.ObtenerDatos(id, RadioValue2 );
 
 
             List<string> labels = new List<string>();
@@ -74,6 +79,7 @@ namespace PortalWeb.ViewModel
             {
                 await HandleRedraw();
             }
+           
         }
 
         async Task HandleRedraw()
@@ -118,5 +124,44 @@ namespace PortalWeb.ViewModel
             };
         }
 
+        public string RadioValue = "aspnetcore";
+        public int RadioValue2 = 20;
+        //public void RadioSelection(ChangeEventArgs args)
+        //{
+        //    RadioValue = args.Value.ToString();
+
+        //}
+        public async void RadioSelection2(ChangeEventArgs args)
+        {
+            RadioValue2 = Convert.ToInt32(args.Value);
+
+            if(RadioValue2 > datos.Count())
+            {
+                datos = await servicio.ObtenerDatos(id, RadioValue2);
+                StateHasChanged();
+
+            }
+            else
+            {
+                datos = datos.Take(RadioValue2);
+
+            }
+
+            
+
+
+            List<string> labels = new List<string>();
+
+            foreach (var dato in datos)
+            {
+                datosTemperatura.Add(dato.temperature);
+                datosHumedad.Add(dato.humity);
+                labels.Add(dato.stamp.ToString());
+            }
+
+            Labels = labels.ToArray();
+            await HandleRedraw();
+
+        }
     }
 }

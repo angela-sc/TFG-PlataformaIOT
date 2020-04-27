@@ -11,7 +11,7 @@ namespace Libreria.Interfaces
         Task<bool> InsertaSensor(EntidadSensor sensor);
         Task<bool> InsertaDato(EntidadDato dato);
         Task<int> GetId(string nombreSensor, int idEstacionBase);
-        Task<IEnumerable<EntidadDatoBase>> GetData(int idSensor);
+        Task<IEnumerable<EntidadDatoBase>> GetData(int idSensor, int top);
 
     }
 }

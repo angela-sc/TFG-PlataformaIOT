@@ -85,9 +85,9 @@ namespace Repositorio.SQLServer
             return true;          
         }
 
-        public async Task<IEnumerable<EntidadDatoBase>> GetData(int idSensor)
+        public async Task<IEnumerable<EntidadDatoBase>> GetData(int idSensor, int top)
         {
-            string query = String.Format(@"SELECT top (20) [Stamp] as [stamp], [humity], [temperature] FROM [plataformadb].[dbo].[Data] WHERE [FK_SensorId] = {0}", idSensor);
+            string query = String.Format(@"SELECT top ({0}) [Stamp] as [stamp], [humity], [temperature] FROM [plataformadb].[dbo].[Data] WHERE [FK_SensorId] = {1}", top, idSensor);
             IEnumerable<EntidadDatoBase> result = null;
             try
             {

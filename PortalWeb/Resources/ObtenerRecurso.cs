@@ -12,9 +12,6 @@ namespace PortalWeb.Resources
             return Properties.Resources.dinosaurio;
         }
 
-        public static byte[] ObtenerSensor()
-        {
-            return Properties.Resources.SE01;
-        }
+       
     }
 }
