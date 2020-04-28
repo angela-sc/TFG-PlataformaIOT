@@ -8,6 +8,7 @@ namespace Libreria.Interfaces
 {
     public interface IServicioUsuario
     {
+        Task<bool> RegistraUsuario(EntidadUsuario usuario);
         //Task<IEnumerable<EntidadProyecto>> Proyectos(int idUsuario);
     }
 }
