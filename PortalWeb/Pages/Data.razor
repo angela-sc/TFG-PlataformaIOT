@@ -13,18 +13,8 @@
 {
     <div class="container-fluid">
         <h1>Sensor @sensor</h1>
-        @*@foreach (var item in new string[] { "AspNetCore", "AspNet", "SomeJsThingWhatever" })
-        {
-            <div>
-                <input type="radio" name="technology" id="@item" value="@item" @onchange="RadioSelection" checked=@(RadioValue.Equals(item,StringComparison.OrdinalIgnoreCase)) />
-                <label for="@item">@item</label>
-            </div>
-        }
-        <div>
-            <label>Selected Value is @RadioValue</label>
-        </div>*@
-
-        @foreach (var item2 in new int[] { 1,3,20})
+       
+        @foreach (var item2 in new int[] { 1, 3, 5, 10})
         {
             <div>
                 <input type="radio" name="technology" id="@item2" value="@item2" @onchange="RadioSelection2" checked=@(RadioValue2.Equals(item2)) />

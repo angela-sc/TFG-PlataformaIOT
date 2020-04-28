@@ -124,13 +124,9 @@ namespace PortalWeb.ViewModel
             };
         }
 
-        public string RadioValue = "aspnetcore";
-        public int RadioValue2 = 20;
-        //public void RadioSelection(ChangeEventArgs args)
-        //{
-        //    RadioValue = args.Value.ToString();
 
-        //}
+        public int RadioValue2 = 20;  //cantidad de datos que se muestra en la vista
+
         public async void RadioSelection2(ChangeEventArgs args)
         {
             RadioValue2 = Convert.ToInt32(args.Value);
@@ -144,12 +140,7 @@ namespace PortalWeb.ViewModel
             else
             {
                 datos = datos.Take(RadioValue2);
-
             }
-
-            
-
-
             List<string> labels = new List<string>();
 
             foreach (var dato in datos)
@@ -161,7 +152,6 @@ namespace PortalWeb.ViewModel
 
             Labels = labels.ToArray();
             await HandleRedraw();
-
         }
     }
 }
