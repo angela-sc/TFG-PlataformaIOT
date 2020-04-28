@@ -1,0 +1,25 @@
+﻿@page "/registrousuario"
+
+@using PortalWeb.ViewModel
+
+<h3>Página de registro</h3>
+
+<EditForm Model="@_registro" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <InputText id="name" @bind-Value="_registro.name" />
+
+    <button type="submit">Submit</button>
+</EditForm>
+
+@code {
+
+    private RegistroUsuarioViewModel _registro = new RegistroUsuarioViewModel();
+
+    private void HandleValidSubmit()
+    {
+        Console.WriteLine("OnValidSubmit");
+    }
+
+}
