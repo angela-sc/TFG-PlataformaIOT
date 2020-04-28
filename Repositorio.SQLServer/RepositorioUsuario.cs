@@ -22,23 +22,40 @@ namespace Repositorio.SQLServer
             this.cadenaConexion = cadenaConexion;
             this.log = logger;
         }
-        public void InsertaUsuario(EntidadUsuario usuario)
+
+        
+        /*
+         * Metodo que inserta un usuario en la base de datos.
+         * Devuelve true si no se produce ningún error, false en cualquier otro caso.
+         */
+        public async Task<bool> InsertaUsuario(EntidadUsuario usuario)
         {
+            bool insertado = false;
+
             Dictionary<string, object> parametros = new Dictionary<string, object>
             {
-                { "@name", usuario.name },
+                { "@Name", usuario.name },
+                { "@Surname", usuario.surname },
+                { "@Email", usuario.email},
+                { "@Password", usuario.password }       
             };
+
+            string query = string.Format(@"INSERT INTO [plataformadb].[dbo].[User] ([Email],[Password],[Name],[Surname]) VALUES (@Email, @Password,@Name,@Surname)");
 
             try
             {
-
-
+                using (SqlConnection conn = new SqlConnection(cadenaConexion))
+                {
+                    await conn.ExecuteAsync(query, parametros);
+                    insertado = true;
+                }
             }
             catch (Exception)
             {
                 log.Error($"Se ha producido un erro al insertar el usuario {usuario.email} en la base de datos.");
+                return insertado; //¿esto se puede quitar?
             }
-            //throw new NotImplementedException();
+            return insertado;
         }
 
         ////Método que devuelve la lista de proyectos del usuario (tabla usuario_en_proyecto)
