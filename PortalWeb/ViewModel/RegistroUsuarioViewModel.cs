@@ -13,5 +13,15 @@ namespace PortalWeb.ViewModel
         [StringLength(10, ErrorMessage = "Nombre demasiado largo.")]
         public string name { get; set; }
 
+        [Required]
+        public string surname { get; set; }
+
+        [Required]
+        [EmailAddress] //valida que la propiedad tiene forma de correo electrónico
+        public string email { get; set; }
+
+        [Required]
+        public string password { get; set; }
+
     }
 }

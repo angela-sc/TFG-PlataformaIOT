@@ -2,15 +2,25 @@
 
 @using PortalWeb.ViewModel
 
+@inject NavigationManager NavigationManager
+
 <h3>Página de registro</h3>
 
 <EditForm Model="@_registro" OnValidSubmit="HandleValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
-    <InputText id="name" @bind-Value="_registro.name" />
+    <label>Nombre: </label>
+    <InputText id="name" @bind-Value="_registro.name" /> <br />
+    <label>E-mail: </label>
+    <InputText id="email" @bind-Value="_registro.email" /> <br />
+    <label>Contraseña: </label>
+    <InputText type="password" id="password" @bind-Value="_registro.password"></InputText><br />
 
-    <button type="submit">Submit</button>
+    <button type="reset" class="btn btn-danger" @onclick="HandleCancel">Cancel</button>
+    <button type="submit" class="btn btn-success">Aceptar</button>
+
+
 </EditForm>
 
 @code {
@@ -20,6 +30,13 @@
     private void HandleValidSubmit()
     {
         Console.WriteLine("OnValidSubmit");
+    }
+
+    private void HandleCancel()
+    {
+
+        NavigationManager.NavigateTo("#");
+
     }
 
 }
