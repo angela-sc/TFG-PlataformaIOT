@@ -51,16 +51,9 @@ namespace PortalWeb.ViewModel
                 latitudInicial = MarkerDataSource.ElementAt(0).latitude;
                 longitudInicial = MarkerDataSource.ElementAt(0).longitude;
                 
+
             }
-            else
-            //{
-            //    //latitud: [0 a 90] [0 a -90]
-            //    latitudInicial = 99.0;
 
-            //    //longitud: [0 a 180] [0 a -180]
-            //    longitudInicial = 199;
-
-            //}
             mapa.Refresh(); // Refrescar mapa
         }
 
