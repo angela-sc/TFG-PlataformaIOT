@@ -7,6 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
+
+
 namespace PortalWeb.ViewModel
 {
     public class ProyectoViewModel : ComponentBase
@@ -29,5 +32,7 @@ namespace PortalWeb.ViewModel
             //obtenemos las estaciones pertenecientes al proyecto
             estacionesBase = await servicioEstacionBase.ListaEstacionesBase(proyecto);
         }
+
+        
     }
 }
