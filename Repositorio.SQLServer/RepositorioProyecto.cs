@@ -21,9 +21,7 @@ namespace Repositorio.SQLServer
             this.log = logger;
         }
         public async void InsertaProyecto(EntidadProyecto proyecto)
-        {
-            
-            
+        {                
             Dictionary<string, object> queryParams = new Dictionary<string, object>
             {
                 { "@name", proyecto.name },
@@ -63,7 +61,6 @@ namespace Repositorio.SQLServer
             IEnumerable<EntidadProyecto> resultado = null;
             try
             {
-
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     resultado = await conn.QueryAsync<EntidadProyecto>(query,queryParams);
