@@ -1,5 +1,6 @@
 ﻿using Libreria.Entidades;
 using Libreria.Interfaces;
+using Newtonsoft.Json;
 using Repositorio.SQLServer;
 using Serilog;
 using System;
@@ -34,6 +35,23 @@ namespace Servicios
             }
 
             return proyectos; //devuelve null o un IEnumerable<EntidadDatoBase>
+        }
+
+        public  void CrearProyecto(EntidadProyecto proyecto)
+        {
+           
+            //bool insertado = false;
+            try
+            {
+                 repositorioProyecto.InsertaProyecto(proyecto);
+                //insertado = true;
+            }
+            catch (Exception)
+            {
+                //log.Warning($"Problema al obtener los proyectos del usuario {idUsuario}. No tiene ningún proyecto asociado.");
+                
+            }
+            //return insertado;
         }
     }
 }

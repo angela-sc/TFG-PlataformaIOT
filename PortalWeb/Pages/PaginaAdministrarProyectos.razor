@@ -1,0 +1,122 @@
+﻿@page "/admin"
+
+@using PortalWeb.ViewModel
+@inherits AdministrarProyectosViewModel
+@*@if (proyectos == null)
+    {
+        <p> Cargando ...</p>
+    }
+    else
+    {*@
+<div class="container">
+    <h3>Página de administración de proyectos</h3>
+
+    <div style="float:left;">
+        <button class="btn btn-primary btn-sm" @onclick="@(async () => await Crear())"><span class="oi oi-plus"></span>Crear proyecto</button>
+    </div>
+    <br /> <p class="card-subtitle"> Proyectos disponibles</p><br />
+    <div class="card" style="width:15rem;">
+        <div class="card-body">
+            <h5 class="card-title"> Proyecto de ejemplo</h5>
+            <p class="card-text"> Esto es una descripción genérica para un proyecto de ejemplo.</p>
+            <div class="row" style="position:center;">
+                <button class="btn btn-warning btn-sm" @onclick="@(async () => await Editar())"><span class="oi oi-pencil"></span> Editar</button>
+                <button class="btn btn-danger btn-sm" @onclick="@(async () => await Eliminar())"><span class="oi oi-x"></span> Eliminar</button>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- mostramos los proyectos en cards -->
+@*@foreach(Proyecto p in proyectos)
+    {*@
+
+@*}*@
+
+<!-- si se hace clic en 'crear proyecto' se abre el modal -->
+@if (crear)
+{
+    <div class="modal" tabindex="99" style="display: block; margin-top: 5%;" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title"> Añadir Proyecto</h4>
+                    <button type="button" class="close" @onclick="@(async () => await Close())"><span aria-hidden="true">X</span></button>
+                </div>
+
+                <div class="modal-body">
+                    @if (!creado)
+                    {
+                        <EditForm Model="Proyecto" OnSubmit="@(async () => await CrearProyecto())">
+                            <DataAnnotationsValidator />
+                            <ValidationSummary />
+
+                            <div class="form-group">
+                                <div style="margin-bottom: 5px">
+                                    <label for="nombre">Nombre</label>
+                                    <InputText class="form-control" id="name" @bind-Value="Proyecto.Nombre"></InputText>
+                                    <ValidationMessage For="@(()=> Proyecto.Nombre)" />
+                                </div>
+
+                                <div style="margin-bottom: 5px">
+                                    <label for="descripcion">Descripción</label>
+                                    <InputTextArea class="form-control" id="descripcion" @bind-Value="Proyecto.Descripcion"></InputTextArea>
+                                    <ValidationMessage For="@(()=> Proyecto.Descripcion)" />
+                                </div>
+                            </div>
+
+                            <button class="btn btn-primary" type="submit">Aceptar</button>
+                        </EditForm>
+                    }
+                    else
+                    {
+                        <div class="alert alert-success" role="alert"><strong>¡PROYECTO CREADO!</strong></div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (editar)
+{
+    <div class="modal" tabindex="99" style="display: block; margin-top: 5%;" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Editar Proyecto</h4>
+                    <button type="button" class="close" @onclick="@(async () => await Close())"><span aria-hidden="true">X</span></button>
+                </div>
+
+                <div class="modal-body"> Ejemplo de cuerpo del modal</div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (eliminar)
+{
+    <div class="modal" tabindex="99" style="display: block; margin-top: 5%;" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Eliminar Proyecto</h4>
+                    <button type="button" class="close" @onclick="@(async () => await Close())"><span aria-hidden="true">X</span></button>
+                </div>
+
+                <div class="modal-body"> ¿Seguro que quieres eliminar el proyecto? </div>  
+                <div class="modal-footer">
+                    <button class="btn btn-primary" @onclick="@(async () => await EliminarProyecto())">Aceptar</button>
+                </div>
+
+            </div>            
+            
+        </div>
+    </div>
+}
+@*}*@
+
+

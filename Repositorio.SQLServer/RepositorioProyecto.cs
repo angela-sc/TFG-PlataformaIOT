@@ -20,27 +20,30 @@ namespace Repositorio.SQLServer
             this.connectionString = connectionString;
             this.log = logger;
         }
-        public void InsertaProyecto(EntidadProyecto proyecto)
+        public async void InsertaProyecto(EntidadProyecto proyecto)
         {
-
+            
+            
             Dictionary<string, object> queryParams = new Dictionary<string, object>
             {
                 { "@name", proyecto.name },
                 { "@description", proyecto.description}
+                
             };
 
-            string query = @"INSERT INTO [Project] ([Name],[Description])
+            string query = @"INSERT INTO [plataformadb].[dbo].[Project] ([Name],[Description])
                             VALUES (@name, @description)";
             try
             {
                 using(SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    conn.ExecuteAsync(query, queryParams);
-                }
-            }catch(Exception)
+                    await conn.ExecuteAsync(query, queryParams);
+                }             
+            }
+            catch(Exception ex)
             {
-                //Console.WriteLine("Error en el método InsertaProyecto "+ex.Message);
-                log.Error($"Se ha producido un error al insertar el proyecto {proyecto.name} en la base de datos.");
+                Console.WriteLine("Error en el método InsertaProyecto "+ex.Message);
+                //log.Error($"Se ha producido un error al insertar el proyecto {proyecto.name} en la base de datos.");              
             }
         }
 

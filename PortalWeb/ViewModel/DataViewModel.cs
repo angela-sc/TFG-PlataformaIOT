@@ -26,6 +26,8 @@ namespace PortalWeb.ViewModel
         [Parameter]
         public int selectedValue { get; set; }
 
+        private string CadenaConexion = "Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = plataformadb; Integrated Security = true";
+
 
         private ServicioSensor servicio = new ServicioSensor("Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = plataformadb; Integrated Security = true", null);
        
