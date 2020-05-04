@@ -73,5 +73,15 @@ namespace Repositorio.SQLServer
             }
             return resultado;
         }
+
+        public async void EliminarProyecto()
+        {
+
+        }
+
+        public async void EditarProyecto()
+        {
+
+        }
     }
 }

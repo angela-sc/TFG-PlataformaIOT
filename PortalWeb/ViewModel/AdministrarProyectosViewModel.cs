@@ -13,10 +13,8 @@ namespace PortalWeb.ViewModel
     public class AdministrarProyectosViewModel : ComponentBase
     {
         public Proyecto Proyecto;
-
-       
-        
-        public IEnumerable<Proyecto> proyectos; //lista de todos los proyectos del usuario
+    
+        protected List<Proyecto> proyectos; //lista de todos los proyectos del usuario
 
         public bool creado = false; //indica si se ha creado o no el proyecto
         public bool crear = false;  //indica si se va a crear un proyecto o no
@@ -25,21 +23,31 @@ namespace PortalWeb.ViewModel
 
         public bool eliminar, eliminado = false; //indica si se ha pulsado el boton eliminar y si se ha eliminado un proyecto
 
-        protected async Task Close()
+        
+
+        protected ServicioProyecto servicio;
+
+        protected override async Task OnInitializedAsync()
         {
-            this.crear = false;
-            this.creado = false;
+            servicio = new ServicioProyecto("Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = plataformadb; Integrated Security = true", null);
 
-            this.editar = false;
-            this.editado = false;
+            proyectos = new List<Proyecto>();
 
-            this.eliminar = false;
-            this.eliminado = false;
+            int id = 2;
+            var lista = await servicio.ObtenerProyectos(id);
+            foreach(var proyecto in lista)
+            {
+                var p = new Proyecto()
+                {
+                    Nombre = proyecto.name,
+                    Descripcion = proyecto.description
+                };
 
+                proyectos.Add(p);
+            }
             this.StateHasChanged();
         }
 
-        protected ServicioProyecto servicio;
         protected async Task Crear()
         {
             Console.WriteLine("Función crear activada.");
@@ -81,6 +89,20 @@ namespace PortalWeb.ViewModel
             this.eliminado = true;
 
             this.StateHasChanged(); //el componente debe refrescarse para mostrar la vista sin el proyecto
+        }
+
+        protected async Task Close()
+        {
+            this.crear = false;
+            this.creado = false;
+
+            this.editar = false;
+            this.editado = false;
+
+            this.eliminar = false;
+            this.eliminado = false;
+
+            this.StateHasChanged();
         }
 
     }
