@@ -12,5 +12,6 @@ namespace Libreria.Interfaces
         //Task<List<EntidadDatoBase>> BuscarDatos(int idSensor, DateTime inicio, DateTime fin);
         Task<IEnumerable<double>> ObtenerTemperatura(int idSensor, int top);
         Task<int> ObtenerIdSensor(string nombreSensor, string nombreEstacionBase);
+        Task<bool> EliminarDatos(int fk_SensorId);
     }
 }

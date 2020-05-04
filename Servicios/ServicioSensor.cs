@@ -73,5 +73,24 @@ namespace Servicios
 
             return resultado;
         }
+
+        public async Task<bool> EliminarDatos(int fk_SensorId)
+        {
+            bool eliminado = false;
+            //try
+            //{
+
+
+            eliminado = await repositorioSensor.EliminarDatos(fk_SensorId);
+            // eliminado = true;
+
+            //}catch(Exception ex)
+            //{
+            //    Console.WriteLine("Error el eliminar los datos: ", ex.Message);
+            //    return eliminado;
+            //}
+
+            return eliminado;
+        }
     }
 }

@@ -157,6 +157,37 @@ namespace Repositorio.SQLServer
             }
             return eliminado;
         }
+
+        public async Task<bool> EliminarSensor(int fk_estacionbaseid, int sensorid)
+        {
+            bool eliminado = false;
+
+            Dictionary<string, object> parametros = new Dictionary<string, object>
+            {
+                {"@fk_estacionbaseid", fk_estacionbaseid},
+                { "@sensorid",   sensorid }
+            };
+
+            string query = string.Format(@"DELETE FROM [plataformadb].[dbo].[Sensor]
+                                           WHERE [Id] = @sensorid AND [FK_BaseStationId] = @fk_estacionbaseid");
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    await conn.ExecuteAsync(query, parametros);
+                }
+            }
+            catch (Exception ex)
+            {
+                //log.Error($"Error al borrar los datos del sensor {fk_sensorid}: ", ex.Message);
+                Console.WriteLine($"Error al borrar los datos del sensor {sensorid}: ", ex.Message);
+
+                return eliminado;
+            }
+
+            return eliminado;
+        }
         
     }
 }
