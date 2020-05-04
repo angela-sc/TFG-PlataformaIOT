@@ -15,10 +15,14 @@ namespace Servicios
         private ILogger log;
         private IRepositorioProyecto repositorioProyecto;
 
+        private IRepositorioSensor repositorioSensor;
+
         public ServicioProyecto(string cadenaConexion, ILogger logger)
         {
             this.log = logger;
             this.repositorioProyecto = new RepositorioProyecto(cadenaConexion, log);
+
+            this.repositorioSensor = new RepositorioSensor(cadenaConexion, log);
         }
 
         public async Task<IEnumerable<EntidadProyecto>> ObtenerProyectos(int idUsuario)
@@ -53,5 +57,6 @@ namespace Servicios
             }
             //return insertado;
         }
+        
     }
 }

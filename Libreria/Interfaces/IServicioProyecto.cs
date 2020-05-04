@@ -10,5 +10,8 @@ namespace Libreria.Interfaces
     {
         Task<IEnumerable<EntidadProyecto>> ObtenerProyectosUsuario(int idUsuario); //metodo para obtener los proyectos propios de un usuario
         void CrearProyecto(EntidadProyecto proyecto);
+
+       
+        
     }
 }

@@ -86,7 +86,11 @@ namespace PortalWeb.ViewModel
         {
             Console.WriteLine("Función 'eliminar proyecto' activada.");
             //Proyecto = new Proyecto();
+
+           //wait servicio.EliminarSensor(2,5014);
             this.eliminado = true;
+            
+           
 
             this.StateHasChanged(); //el componente debe refrescarse para mostrar la vista sin el proyecto
         }
@@ -105,6 +109,7 @@ namespace PortalWeb.ViewModel
             this.StateHasChanged();
         }
 
+        
     }
       
 }
