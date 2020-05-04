@@ -13,5 +13,7 @@ namespace Libreria.Interfaces
         Task<int> GetId(string nombreSensor, int idEstacionBase);
         Task<IEnumerable<EntidadDatoBase>> GetData(int idSensor, int top);
 
+        Task<bool> EliminarDatos(int fk_sensorid);
+
     }
 }

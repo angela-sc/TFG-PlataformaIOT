@@ -22,8 +22,6 @@ namespace Repositorio.SQLServer
             this.log = logger;
         }
 
-       
-
         public async Task<bool> InsertaSensor(EntidadSensor sensor)
         {
             Dictionary<string, object> queryParams = new Dictionary<string, object>
@@ -131,6 +129,34 @@ namespace Repositorio.SQLServer
             }
         }
 
+        public async Task<bool> EliminarDatos(int fk_sensorid)
+        {
+            Dictionary<string, object> parametros = new Dictionary<string, object>
+            {
+                { "@fk_sensorid", fk_sensorid }
+            };
+
+            string query = string.Format(@"DELETE FROM [plataformadb].[dbo].[Data]
+                                           WHERE [FK_SensorId] = @fk_sensorid");
+
+            bool eliminado = false;
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    await conn.ExecuteAsync(query, parametros);
+                }
+
+            }catch(Exception ex)
+            {
+                //log.Error($"Error al borrar los datos del sensor {fk_sensorid}: ", ex.Message);
+                Console.WriteLine($"Error al borrar los datos del sensor {fk_sensorid}: ", ex.Message);
+
+                return eliminado;
+            }
+            return eliminado;
+        }
         
     }
 }
