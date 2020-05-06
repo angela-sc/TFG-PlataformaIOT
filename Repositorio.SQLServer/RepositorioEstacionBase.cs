@@ -16,32 +16,58 @@ namespace Repositorio.SQLServer
 {
     public class RepositorioEstacionBase : IRepositorioEstacionBase
     {
-        private string connectionString;
+        private string cadenaConexion;
         private ILogger log;
 
-        public RepositorioEstacionBase(string connectionString, ILogger logger)
+        public RepositorioEstacionBase(string cadenaConexion, ILogger logger)
         {
-            this.connectionString = connectionString;
+            this.cadenaConexion = cadenaConexion;
             this.log = logger;
         }
-        public async Task<int> GetId(string nombreEstacionBase)
+
+        //Metodo que obtiene el id de la estación base a partir de su nombre
+        public async Task<int> ObtenerId(string estacionBase)
         {
-            string query = String.Format( "SELECT [Id] FROM [plataformadb].[dbo].[Base_station] WHERE [Name]= '{0}'", nombreEstacionBase);
-           
+            Dictionary<string, object> parametros = new Dictionary<string, object>()
+            {
+                {"@nombre", estacionBase}
+            };
+
+            string query = string.Format(@"SELECT [id] FROM [plataforma_iot].[dbo].[EstacionBase]
+                                            WHERE [nombre] = @nombre");
+
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection con = new SqlConnection(cadenaConexion))
                 {
-                    var res = await conn.QueryAsync<int>(query);
-                    return res.FirstOrDefault();
+                    var resultado = await con.QueryAsync<int>(query);
+                    return resultado.FirstOrDefault();
                 }
             }
-            catch(Exception)
+            catch (Exception)
             {
-                log.Warning($"No se ha encontrado ningun id para la estacion base {nombreEstacionBase}");
+                log.Warning($"No se ha encontrado ningun id para la estacion base {estacionBase}");
                 return -1;
-            }        
+            }
         }
+        //public async Task<int> GetId(string nombreEstacionBase)
+        //{
+        //    string query = String.Format( "SELECT [Id] FROM [plataformadb].[dbo].[Base_station] WHERE [Name]= '{0}'", nombreEstacionBase);
+           
+        //    try
+        //    {
+        //        using (SqlConnection conn = new SqlConnection(connectionString))
+        //        {
+        //            var res = await conn.QueryAsync<int>(query);
+        //            return res.FirstOrDefault();
+        //        }
+        //    }
+        //    catch(Exception)
+        //    {
+        //        log.Warning($"No se ha encontrado ningun id para la estacion base {nombreEstacionBase}");
+        //        return -1;
+        //    }        
+        //}
 
         public void InsertaEstacion(EntidadEstacionBase entidadEstacion)
         {

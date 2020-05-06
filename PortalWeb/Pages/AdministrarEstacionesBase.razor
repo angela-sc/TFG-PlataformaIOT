@@ -1,0 +1,40 @@
+﻿@page "/admin_estacionesbase/{proyecto}"
+
+@if (estaciones != null)
+{
+    @foreach (var eb in estaciones)
+    {
+        <div class="treeview">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    @eb.Name
+                </li>
+            </ul>
+        </div>
+    }
+}
+else
+{
+    <p><em>Cargando ...</em></p>
+}
+
+
+@code {
+
+    [Parameter]
+    public string proyecto { get; set; }
+
+    private IEnumerable<Libreria.Entidades.EntidadEstacionBase> estaciones;
+    private IEnumerable<Libreria.Entidades.EntidadSensor> sensores;
+
+    private Servicios.ServicioEstacionBase servicio;
+
+
+    protected async override Task OnInitializedAsync()
+    {
+        estaciones = new List<Libreria.Entidades.EntidadEstacionBase>();
+        servicio = new Servicios.ServicioEstacionBase("Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = plataformadb; Integrated Security = true", null);
+
+        estaciones = await servicio.ListaEstacionesBase(proyecto);
+    }
+}

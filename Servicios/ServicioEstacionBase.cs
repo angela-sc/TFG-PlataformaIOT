@@ -56,12 +56,10 @@ namespace Servicios
             try
             {
                 estacionesBase = await repositorioEstacionBase.ObtenerEstacionesBase(nombreProyecto);
-
             }
             catch (Exception)
             {
                 estacionesBase = null;
-
             }
 
             return estacionesBase;

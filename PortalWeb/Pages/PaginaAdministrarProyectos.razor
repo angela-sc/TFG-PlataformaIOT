@@ -12,31 +12,30 @@
 else
 {
 
-    <div style="float:left;">
+    <div>
         <button class="btn btn-primary btn-sm" @onclick="@(async () => await Crear())"><span class="oi oi-plus"></span>Crear proyecto</button>
     </div>
 
     <h5> Proyectos disponibles</h5>
 
-    <!-- bucle que muestra los proyectos -->
-    @foreach (var proyecto in proyectos)
-    {
-        <div class="card" style="width:15rem;">
-            <div class="card-body">
-                <h5 class="card-title">@proyecto.Nombre</h5>
-                <p class="card-text">@proyecto.Descripcion</p>
-                <div class="row" style="position:center;">
-                    <button class="btn btn-warning btn-sm" @onclick="@(async () => await Editar())"><span class="oi oi-pencil"></span> Editar</button>
+    <div class="row" style="margin-right:2px;">
+        <!-- bucle que muestra los proyectos -->
+        @foreach (var proyecto in proyectos)
+        {
+            <div class="card border-dark mb-3 mr-3" style="max-width:15rem;">
+                <div class="card-header" style="background-color:rgba(0,0,0,.03);">@proyecto.name</div>
+                <div class="card-body text-dark">
+                    @*<h5 class="card-title">@proyecto.name</h5>*@
+                    <p class="card-text">@proyecto.description</p>
+                    @*<button class="btn btn-warning btn-sm" @onclick="@(async () => await Editar())"><span class="oi oi-pencil"></span> Editar</button>*@
+                   
+                    <a class="btn btn-warning btn-sm" href="/admin_estacionesbase/@proyecto.name"><span class="oi oi-pencil"></span> Editar</a>
                     <button class="btn btn-danger btn-sm" @onclick="@(async () => await Eliminar())"><span class="oi oi-x"></span> Eliminar</button>
                 </div>
             </div>
-        </div>
-    }
-
-
-
-
-
+        }
+    </div>
+    
 
     <!-- si se hace clic en 'crear proyecto' se abre el modal -->
     @if (crear)
