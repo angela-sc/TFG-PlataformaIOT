@@ -50,24 +50,6 @@ namespace Repositorio.SQLServer
                 return -1;
             }
         }
-        //public async Task<int> GetId(string nombreEstacionBase)
-        //{
-        //    string query = String.Format( "SELECT [Id] FROM [plataformadb].[dbo].[Base_station] WHERE [Name]= '{0}'", nombreEstacionBase);
-           
-        //    try
-        //    {
-        //        using (SqlConnection conn = new SqlConnection(connectionString))
-        //        {
-        //            var res = await conn.QueryAsync<int>(query);
-        //            return res.FirstOrDefault();
-        //        }
-        //    }
-        //    catch(Exception)
-        //    {
-        //        log.Warning($"No se ha encontrado ningun id para la estacion base {nombreEstacionBase}");
-        //        return -1;
-        //    }        
-        //}
 
         public void InsertaEstacion(EntidadEstacionBase entidadEstacion)
         {
@@ -150,7 +132,7 @@ namespace Repositorio.SQLServer
             IEnumerable<EntidadSensorResultado> resultado = null;
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = new SqlConnection(cadenaConexion))
                 {
                     resultado = await conn.QueryAsync<EntidadSensorResultado>(query);
                 }
@@ -161,30 +143,6 @@ namespace Repositorio.SQLServer
             }
             return resultado;
         }
-
-        //public async Task<IEnumerable<EntidadCoordenada>> ObtenerCoordenadasSensores (string nombreEstacionBase)
-        //{
-        //    /*  SELECT s.[Name], s.[Latitud], s.[Longitud] from [plataformadb]..[Sensor] s
-        //        JOIN [plataformadb]..[Base_Station] eb ON eb.Id = s.FK_BaseStationId WHERE eb.[Name] = 'EB01'
-        //        ORDER BY s.[Name]
-        //    */
-
-        //    string query = String.Format("SELECT s.[Name], s.[Latitud], s.[Longitud] from [plataformadb].[dbo].[Sensor] s JOIN [plataformadb].[dbo].[Base_Station] eb ON eb.[Id] = s.[FK_BaseStationId] WHERE eb.[Name] = '{0}' ORDER BY s.[Name]", nombreEstacionBase);
-
-        //    IEnumerable<EntidadCoordenada> resultado = null;
-        //    try
-        //    {
-        //        using (SqlConnection conn = new SqlConnection(connectionString))
-        //        {
-        //            resultado = await conn.QueryAsync<EntidadCoordenada>(query);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine(ex.Message);
-        //    }
-        //    return resultado;
-        //}
 
         public async Task<IEnumerable<EntidadEstacionBase>> ObtenerEstacionesBase(string nombreProyecto)
         {
@@ -201,7 +159,7 @@ namespace Repositorio.SQLServer
             IEnumerable<EntidadEstacionBase> estaciones = null;
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = new SqlConnection(cadenaConexion))
                 {
                     estaciones = await conn.QueryAsync<EntidadEstacionBase>(query, parametros);
                 }

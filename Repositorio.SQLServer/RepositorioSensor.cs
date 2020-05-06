@@ -22,6 +22,17 @@ namespace Repositorio.SQLServer
             this.log = logger;
         }
 
+        /**
+         * <summary>
+         * <example>
+         *      <code>
+         *           await repoSensor.InsertaSensor(entidadSensor)
+         *      </code>
+         * </example>
+         * <param name="sensor">Datos del sensor a insertar</param>
+         * <returns>Task<bool></returns>
+         * </summary>
+         * */
         public async Task<bool> InsertaSensor(EntidadSensor sensor)
         {
             Dictionary<string, object> queryParams = new Dictionary<string, object>

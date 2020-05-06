@@ -33,7 +33,7 @@ namespace Servicios
             string nombreSensor = entidadPeticion.Sensor;
 
             //obtenemos los datos: id de la estacion e id del sensor
-            int estacionID = await repositorioEstacion.GetId(nombreEstacionBase);
+            int estacionID = await repositorioEstacion.ObtenerId(nombreEstacionBase);
             int sensorID = await repositorioSensor.GetId(nombreSensor, estacionID);
 
             bool result = true; //booleano para saber si ha ocurrido un error durante la insercion de datos
