@@ -20,10 +20,11 @@ namespace PortalWeb.ViewModel
         // Initialize SearchTerm to "" to prevent null's
         public string SearchTerm { get; set; } = "";
 
+        private string CadenaConexion = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=plataforma_iot;Integrated Security=true";
         protected override async Task OnInitializedAsync()
         {
             proyectos = new List<EntidadProyecto>();
-            servicio = new ServicioProyecto("Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = plataformadb; Integrated Security = true", null);
+            servicio = new ServicioProyecto(CadenaConexion, null);
 
             proyectos = await servicio.ObtenerProyectos(usuario);
 

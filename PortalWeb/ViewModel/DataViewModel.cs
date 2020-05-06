@@ -26,10 +26,7 @@ namespace PortalWeb.ViewModel
         [Parameter]
         public int selectedValue { get; set; }
 
-        private string CadenaConexion = "Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = plataformadb; Integrated Security = true";
-
-
-        private ServicioSensor servicio = new ServicioSensor("Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = plataformadb; Integrated Security = true", null);
+        private ServicioSensor servicio = new ServicioSensor("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=plataforma_iot;Integrated Security=true", null);
        
         private int id; // = 2; //para obtener el id del sensor debemos tener el nombre y la estación base
         

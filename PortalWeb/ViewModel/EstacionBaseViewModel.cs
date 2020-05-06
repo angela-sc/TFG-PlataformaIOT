@@ -19,7 +19,7 @@ namespace PortalWeb.ViewModel
         public string nombreEstacionBase { get; set; }
 
         //public string nombreEstacionBase = "EB01";
-        public ServicioEstacionBase servicio = new ServicioEstacionBase("Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = plataformadb; Integrated Security = true", null);
+        public ServicioEstacionBase servicio = new ServicioEstacionBase("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=plataforma_iot;Integrated Security=true", null);
 
         public IEnumerable<EntidadSensorResultado> listaSensores = new List<EntidadSensorResultado>(); //lista de sensores de dicha estacion base
         

@@ -14,7 +14,7 @@ namespace PortalWeb.ViewModel
     {
         public Proyecto Proyecto;
     
-        protected List<Proyecto> proyectos; //lista de todos los proyectos del usuario
+        protected IEnumerable<EntidadProyecto> proyectos = null; //lista de todos los proyectos del usuario
 
         public bool creado = false; //indica si se ha creado o no el proyecto
         public bool crear = false;  //indica si se va a crear un proyecto o no
@@ -23,28 +23,17 @@ namespace PortalWeb.ViewModel
 
         public bool eliminar, eliminado = false; //indica si se ha pulsado el boton eliminar y si se ha eliminado un proyecto
 
-        
+        private string CadenaConexion = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=plataforma_iot;Integrated Security=true";
 
         protected ServicioProyecto servicio;
 
         protected override async Task OnInitializedAsync()
         {
-            servicio = new ServicioProyecto("Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = plataformadb; Integrated Security = true", null);
+            servicio = new ServicioProyecto(CadenaConexion, null);
 
-            proyectos = new List<Proyecto>();
+            int id = 1; //ide del usuario -> BORRAR
+            proyectos = await servicio.ObtenerProyectos(id);
 
-            int id = 2;
-            var lista = await servicio.ObtenerProyectos(id);
-            foreach(var proyecto in lista)
-            {
-                var p = new Proyecto()
-                {
-                    Nombre = proyecto.name,
-                    Descripcion = proyecto.description
-                };
-
-                proyectos.Add(p);
-            }
             this.StateHasChanged();
         }
 
@@ -57,7 +46,7 @@ namespace PortalWeb.ViewModel
         public async Task CrearProyecto()
         {
             Console.WriteLine("Función crear proyecto activada.");
-            servicio = new ServicioProyecto("Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = plataformadb; Integrated Security = true", null);
+            servicio = new ServicioProyecto(CadenaConexion, null);
 
             servicio.CrearProyecto(new EntidadProyecto()
             {
@@ -87,7 +76,7 @@ namespace PortalWeb.ViewModel
             Console.WriteLine("Función 'eliminar proyecto' activada.");
             //Proyecto = new Proyecto();
 
-           //wait servicio.EliminarSensor(2,5014);
+           //await servicio.EliminarSensor(2,5014);
             this.eliminado = true;
             
            
