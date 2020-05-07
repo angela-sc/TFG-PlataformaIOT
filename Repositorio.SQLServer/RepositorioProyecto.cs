@@ -12,63 +12,63 @@ namespace Repositorio.SQLServer
 {
     public class RepositorioProyecto : IRepositorioProyecto
     {
-        private string connectionString;
+        private string cadenaConexion;
         private ILogger log;
 
-        public RepositorioProyecto(string connectionString, ILogger logger)
+        public RepositorioProyecto(string cadenaConexion, ILogger logger)
         {
-            this.connectionString = connectionString;
+            this.cadenaConexion = cadenaConexion;
             this.log = logger;
         }
         public async void InsertaProyecto(EntidadProyecto proyecto)
         {                
-            Dictionary<string, object> queryParams = new Dictionary<string, object>
+            Dictionary<string, object> parametros = new Dictionary<string, object>
             {
-                { "@name", proyecto.name },
-                { "@description", proyecto.description}
+                { "@nombre", proyecto.Nombre },
+                { "@descripcion", proyecto.Desrcipcion}
                 
             };
 
-            string query = @"INSERT INTO [plataformadb].[dbo].[Project] ([Name],[Description])
-                            VALUES (@name, @description)";
+            string query = @"INSERT INTO [plataforma_iot].[dbo].[Proyecto] ([nombre],[descripcion])
+                            VALUES (@nombre, @descripcion)";
             try
             {
-                using(SqlConnection conn = new SqlConnection(connectionString))
+                using(SqlConnection conn = new SqlConnection(cadenaConexion))
                 {
-                    await conn.ExecuteAsync(query, queryParams);
+                    await conn.ExecuteAsync(query, parametros);
                 }             
             }
             catch(Exception ex)
             {
-                Console.WriteLine("Error en el método InsertaProyecto "+ex.Message);
-                //log.Error($"Se ha producido un error al insertar el proyecto {proyecto.name} en la base de datos.");              
+                //log.Error($"Se ha producido un error al insertar el proyecto {proyecto.name} en la base de datos - ERR. REPOSITORIO PROYECTO");
+                Console.WriteLine("Error en el método InsertaProyecto "+ex.Message); // --ELIMINAR CUANDO SE PASE EL LOG   
             }
         }
 
         public async Task<IEnumerable<EntidadProyecto>> ObtenerProyectos(int idUsuario)
         {
-            Dictionary<string, object> queryParams = new Dictionary<string, object>
+            Dictionary<string, object> parametros = new Dictionary<string, object>
             {
                 { "@id", idUsuario }              
             };
 
             string query = String.Format(@"
-                            SELECT p.[Name] [name], p.[Description] [description]
-                            FROM [plataformadb].[dbo].[User_In_Project] uip
-                            JOIN [plataformadb].[dbo].[Project] p ON uip.[ProjectId] = p.[Id]
-                            WHERE uip.[UserId] = @id");
+                            SELECT p.[nombre] [Nombre], p.[descripcion] [Descripcion]
+                            FROM [plataforma_iot].[dbo].[Usuario_en_Proyecto] uip
+                            JOIN [plataforma_iot].[dbo].[Proyecto] p ON uip.[id_proyecto] = p.[Id]
+                            WHERE uip.[id_usuario] = @id");
 
             IEnumerable<EntidadProyecto> resultado = null;
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = new SqlConnection(cadenaConexion))
                 {
-                    resultado = await conn.QueryAsync<EntidadProyecto>(query,queryParams);
+                    resultado = await conn.QueryAsync<EntidadProyecto>(query,parametros);
                 }
             }
             catch (Exception ex)
             {
-                //log.Error($"Se ha producido un error al obtener los proyectos.");
+                //log.Error($"Error al obtener los proyectos del usuario {idUsuario} - ERR. REPOSITORIO PROYECTO");
                 Console.WriteLine(ex.Message, "Error: ");
             }
             return resultado;
@@ -82,7 +82,7 @@ namespace Repositorio.SQLServer
                                            WHERE ");
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = new SqlConnection(cadenaConexion))
                 {
                    await conn.QueryAsync<EntidadProyecto>(query);
                 }
@@ -90,7 +90,7 @@ namespace Repositorio.SQLServer
             }
             catch (Exception ex)
             {
-                //log.Error($"Se ha producido un error al obtener los proyectos.");
+                //log.Error($"Se ha producido un error al eliminar el proyecto - ERR. REPOSITORIO PROYECTO");
                 Console.WriteLine(ex.Message, "Error: ");
                 return eliminado = false;
             }

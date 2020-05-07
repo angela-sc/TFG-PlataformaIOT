@@ -7,8 +7,8 @@ namespace Libreria.Entidades
     //Entidad que relaciona cada sensor con sus coordenadas
     public class EntidadCoordenada
     {
-        public string nombreSensor { get; set; }
-        public string latitud { get; set; }
-        public string longitud { get; set; }
+        public string NombreSensor { get; set; }
+        public string Latitud { get; set; }
+        public string Longitud { get; set; }
     }
 }

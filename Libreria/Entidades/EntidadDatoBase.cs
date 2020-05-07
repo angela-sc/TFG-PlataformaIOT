@@ -6,8 +6,8 @@ namespace Libreria.Entidades
 {
     public class EntidadDatoBase
     {
-        public DateTime stamp { get; set; }
-        public float humity { get; set; }
-        public float temperature { get; set; }
+        public DateTime Stamp { get; set; }
+        public float Humedad { get; set; }
+        public float Temperatura { get; set; }
     }
 }

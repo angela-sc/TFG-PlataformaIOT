@@ -6,8 +6,8 @@ namespace Libreria.Entidades
 {
     public class EntidadEstacionBase
     {
-        public int FK_ProjectId { get; set; }
-        public string Name { get; set; }
         public int Id { get; set; }
+        public string Nombre { get; set; }
+        public int FK_IdProyecto { get; set; } 
     }
 }

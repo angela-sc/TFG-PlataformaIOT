@@ -41,17 +41,17 @@
             {
                 @*<li>@p.name</li>*@
 
-                var link = $"proyecto/{p.name}";
+                var link = $"proyecto/{p.Nombre}";
 
-                <a href=@link class="list-group-item list-group-item-action">@p.name</a>
+                <a href=@link class="list-group-item list-group-item-action">@p.Nombre</a>
             }
         </ul>
 
         @foreach (EntidadProyecto p in proyectos)
         {
-            var link = $"proyecto/{p.name}";
+            var link = $"proyecto/{p.Nombre}";
 
-            <a href=@link class="list-group-item list-group-item-action">@p.name</a>
+            <a href=@link class="list-group-item list-group-item-action">@p.Nombre</a>
             @*<button class="btn btn-primary" @onclick="NavigateToEstacionBaseComponent"> ir a la estacion base por defecto</button>
                 <NavLink class="nav-link" href=@link>
                     <span class="oi oi-laptop" aria-hidden="true"></span> Proyecto

@@ -10,8 +10,8 @@ namespace Libreria.Interfaces
     {
         Task<bool> InsertaSensor(EntidadSensor sensor);
         Task<bool> InsertaDato(EntidadDato dato);
-        Task<int> GetId(string nombreSensor, int idEstacionBase);
-        Task<IEnumerable<EntidadDatoBase>> GetData(int idSensor, int top);
+        Task<int> ObtenerId(string nombreSensor, int idEstacionBase);
+        Task<IEnumerable<EntidadDatoBase>> ObtenerDatos(int idSensor, int top);
 
         //Metodos para eliminar un sensor y sus datos
         Task<bool> EliminarDatos(int fk_sensorid);

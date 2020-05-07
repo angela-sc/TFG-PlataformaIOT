@@ -34,13 +34,13 @@ namespace Repositorio.SQLServer
 
             Dictionary<string, object> parametros = new Dictionary<string, object>
             {
-                { "@Name", usuario.name },
-                { "@Surname", usuario.surname },
-                { "@Email", usuario.email},
-                { "@Password", usuario.password }       
+                { "@nombre", usuario.Nombre },
+                { "@apellidos", usuario.Apellidos },
+                { "@email", usuario.Email},
+                { "@contrasenya", usuario.Contrasenya }       
             };
 
-            string query = string.Format(@"INSERT INTO [plataformadb].[dbo].[User] ([Email],[Password],[Name],[Surname]) VALUES (@Email, @Password,@Name,@Surname)");
+            string query = @"INSERT INTO [plataforma_iot].[dbo].[Usuario] ([email],[contrasenya],[nombre],[apellidos]) VALUES (@email, @contrasenya,@nombre,@apellidos)";
 
             try
             {
@@ -52,7 +52,7 @@ namespace Repositorio.SQLServer
             }
             catch (Exception)
             {
-                log.Error($"Se ha producido un erro al insertar el usuario {usuario.email} en la base de datos.");
+                log.Error($"Se ha producido un erro al insertar el usuario {usuario.Email} en la base de datos - ERR. REPOSITORIO USUARIO");
                 return insertado; //¿esto se puede quitar?
             }
             return insertado;

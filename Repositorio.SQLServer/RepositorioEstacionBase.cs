@@ -26,11 +26,11 @@ namespace Repositorio.SQLServer
         }
 
         //Metodo que obtiene el id de la estación base a partir de su nombre
-        public async Task<int> ObtenerId(string estacionBase)
+        public async Task<int> ObtenerId(string nombreEstacionBase)
         {
             Dictionary<string, object> parametros = new Dictionary<string, object>()
             {
-                {"@nombre", estacionBase}
+                {"@nombre", nombreEstacionBase}
             };
 
             string query = string.Format(@"SELECT [id] FROM [plataforma_iot].[dbo].[EstacionBase]
@@ -46,7 +46,7 @@ namespace Repositorio.SQLServer
             }
             catch (Exception)
             {
-                log.Warning($"No se ha encontrado ningun id para la estacion base {estacionBase}");
+                log.Warning($"No se ha encontrado ningún id para la estacion base {nombreEstacionBase} - ERR. REPOSITORIO ESTACION BASE");
                 return -1;
             }
         }
@@ -68,21 +68,21 @@ namespace Repositorio.SQLServer
                     ,d.[Stamp] as [Fecha]
                     ,d.[humity] as [Humedad]
                     ,d.[temperature] as [Temperatura] 
-                FROM [plataformadb].[dbo].[Data] d 
+                FROM [plataforma_iot].[dbo].[Datos] d 
                 RIGHT JOIN (
                     SELECT 
-                        s.[Name] as [NombreSensor]
+                        s.[nombre] as [NombreSensor]
 		                ,[Latitud]
 		                ,[Longitud]
-		                ,[FK_BaseStationId]
+		                ,[FK_BaseStationid]
                         ,max(d.[stamp]) as [Ultimo] 
-                    FROM [plataformadb].[dbo].[Data] d 
-                    RIGHT JOIN [plataformadb].[dbo].[Sensor] s ON d.[FK_SensorId] = s.[Id] 
-                    JOIN [plataformadb].[dbo].[Base_Station] eb ON s.[FK_BaseStationId] = eb.[Id]
-	                WHERE eb.[Name] = 'EB01'
-	                GROUP BY s.[Name],[Latitud],[Longitud],[FK_BaseStationId]
+                    FROM [plataforma_iot].[dbo].[Datos] d 
+                    RIGHT JOIN [plataforma_iot].[dbo].[Sensor] s ON d.[FK_Sensorid] = s.[id] 
+                    JOIN [plataforma_iot].[dbo].[EstacionBase] eb ON s.[FK_BaseStationid] = eb.[id]
+	                WHERE eb.[nombre] = 'EB01'
+	                GROUP BY s.[nombre],[Latitud],[Longitud],[FK_BaseStationid]
                 ) as ls ON d.[Stamp] = ls.[Ultimo]
-                JOIN [plataformadb].[dbo].[Base_Station] eb ON ls.[FK_BaseStationId] = eb.[Id] 
+                JOIN [plataforma_iot].[dbo].[EstacionBase] eb ON ls.[FK_BaseStationid] = eb.[id] 
 
                 OPCION 2 (OPTIMA)
 
@@ -96,18 +96,22 @@ namespace Repositorio.SQLServer
                 FROM
                 (
 	                SELECT 
-		                s.[Name] as [NombreSensor] ,[Latitud] ,[Longitud] ,d.[stamp], d.[humity] [Humedad], d.[temperature] [Temperatura]
-		                ,DENSE_RANK() OVER(PARTITION BY s.[Name] ORDER BY d.[stamp] DESC) AS [rk]
-	                FROM [plataformadb].[dbo].[Data] d 
-	                RIGHT JOIN [plataformadb].[dbo].[Sensor] s ON d.[FK_SensorId] = s.[Id] 
-	                JOIN [plataformadb].[dbo].[Base_Station] eb ON s.[FK_BaseStationId] = eb.[Id]
-	                WHERE eb.[Name] = 'EB01'
+		                s.[nombre] as [NombreSensor] ,[Latitud] ,[Longitud] ,d.[stamp], d.[humity] [Humedad], d.[temperature] [Temperatura]
+		                ,DENSE_RANK() OVER(PARTITION BY s.[nombre] ORDER BY d.[stamp] DESC) AS [rk]
+	                FROM [plataforma_iot].[dbo].[Datos] d 
+	                RIGHT JOIN [plataforma_iot].[dbo].[Sensor] s ON d.[FK_Sensorid] = s.[id] 
+	                JOIN [plataforma_iot].[dbo].[EstacionBase] eb ON s.[FK_BaseStationid] = eb.[id]
+	                WHERE eb.[nombre] = 'EB01'
                 ) AS x
                 WHERE x.[rk] = 1
                 ORDER BY x.[NombreSensor]
             **/
 
-            string query = String.Format(@"
+            Dictionary<string, object> parametros = new Dictionary<string, object>()
+            {
+                {"@nombre", nombreEstacionBase}
+            };
+            string query = string.Format(@"
                 SELECT 
 	                x.[NombreSensor]
 	                ,x.[Latitud]
@@ -118,12 +122,12 @@ namespace Repositorio.SQLServer
                 FROM
                 (
 	                SELECT 
-		                RTRIM(s.[Name]) as [NombreSensor] ,[Latitud] ,[Longitud] ,d.[stamp] [Fecha], d.[humity] [Humedad], d.[temperature] [Temperatura]
-		                ,DENSE_RANK() OVER(PARTITION BY s.[Name] ORDER BY d.[stamp] DESC) AS [rk]
-	                FROM [plataformadb].[dbo].[Data] d 
-	                RIGHT JOIN [plataformadb].[dbo].[Sensor] s ON d.[FK_SensorId] = s.[Id] 
-	                JOIN [plataformadb].[dbo].[Base_Station] eb ON s.[FK_BaseStationId] = eb.[Id]
-	                WHERE eb.[Name] = '{0}'
+		                RTRIM(s.[nombre]) as [NombreSensor] ,[latitud] [Latitud],[longitud] [Longitud],d.[stamp] [Fecha], d.[humedad] [Humedad], d.[temperatura] [Temperatura]
+		                ,DENSE_RANK() OVER(PARTITION BY s.[nombre] ORDER BY d.[stamp] DESC) AS [rk]
+	                FROM [plataforma_iot].[dbo].[Datos] d 
+	                RIGHT JOIN [plataforma_iot].[dbo].[Sensor] s ON d.[fk_idsensor] = s.[id] 
+	                JOIN [plataforma_iot].[dbo].[EstacionBase] eb ON s.[fk_idestacionbase] = eb.[id]
+	                WHERE eb.[nombre] = @nombre
                 ) AS x
                 WHERE x.[rk] = 1
                 ORDER BY x.[NombreSensor]
@@ -140,20 +144,22 @@ namespace Repositorio.SQLServer
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                //log.Error($"No se ha podido obtener la lista de sensores de la estación base '{nombreEstacionBase}' - ERR. REPOSITORIO ESTACION BASE");
             }
             return resultado;
         }
 
+        //A partir del nombre del proyecto obtiene la estacion base
         public async Task<IEnumerable<EntidadEstacionBase>> ObtenerEstacionesBase(string nombreProyecto)
         {
             Dictionary<string, object> parametros = new Dictionary<string, object>() 
             {
-                {"@proyecto", nombreProyecto}
+                {"@proyecto", nombreProyecto} 
             };
             string query = @"
-                             SELECT eb.* FROM [plataformadb].[dbo].[Base_Station] eb
-                             JOIN [plataformadb].[dbo].[Project] p ON eb.[FK_ProjectId] = p.[Id]
-                             WHERE p.[Name] = @proyecto
+                             SELECT eb.* FROM [plataforma_iot].[dbo].[EstacionBase] eb
+                             JOIN [plataforma_iot].[dbo].[Proyecto] p ON eb.[fk_idproyecto] = p.[id]
+                             WHERE p.[nombre] = @proyecto
                             ";
 
             IEnumerable<EntidadEstacionBase> estaciones = null;
@@ -166,7 +172,7 @@ namespace Repositorio.SQLServer
             }
             catch (Exception)
             {
-                //log.Error($"Error en el repositorio de estación base: no se ha podido obtener la lista del sensor {nombreProyecto}");
+                //log.Error($"No se ha podido obtener la lista de estaciones base del proyecto '{nombreProyecto}' - ERR. REPOSITORIO ESTACION BASE");
             }
             return estaciones;
         }

@@ -6,11 +6,9 @@ namespace Libreria.Entidades
 {
     public class EntidadUsuario
     {
-        //public int id { get; set; }
-        public string name { get; set; }
-        public string surname { get; set; }
-        public string email { get; set; }
-        public Byte[] password { get; set; }
-        //public int FK_projectID { get; set; }  usuario y proyecto estan relacionados en una tercera tabla
+        public string Nombre { get; set; }
+        public string Apellidos { get; set; }
+        public string Email { get; set; }
+        public Byte[] Contrasenya { get; set; }
     }
 }

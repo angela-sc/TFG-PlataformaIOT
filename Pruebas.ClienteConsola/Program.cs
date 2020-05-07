@@ -47,9 +47,9 @@ namespace Pruebas.ClienteConsola
 
             var json = JsonConvert.SerializeObject(new EntidadSensor()
             {
-                FK_basestationID = 1,
+                FK_IdEstacionBase = 1,
                 Id = 11,
-                Name = "EB01SE11",
+                Nombre = "EB01SE11",
                 Latitud= 0.00,
                 Longitud = 0.00
             });

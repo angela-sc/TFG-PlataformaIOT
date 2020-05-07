@@ -6,6 +6,6 @@ namespace Libreria.Entidades
 {
     public class EntidadDato : EntidadDatoBase
     {
-        public int FK_sensorID { get; set; }
+        public int FK_IdSensor { get; set; }
     }
 }

@@ -29,7 +29,7 @@ namespace Servicios
 
             try
             {
-                datos = await repositorioSensor.GetData(idSensor, top); 
+                datos = await repositorioSensor.ObtenerDatos(idSensor, top); 
             }
             catch (Exception)
             {
@@ -48,12 +48,12 @@ namespace Servicios
         //Devuelve una lista con los datos de temperatura de un sensor determinado
         public async Task<IEnumerable<double>> ObtenerTemperatura(int idSensor, int top)
         {
-            IEnumerable<EntidadDatoBase> AllData = await repositorioSensor.GetData(idSensor, top);
+            IEnumerable<EntidadDatoBase> AllData = await repositorioSensor.ObtenerDatos(idSensor, top);
             List<double> temperatura = new List<double>();
 
             foreach(EntidadDatoBase dato in AllData)
             {
-                temperatura.Add((double)dato.temperature);
+                temperatura.Add((double)dato.Temperatura);
             }
 
             return temperatura;
@@ -64,7 +64,7 @@ namespace Servicios
             int resultado = -1;
             try
             {
-                resultado = await repositorioSensor.GetId(nombreSensor, 2);
+                resultado = await repositorioSensor.ObtenerId(nombreSensor, 2);
             }
             catch(Exception ex)
             {

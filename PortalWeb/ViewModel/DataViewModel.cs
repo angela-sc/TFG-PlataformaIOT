@@ -63,9 +63,9 @@ namespace PortalWeb.ViewModel
 
             foreach (var dato in datos)
             {
-                datosTemperatura.Add(dato.temperature);
-                datosHumedad.Add(dato.humity);
-                labels.Add(dato.stamp.ToString());
+                datosTemperatura.Add(dato.Temperatura);
+                datosHumedad.Add(dato.Humedad);
+                labels.Add(dato.Stamp.ToString());
             }
 
             Labels = labels.ToArray();
@@ -144,9 +144,9 @@ namespace PortalWeb.ViewModel
 
             foreach (var dato in datos)
             {
-                datosTemperatura.Add(dato.temperature);
-                datosHumedad.Add(dato.humity);
-                labels.Add(dato.stamp.ToString());
+                datosTemperatura.Add(dato.Temperatura);
+                datosHumedad.Add(dato.Humedad);
+                labels.Add(dato.Stamp.ToString());
             }
 
             Labels = labels.ToArray();

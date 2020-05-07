@@ -50,8 +50,8 @@ namespace PortalWeb.ViewModel
 
             servicio.CrearProyecto(new EntidadProyecto()
             {
-                name = Proyecto.Nombre,
-                description = Proyecto.Descripcion
+                Nombre = Proyecto.Nombre,
+                Desrcipcion = Proyecto.Descripcion
             });
 
             creado = true;

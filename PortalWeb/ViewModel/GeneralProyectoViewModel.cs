@@ -27,12 +27,11 @@ namespace PortalWeb.ViewModel
             servicio = new ServicioProyecto(CadenaConexion, null);
 
             proyectos = await servicio.ObtenerProyectos(usuario);
-
         }
 
         //Metodos para la búsqueda de proyectos+
 
-        public List<EntidadProyecto> proyectosFiltrados => proyectos.Where(i => i.name.ToLower().Contains(SearchTerm.ToLower())).ToList();
+        public List<EntidadProyecto> proyectosFiltrados => proyectos.Where(i => i.Nombre.ToLower().Contains(SearchTerm.ToLower())).ToList();
         
 
     }

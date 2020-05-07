@@ -23,13 +23,13 @@ else
         @foreach (var proyecto in proyectos)
         {
             <div class="card border-dark mb-3 mr-3" style="max-width:15rem;">
-                <div class="card-header" style="background-color:rgba(0,0,0,.03);">@proyecto.name</div>
+                <div class="card-header" style="background-color:rgba(0,0,0,.03);">@proyecto.Nombre</div>
                 <div class="card-body text-dark">
                     @*<h5 class="card-title">@proyecto.name</h5>*@
-                    <p class="card-text">@proyecto.description</p>
+                    <p class="card-text">@proyecto.Desrcipcion</p>
                     @*<button class="btn btn-warning btn-sm" @onclick="@(async () => await Editar())"><span class="oi oi-pencil"></span> Editar</button>*@
                    
-                    <a class="btn btn-warning btn-sm" href="/admin_estacionesbase/@proyecto.name"><span class="oi oi-pencil"></span> Editar</a>
+                    <a class="btn btn-warning btn-sm" href="/admin_estacionesbase/@proyecto.Nombre"><span class="oi oi-pencil"></span> Editar</a>
                     <button class="btn btn-danger btn-sm" @onclick="@(async () => await Eliminar())"><span class="oi oi-x"></span> Eliminar</button>
                 </div>
             </div>
