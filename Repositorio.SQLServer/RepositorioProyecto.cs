@@ -25,7 +25,7 @@ namespace Repositorio.SQLServer
             Dictionary<string, object> parametros = new Dictionary<string, object>
             {
                 { "@nombre", proyecto.Nombre },
-                { "@descripcion", proyecto.Desrcipcion}
+                { "@descripcion", proyecto.Descripcion}
                 
             };
 
@@ -52,11 +52,10 @@ namespace Repositorio.SQLServer
                 { "@id", idUsuario }              
             };
 
-            string query = String.Format(@"
-                            SELECT p.[nombre] [Nombre], p.[descripcion] [Descripcion]
-                            FROM [plataforma_iot].[dbo].[Usuario_en_Proyecto] uip
-                            JOIN [plataforma_iot].[dbo].[Proyecto] p ON uip.[id_proyecto] = p.[Id]
-                            WHERE uip.[id_usuario] = @id");
+            string query = @"SELECT p.[nombre] [Nombre], p.[descripcion] [Descripcion], p.[id] [Id]
+                                FROM [plataforma_iot].[dbo].[Usuario_en_Proyecto] uip
+                                JOIN [plataforma_iot].[dbo].[Proyecto] p ON uip.[id_proyecto] = p.[id]
+                                WHERE uip.[id_usuario] = @id";
 
             IEnumerable<EntidadProyecto> resultado = null;
             try

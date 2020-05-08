@@ -15,6 +15,8 @@ namespace PortalWeb.ViewModel
         public Proyecto Proyecto;
     
         protected IEnumerable<EntidadProyecto> proyectos = null; //lista de todos los proyectos del usuario
+        protected List<EntidadEstacionBase> estaciones;
+        protected List<EntidadSensorResultado> sensores;
 
         public bool creado = false; //indica si se ha creado o no el proyecto
         public bool crear = false;  //indica si se va a crear un proyecto o no
@@ -25,15 +27,43 @@ namespace PortalWeb.ViewModel
 
         private string CadenaConexion = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=plataforma_iot;Integrated Security=true";
 
-        protected ServicioProyecto servicio;
+        protected ServicioProyecto servicioProyecto;
+        protected ServicioEstacionBase servicioEB;
 
         protected override async Task OnInitializedAsync()
         {
-            servicio = new ServicioProyecto(CadenaConexion, null);
+            servicioProyecto = new ServicioProyecto(CadenaConexion, null);
+            servicioEB = new ServicioEstacionBase(CadenaConexion, null);
+            //servicioSensor = new ServicioSensor(CadenaConexion, null);
+            
 
             int id = 1; //ide del usuario -> BORRAR
-            proyectos = await servicio.ObtenerProyectos(id);
+            proyectos = await servicioProyecto.ObtenerProyectos(id);
+            estaciones = new List<EntidadEstacionBase>();
 
+            if(proyectos != null)
+            {
+                foreach (var proyecto in proyectos)
+                {      
+                    var estacionesTodas = await servicioEB.ListaEstacionesBase(proyecto.Nombre);
+                    foreach (var a in  estacionesTodas)
+                    {
+                        estaciones.Add(a);
+                    }
+                }
+                sensores = new List<EntidadSensorResultado>();
+                foreach(var estacion in estaciones)
+                {
+                    var aux = await servicioEB.ObtenerSensores(estacion.Nombre);
+                    foreach(var b in aux)
+                    {
+                        sensores.Add(b);
+                    }
+                }
+
+                
+            }
+            
             this.StateHasChanged();
         }
 
@@ -46,12 +76,12 @@ namespace PortalWeb.ViewModel
         public async Task CrearProyecto()
         {
             Console.WriteLine("Función crear proyecto activada.");
-            servicio = new ServicioProyecto(CadenaConexion, null);
+            servicioProyecto = new ServicioProyecto(CadenaConexion, null);
 
-            servicio.CrearProyecto(new EntidadProyecto()
+            servicioProyecto.CrearProyecto(new EntidadProyecto()
             {
                 Nombre = Proyecto.Nombre,
-                Desrcipcion = Proyecto.Descripcion
+                Descripcion = Proyecto.Descripcion
             });
 
             creado = true;
@@ -76,7 +106,7 @@ namespace PortalWeb.ViewModel
             Console.WriteLine("Función 'eliminar proyecto' activada.");
             //Proyecto = new Proyecto();
 
-           //await servicio.EliminarSensor(2,5014);
+           //await servicioProyecto.EliminarSensor(2,5014);
             this.eliminado = true;
             
            
@@ -97,8 +127,6 @@ namespace PortalWeb.ViewModel
 
             this.StateHasChanged();
         }
-
-        
     }
       
 }

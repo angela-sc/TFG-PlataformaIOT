@@ -17,5 +17,7 @@ namespace Libreria.Entidades
         public float Temperatura { get; set; }
         public float Humedad { get; set; }
         public DateTime Fecha { get; set; } //fecha de la última medicion
+
+        public int fk_idestacionbase { get; set; }
     }
 }

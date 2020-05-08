@@ -119,10 +119,11 @@ namespace Repositorio.SQLServer
 	                ,x.[Fecha]
 	                ,x.[Humedad]
 	                ,x.[Temperatura]
+                    ,x.[fk_idestacionbase]
                 FROM
                 (
 	                SELECT 
-		                RTRIM(s.[nombre]) as [NombreSensor] ,[latitud] [Latitud],[longitud] [Longitud],d.[stamp] [Fecha], d.[humedad] [Humedad], d.[temperatura] [Temperatura]
+		                RTRIM(s.[nombre]) as [NombreSensor], s.[fk_idestacionbase], [latitud] [Latitud],[longitud] [Longitud],d.[stamp] [Fecha], d.[humedad] [Humedad], d.[temperatura] [Temperatura]
 		                ,DENSE_RANK() OVER(PARTITION BY s.[nombre] ORDER BY d.[stamp] DESC) AS [rk]
 	                FROM [plataforma_iot].[dbo].[Datos] d 
 	                RIGHT JOIN [plataforma_iot].[dbo].[Sensor] s ON d.[fk_idsensor] = s.[id] 
@@ -138,7 +139,7 @@ namespace Repositorio.SQLServer
             {
                 using (SqlConnection conn = new SqlConnection(cadenaConexion))
                 {
-                    resultado = await conn.QueryAsync<EntidadSensorResultado>(query);
+                    resultado = await conn.QueryAsync<EntidadSensorResultado>(query, parametros);
                 }
             }
             catch (Exception ex)

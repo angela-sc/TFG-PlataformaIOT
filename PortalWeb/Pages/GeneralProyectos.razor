@@ -8,21 +8,11 @@
 
 @inherits GeneralProyectoViewModel
 
-<div class="panel panel-primary">
-    <div class="panel-heading">
-        <h3 class="panel-title">Proyecto de prueba - P01</h3>
-    </div>
-    <div class="panel-body">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac sagittis leo. Pellentesque vestibulum urna at libero bibendum, quis accumsan magna blandit. Maecenas dictum sapien vel ipsum convallis blandit. Phasellus molestie suscipit leo vel lobortis. In ullamcorper enim condimentum ipsum blandit, nec porta eros tristique.
-    </div>
-</div>
 
 <div class="list-group">
     <p>Proyectos disponibles</p>
 
     <input @bind-value="SearchTerm" @bind-value:event="oninput" />
-
-
 
     @if (proyectos == null)
     {
@@ -47,20 +37,6 @@
             }
         </ul>
 
-        @foreach (EntidadProyecto p in proyectos)
-        {
-            var link = $"proyecto/{p.Nombre}";
-
-            <a href=@link class="list-group-item list-group-item-action">@p.Nombre</a>
-            @*<button class="btn btn-primary" @onclick="NavigateToEstacionBaseComponent"> ir a la estacion base por defecto</button>
-                <NavLink class="nav-link" href=@link>
-                    <span class="oi oi-laptop" aria-hidden="true"></span> Proyecto
-                </NavLink>*@
-            @*<a href=@link class="btn btn-info">Mas detalles</a>*@
-
-            @*<a asp-page="./proyecto" asp-route-id="@p.name">Edit</a>*@
-
-        }
     }
 
 </div>
