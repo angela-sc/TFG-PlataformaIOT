@@ -29,7 +29,7 @@ else
                 <div class="card-header" style="background-color:rgba(0,0,0,.03);">
                     @proyecto.Nombre
                     <span class="oi oi-pencil btn" style="color:green; cursor:pointer;" @onclick="@(() => navmanager.NavigateTo($"/admin_estacionesbase/{proyecto.Nombre}"))"></span>
-                    <span class="oi oi-x" style="color:red; cursor:pointer;" @onclick="@(async () => await Eliminar())"></span>
+                    <span class="oi oi-x" style="color:red; cursor:pointer;" @onclick="@(async () => await Eliminar(EntidadTratada.PROYECTO, proyecto.Id))"></span>
                    
                     @if (eliminar)
                     {
@@ -67,7 +67,7 @@ else
                             var sensoresEstacion = sensores.Where(se => se.fk_idestacionbase == estacion.Id);
 
                             <ul class="list-unstyled">
-                                <li>@estacion.Nombre</li>
+                                <li>@estacion.Nombre <span class="oi oi-x" style="color:red; cursor:pointer; float:right;" @onclick="@(async () => await EliminarEstacionBase(estacion.Id))"></span></li>
                                 @if(sensoresEstacion != null)
                                 {
                                     <ul>

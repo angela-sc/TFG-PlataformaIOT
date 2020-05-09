@@ -177,5 +177,35 @@ namespace Repositorio.SQLServer
             }
             return estaciones;
         }
+
+        public async Task<bool> Eliminar(int idEstacionBase)
+        {
+            bool eliminada = false;
+
+            Dictionary<string, object> parametros = new Dictionary<string, object>()
+            {
+                { "@id", idEstacionBase}                
+            };
+
+            string query = string.Format(@"DELETE FROM [plataforma_iot].[dbo].[EstacionBase]
+                                           WHERE [id] = @id");
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(cadenaConexion))
+                {
+                    await conn.ExecuteAsync(query, parametros);
+                    eliminada = true;
+                }
+            }
+            catch (Exception)
+            {
+                //log.Error($"No se ha podido obtener la lista de estaciones base del proyecto '{nombreProyecto}' - ERR. REPOSITORIO ESTACION BASE");
+                eliminada = false;
+            }
+
+            return eliminada;
+
+        }
     }
 }

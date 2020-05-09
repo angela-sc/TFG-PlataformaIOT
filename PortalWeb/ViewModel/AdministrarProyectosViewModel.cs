@@ -13,6 +13,13 @@ namespace PortalWeb.ViewModel
     public class AdministrarProyectosViewModel : ComponentBase
     {
         public Proyecto Proyecto;
+
+        protected enum EntidadTratada
+        {
+            PROYECTO,
+            ESTACIONBASE,
+            SENSOR
+        }
     
         protected IEnumerable<EntidadProyecto> proyectos = null; //lista de todos los proyectos del usuario
         protected List<EntidadEstacionBase> estaciones;
@@ -25,6 +32,8 @@ namespace PortalWeb.ViewModel
 
         public bool eliminar, eliminado = false; //indica si se ha pulsado el boton eliminar y si se ha eliminado un proyecto
         public string estadoEliminado;
+        public int idEliminar;
+        protected EntidadTratada entidadEliminar;
 
         private string CadenaConexion = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=plataforma_iot;Integrated Security=true";
 
@@ -38,7 +47,7 @@ namespace PortalWeb.ViewModel
             servicioProyecto = new ServicioProyecto(CadenaConexion, null);
             servicioEB = new ServicioEstacionBase(CadenaConexion, null);            
 
-            idUsuario = 0; //ide del usuario -> BORRAR
+            idUsuario = 1; //ide del usuario -> BORRAR
 
             await CargarDatos();
             
@@ -72,12 +81,33 @@ namespace PortalWeb.ViewModel
             this.editar = true;
             
         }
-        protected async Task Eliminar()
+        protected async Task Eliminar(EntidadTratada entidad, int id)
         {
             Console.WriteLine("Función eliminar activada.");
-            
+
+            entidadEliminar = entidad;
+            idEliminar = id;
             this.eliminar = true;
             this.eliminado = false;
+        }
+
+        protected async Task Eliminarr()
+        {
+            bool resultadoBorrado;
+            if (entidadEliminar == EntidadTratada.PROYECTO)
+            {
+                resultadoBorrado = await servicioProyecto.EliminarProyecto(idEliminar);
+            }
+            else if(entidadEliminar == EntidadTratada.ESTACIONBASE)
+            {
+                resultadoBorrado = await servicioEB.EliminarEstacionBase(idEliminar);
+            }
+            else
+            {
+
+            }
+
+            this.StateHasChanged(); //el componente debe refrescarse para mostrar la vista sin el proyecto
         }
 
         protected async Task EliminarProyecto(int idProyecto)
@@ -93,6 +123,21 @@ namespace PortalWeb.ViewModel
                 estadoEliminado = " ERROR AL ELIMINAR EL PROYECTO";
 
             this.StateHasChanged(); //el componente debe refrescarse para mostrar la vista sin el proyecto
+        }
+        protected async Task EliminarEstacionBase(int idEstacionBase)
+        {
+            Console.WriteLine("Función 'EliminarEstacionBase' activada.");
+
+            var resultadoBorrado = await servicioEB.EliminarEstacionBase(idEstacionBase);
+            this.eliminado = true;
+
+            if (resultadoBorrado)
+                estadoEliminado = "¡¡ ESTACIÓN ELIMINADA !!";
+            else
+                estadoEliminado = " ERROR AL ELIMINAR LA ESTACIÓN BASE";
+
+            this.StateHasChanged(); //el componente debe refrescarse para mostrar la vista sin el proyecto
+            await CargarDatos();
         }
 
         protected async Task Close()
