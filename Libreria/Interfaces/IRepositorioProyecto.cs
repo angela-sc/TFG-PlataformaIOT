@@ -16,6 +16,6 @@ namespace Libreria.Interfaces
         Task<IEnumerable<EntidadProyecto>> ObtenerProyectos(int idUsuario);
 
         //Metodo para eliminar un proyecto - elimina las estaciones base y sensores asociados al proyecto
-        Task<bool> EliminarProyecto();
+        Task<bool> EliminarProyecto(int idProyecto);
     }
 }

@@ -23,13 +23,37 @@ else
         <!-- bucle que muestra los proyectos -->
         @foreach (var proyecto in proyectos)
         {
-            var z =  estaciones.Where(eb => eb.FK_IdProyecto == proyecto.Id);
+            var estacionesProyecto =  estaciones.Where(eb => eb.FK_IdProyecto == proyecto.Id);
 
             <div class="card border-dark mb-3 mr-3" style="max-width:16rem;">
                 <div class="card-header" style="background-color:rgba(0,0,0,.03);">
                     @proyecto.Nombre
                     <span class="oi oi-pencil btn" style="color:green; cursor:pointer;" @onclick="@(() => navmanager.NavigateTo($"/admin_estacionesbase/{proyecto.Nombre}"))"></span>
                     <span class="oi oi-x" style="color:red; cursor:pointer;" @onclick="@(async () => await Eliminar())"></span>
+                   
+                    @if (eliminar)
+                    {
+                        <div class="modal" tabindex="99" style="display: block; margin-top: 5%;" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Eliminar Proyecto</h4>
+                                        <button type="button" class="close" @onclick="@(async () => await Close())"><span aria-hidden="true">X</span></button>
+                                    </div>
+                                    @if (!eliminado)
+                                    {
+                                        <div class="modal-body"> ¿Seguro que quieres eliminar el proyecto? </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-primary" @onclick="@(async () => await EliminarProyecto(proyecto.Id))">Aceptar</button>
+                                        </div>
+                                    }
+                                    else {
+                                        <div class="modal-body">@estadoEliminado</div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
                 </div>
 
                 <div class="card-body text-dark">
@@ -37,18 +61,18 @@ else
                     <p class="card-text mr-2" style="text-decoration:underline;">Elementos del proyecto:</p>
                     @*<button class="btn btn-warning btn-sm" @onclick="@(async () => await Editar())"><span class="oi oi-pencil"></span> Editar</button>*@
 
-                    @if (z != null)
+                    @if (estacionesProyecto != null)
                     {
-                        foreach (var estacion in z)
+                        foreach (var estacion in estacionesProyecto)
                         {
-                            var v = sensores.Where(se => se.fk_idestacionbase == estacion.Id);
+                            var sensoresEstacion = sensores.Where(se => se.fk_idestacionbase == estacion.Id);
 
                             <ul class="list-unstyled">
                                 <li>@estacion.Nombre</li>
-                                @if(v != null)
+                                @if(sensoresEstacion != null)
                                 {
                                     <ul>
-                                        @foreach (var sensor in v)
+                                        @foreach (var sensor in sensoresEstacion)
                                         {
                                             <li>@sensor.NombreSensor</li>
                                         }
@@ -58,11 +82,11 @@ else
                             @*<li class="list-group-item">@estacion.Nombre</li>*@
                             
 
-                            @*if (v != null)
+                            @*if (sensoresEstacion != null)
                             {
                                 //eb => eb.FK_IdProyecto == proyecto.Id
                                 <ul class="list-group">
-                                    @foreach (var sensor in v)
+                                    @foreach (var sensor in sensoresEstacion)
                                     {
 
                                     <li class="list-group-item">
@@ -144,26 +168,7 @@ else
         </div>
     }
 
-    @if (eliminar)
-    {
-        <div class="modal" tabindex="99" style="display: block; margin-top: 5%;" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Eliminar Proyecto</h4>
-                        <button type="button" class="close" @onclick="@(async () => await Close())"><span aria-hidden="true">X</span></button>
-                    </div>
-
-                    <div class="modal-body"> ¿Seguro que quieres eliminar el proyecto? </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-primary" @onclick="@(async () => await EliminarProyecto())">Aceptar</button>
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
-    }
+    
 }
 
 

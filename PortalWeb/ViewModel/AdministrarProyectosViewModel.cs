@@ -24,45 +24,23 @@ namespace PortalWeb.ViewModel
         public bool editar, editado = false; //indican si se va a editar un proyecto y si se ha editado
 
         public bool eliminar, eliminado = false; //indica si se ha pulsado el boton eliminar y si se ha eliminado un proyecto
+        public string estadoEliminado;
 
         private string CadenaConexion = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=plataforma_iot;Integrated Security=true";
 
         protected ServicioProyecto servicioProyecto;
         protected ServicioEstacionBase servicioEB;
 
+        private int idUsuario; 
+
         protected override async Task OnInitializedAsync()
         {
             servicioProyecto = new ServicioProyecto(CadenaConexion, null);
-            servicioEB = new ServicioEstacionBase(CadenaConexion, null);
-            //servicioSensor = new ServicioSensor(CadenaConexion, null);
-            
+            servicioEB = new ServicioEstacionBase(CadenaConexion, null);            
 
-            int id = 1; //ide del usuario -> BORRAR
-            proyectos = await servicioProyecto.ObtenerProyectos(id);
-            estaciones = new List<EntidadEstacionBase>();
+            idUsuario = 0; //ide del usuario -> BORRAR
 
-            if(proyectos != null)
-            {
-                foreach (var proyecto in proyectos)
-                {      
-                    var estacionesTodas = await servicioEB.ListaEstacionesBase(proyecto.Nombre);
-                    foreach (var a in  estacionesTodas)
-                    {
-                        estaciones.Add(a);
-                    }
-                }
-                sensores = new List<EntidadSensorResultado>();
-                foreach(var estacion in estaciones)
-                {
-                    var aux = await servicioEB.ObtenerSensores(estacion.Nombre);
-                    foreach(var b in aux)
-                    {
-                        sensores.Add(b);
-                    }
-                }
-
-                
-            }
+            await CargarDatos();
             
             this.StateHasChanged();
         }
@@ -97,19 +75,22 @@ namespace PortalWeb.ViewModel
         protected async Task Eliminar()
         {
             Console.WriteLine("Función eliminar activada.");
-            //Proyecto = new Proyecto();
+            
             this.eliminar = true;
+            this.eliminado = false;
         }
 
-        protected async Task EliminarProyecto()
+        protected async Task EliminarProyecto(int idProyecto)
         {
             Console.WriteLine("Función 'eliminar proyecto' activada.");
-            //Proyecto = new Proyecto();
 
-           //await servicioProyecto.EliminarSensor(2,5014);
+            var resultadoBorrado = await servicioProyecto.EliminarProyecto(idProyecto);
             this.eliminado = true;
-            
-           
+
+            if (resultadoBorrado)
+                estadoEliminado = "Proyecto eliminado.";
+            else
+                estadoEliminado = "Error durante la eliminación del proyecto.";
 
             this.StateHasChanged(); //el componente debe refrescarse para mostrar la vista sin el proyecto
         }
@@ -124,8 +105,37 @@ namespace PortalWeb.ViewModel
 
             this.eliminar = false;
             this.eliminado = false;
-
+            
+            await CargarDatos();
             this.StateHasChanged();
+        }
+
+        protected async Task CargarDatos()
+        {          
+            proyectos = await servicioProyecto.ObtenerProyectos(idUsuario);
+            estaciones = new List<EntidadEstacionBase>();
+
+            if (proyectos != null)
+            {
+                foreach (var proyecto in proyectos)
+                {
+                    var estacionesProyecto = await servicioEB.ListaEstacionesBase(proyecto.Nombre);
+                    foreach (var estacionProyecto in estacionesProyecto)
+                    {
+                        estaciones.Add(estacionProyecto);
+                    }
+                }
+                sensores = new List<EntidadSensorResultado>();
+                foreach (var estacion in estaciones)
+                {
+                    var sensoresEstacion = await servicioEB.ObtenerSensores(estacion.Nombre);
+                    foreach (var sensorEstacion in sensoresEstacion)
+                    {
+                        sensores.Add(sensorEstacion);
+                    }
+                }
+            }
+
         }
     }
       

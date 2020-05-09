@@ -73,28 +73,35 @@ namespace Repositorio.SQLServer
             return resultado;
         }
 
-        public async Task<bool> EliminarProyecto()
+        public async Task<bool> EliminarProyecto(int idProyecto)
         {
             bool eliminado = false;
 
+            Dictionary<string, object> parametros = new Dictionary<string, object>
+            {
+                { "@id", idProyecto }
+            };
+
             string query = string.Format(@"DELETE FROM [plataforma_iot].[dbo].[Proyecto]
-                                           WHERE ");
+                                           WHERE [id] = @id");
             try
             {
                 using (SqlConnection conn = new SqlConnection(cadenaConexion))
                 {
-                   await conn.QueryAsync<EntidadProyecto>(query);
-                }
-                eliminado = true;
+                    await conn.ExecuteAsync(query,parametros);
+                    eliminado = true;
+                }               
             }
             catch (Exception ex)
             {
                 //log.Error($"Se ha producido un error al eliminar el proyecto - ERR. REPOSITORIO PROYECTO");
                 Console.WriteLine(ex.Message, "Error: ");
-                return eliminado = false;
+                eliminado = false;
             }
             return eliminado;
         }
+
+
 
         public async void EditarProyecto()
         {

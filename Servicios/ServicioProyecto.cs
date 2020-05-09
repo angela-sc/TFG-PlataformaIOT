@@ -5,6 +5,7 @@ using Repositorio.SQLServer;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -56,6 +57,22 @@ namespace Servicios
                 
             }
             //return insertado;
+        }
+
+        public async Task<bool> EliminarProyecto(int idProyecto)
+        {
+            bool eliminado = false;
+
+            try
+            {
+                eliminado = await repositorioProyecto.EliminarProyecto(idProyecto);
+                return eliminado;
+            }
+            catch (Exception)
+            {
+
+                return eliminado = false;
+            }
         }
         
     }
