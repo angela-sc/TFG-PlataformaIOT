@@ -48,7 +48,7 @@ else
                                         </div>
                                     }
                                     else {
-                                        <div class="modal-body">@estadoEliminado</div>
+                                        <div class="modal-body" style="text-align:center;">@estadoEliminado</div>
                                     }
                                 </div>
                             </div>
@@ -59,7 +59,6 @@ else
                 <div class="card-body text-dark">
                     <p class="card-text">@proyecto.Descripcion</p>
                     <p class="card-text mr-2" style="text-decoration:underline;">Elementos del proyecto:</p>
-                    @*<button class="btn btn-warning btn-sm" @onclick="@(async () => await Editar())"><span class="oi oi-pencil"></span> Editar</button>*@
 
                     @if (estacionesProyecto != null)
                     {
@@ -79,27 +78,9 @@ else
                                     </ul>
                                 }
                             </ul>
-                            @*<li class="list-group-item">@estacion.Nombre</li>*@
-                            
-
-                            @*if (sensoresEstacion != null)
-                            {
-                                //eb => eb.FK_IdProyecto == proyecto.Id
-                                <ul class="list-group">
-                                    @foreach (var sensor in sensoresEstacion)
-                                    {
-
-                                    <li class="list-group-item">
-                                        @sensor.NombreSensor
-                                    </li>
-                                    }
-                                </ul>
-                            }*@
+                         
                         }                   
                     }
-
-                    @*<a href="/admin_estacionesbase/@proyecto.Nombre"><span class="oi oi-pencil btn" style="color:yellow;"></span> Editar</a>*@
-                    @*<button class="btn btn-danger btn-sm" @onclick="@(async () => await Eliminar())"><span class="oi oi-x"></span> Eliminar</button>*@
                 </div>
             </div>
         }

@@ -88,9 +88,9 @@ namespace PortalWeb.ViewModel
             this.eliminado = true;
 
             if (resultadoBorrado)
-                estadoEliminado = "Proyecto eliminado.";
+                estadoEliminado = "¡¡ PROYECTO ELIMINADO !!";
             else
-                estadoEliminado = "Error durante la eliminación del proyecto.";
+                estadoEliminado = " ERROR AL ELIMINAR EL PROYECTO";
 
             this.StateHasChanged(); //el componente debe refrescarse para mostrar la vista sin el proyecto
         }
