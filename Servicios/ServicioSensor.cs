@@ -20,8 +20,6 @@ namespace Servicios
             this.repositorioSensor = new RepositorioSensor(cadenaConexion, log);
         }
 
-        
-
         //Obtiene todos los datos asociados a un sensor, sin filtros
         public async Task<IEnumerable<EntidadDatoBase>> ObtenerDatos(int idSensor, int top)
         {
@@ -38,12 +36,6 @@ namespace Servicios
             
             return datos; //devuelve null o un IEnumerable<EntidadDatoBase>
         }
-
-        //Obtiene los datos asociados a un sensor FILTRANDO por fechas
-        //public async Task<List<EntidadDatoBase>> BuscarDatos(int idSensor, DateTime inicio, DateTime fin)
-        //{
-        //    List<EntidadDatoBase> datos = null;
-        //}
 
         //Devuelve una lista con los datos de temperatura de un sensor determinado
         public async Task<IEnumerable<double>> ObtenerTemperatura(int idSensor, int top)
@@ -76,44 +68,12 @@ namespace Servicios
 
         public async Task<bool> EliminarDatos(int fk_SensorId)
         {
-            bool eliminado = false;
-            //try
-            //{
-
-
-            eliminado = await repositorioSensor.EliminarDatos(fk_SensorId);
-            // eliminado = true;
-
-            //}catch(Exception ex)
-            //{
-            //    Console.WriteLine("Error el eliminar los datos: ", ex.Message);
-            //    return eliminado;
-            //}
-
-            return eliminado;
+            return await repositorioSensor.EliminarDatos(fk_SensorId);
         }
 
-        public async Task<bool> EliminarSensor(int fk_estacionbaseid, int sensorid)
+        public async Task<bool> EliminarSensor(int sensorid)
         {
-            bool eliminado = false;
-            //try
-            //{
-            //if(await repositorioSensor.EliminarDatos(sensorid))
-            //{
-
-
-            //}
-            eliminado = await repositorioSensor.EliminarSensor(fk_estacionbaseid, sensorid);
-
-            // eliminado = true;
-
-            //}catch(Exception ex)
-            //{
-            //    Console.WriteLine("Error el eliminar los datos: ", ex.Message);
-            //    return eliminado;
-            //}
-
-            return eliminado;
+            return await repositorioSensor.EliminarSensor(sensorid);
         }
     }
 }

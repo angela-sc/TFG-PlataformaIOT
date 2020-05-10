@@ -9,6 +9,7 @@ namespace Libreria.Entidades
     public class EntidadSensorResultado
     {
         public string NombreSensor { get; set; } //nombre del sensor
+        public int IdSensor { get; set; }
 
         //Cordenadas del sensor (latitud,longitud: 38.5177,-0.3185) public SqlGeography Coordenada { get; set; } 
         public string Latitud { get; set; }

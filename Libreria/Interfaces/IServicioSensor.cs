@@ -13,6 +13,6 @@ namespace Libreria.Interfaces
         Task<IEnumerable<double>> ObtenerTemperatura(int idSensor, int top);
         Task<int> ObtenerIdSensor(string nombreSensor, string nombreEstacionBase);
         Task<bool> EliminarDatos(int fk_SensorId);
-        Task<bool> EliminarSensor(int fk_estacionbaseid, int sensorid);
+        Task<bool> EliminarSensor(int sensorid);
     }
 }

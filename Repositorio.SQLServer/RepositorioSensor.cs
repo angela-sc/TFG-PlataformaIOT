@@ -168,23 +168,23 @@ namespace Repositorio.SQLServer
             return eliminado;
         }
 
-        public async Task<bool> EliminarSensor(int fk_idEstacionBase, int idSensor)
+        public async Task<bool> EliminarSensor(int idSensor)
         {
             bool eliminado = false;
 
             Dictionary<string, object> parametros = new Dictionary<string, object>
             {
-                { "@fk_idestacionbase", fk_idEstacionBase},
-                { "@id_sensor", idSensor }
+                { "@id", idSensor }
             };
 
-            string query = @"DELETE FROM [plataforma_iot].[dbo].[Sensor] WHERE [id] = @id_sensor AND [fk_idestacionbase] = @fk_idestacionbase";
+            string query = @"DELETE FROM [plataforma_iot].[dbo].[Sensor] WHERE [id] = @id";
 
             try
             {
                 using (SqlConnection conn = new SqlConnection(cadenaConexion))
                 {
                     await conn.ExecuteAsync(query, parametros);
+                    eliminado = true;
                 }
             }
             catch (Exception ex)
@@ -192,7 +192,7 @@ namespace Repositorio.SQLServer
                 //log.Error($"No se ha podido eliminar el sensor {idSensor} - ERR. REPOSITORIO SENSOR");
                 Console.WriteLine($"Error al borrar los datos del sensor {idSensor}: ", ex.Message);
 
-                return eliminado;
+                eliminado = false;
             }
 
             return eliminado;

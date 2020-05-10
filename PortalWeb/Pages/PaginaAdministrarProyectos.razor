@@ -23,37 +23,13 @@ else
         <!-- bucle que muestra los proyectos -->
         @foreach (var proyecto in proyectos)
         {
-            var estacionesProyecto =  estaciones.Where(eb => eb.FK_IdProyecto == proyecto.Id);
+            var estacionesProyecto = estaciones.Where(eb => eb.FK_IdProyecto == proyecto.Id);
 
             <div class="card border-dark mb-3 mr-3" style="max-width:16rem;">
                 <div class="card-header" style="background-color:rgba(0,0,0,.03);">
                     @proyecto.Nombre
                     <span class="oi oi-pencil btn" style="color:green; cursor:pointer;" @onclick="@(() => navmanager.NavigateTo($"/admin_estacionesbase/{proyecto.Nombre}"))"></span>
-                    <span class="oi oi-x" style="color:red; cursor:pointer;" @onclick="@(async () => await Eliminar(EntidadTratada.PROYECTO, proyecto.Id))"></span>
-                   
-                    @if (eliminar)
-                    {
-                        <div class="modal" tabindex="99" style="display: block; margin-top: 5%;" role="dialog">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title">Eliminar Proyecto</h4>
-                                        <button type="button" class="close" @onclick="@(async () => await Close())"><span aria-hidden="true">X</span></button>
-                                    </div>
-                                    @if (!eliminado)
-                                    {
-                                        <div class="modal-body"> ¿Seguro que quieres eliminar el proyecto? </div>
-                                        <div class="modal-footer">
-                                            <button class="btn btn-primary" @onclick="@(async () => await EliminarProyecto(proyecto.Id))">Aceptar</button>
-                                        </div>
-                                    }
-                                    else {
-                                        <div class="modal-body" style="text-align:center;">@estadoEliminado</div>
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                    }
+                    <span class="oi oi-x" style="color:red; cursor:pointer; float:right;" @onclick="@(async () => await ActivarEliminar(EntidadTratada.PROYECTO, proyecto.Id))"></span>
                 </div>
 
                 <div class="card-body text-dark">
@@ -67,25 +43,24 @@ else
                             var sensoresEstacion = sensores.Where(se => se.fk_idestacionbase == estacion.Id);
 
                             <ul class="list-unstyled">
-                                <li>@estacion.Nombre <span class="oi oi-x" style="color:red; cursor:pointer; float:right;" @onclick="@(async () => await EliminarEstacionBase(estacion.Id))"></span></li>
-                                @if(sensoresEstacion != null)
+                                <li>@estacion.Nombre <span class="oi oi-x" style="color:red; cursor:pointer; float:right;" @onclick="@(async () => await ActivarEliminar(EntidadTratada.ESTACIONBASE, estacion.Id))"></span></li>
+                                @if (sensoresEstacion != null)
                                 {
                                     <ul>
                                         @foreach (var sensor in sensoresEstacion)
                                         {
-                                            <li>@sensor.NombreSensor</li>
+                                            <li>@sensor.NombreSensor <span class="oi oi-x" style="color:red; cursor:pointer; float:right;" @onclick="@(async () => await ActivarEliminar(EntidadTratada.SENSOR, sensor.IdSensor))"></span></li>
                                         }
                                     </ul>
                                 }
                             </ul>
-                         
-                        }                   
+                        }
                     }
                 </div>
             </div>
         }
     </div>
-    
+
 
     <!-- si se hace clic en 'crear proyecto' se abre el modal -->
     @if (crear)
@@ -133,6 +108,33 @@ else
         </div>
     }
 
+    @if (eliminar)
+    {
+        <div class="modal" tabindex="99" style="display: block; margin-top: 5%;" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">@encabezadoEliminar</h4>
+                        <button type="button" class="close" @onclick="@(async () => await Close())"><span aria-hidden="true">X</span></button>
+                    </div>
+                    @if (!eliminado)
+                    {
+                        <div class="modal-body"> @preguntaEliminar </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary" @onclick="@(async () => await Eliminar())">Aceptar</button>
+                        </div>
+                    }
+                    else
+                    {
+                        @*<div class="modal-body @claseModal" role="alert" style="text-align:center;">@mensajeEliminar</div>*@
+
+                        <div class=@claseModal role="alert" style="text-align:center;"><strong>@mensajeEliminar</strong></div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+
     @if (editar)
     {
         <div class="modal" tabindex="99" style="display: block; margin-top: 5%;" role="dialog">
@@ -149,7 +151,7 @@ else
         </div>
     }
 
-    
+
 }
 
 
