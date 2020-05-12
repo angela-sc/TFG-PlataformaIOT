@@ -161,7 +161,6 @@ else
                         <h4 class="modal-title">Editar estación base</h4>
                         <button type="button" class="close" @onclick="@(async () => await Close())"><span aria-hidden="true">X</span></button>
                     </div>
-
                     <div class="modal-body">
                         @if (!editado)
                         {
@@ -174,19 +173,14 @@ else
                                         <label for="nombre">Nombre</label>
                                         <InputText class="form-control" id="nombre" @bind-Value="EstacionBaseEditar.Nombre"></InputText>
                                         <ValidationMessage For="@(()=> EstacionBaseEditar.Nombre)" />
-                                    </div>
-
-                                    
+                                    </div> 
                                 </div>
-
                                 <button class="btn btn-primary" type="submit">Aceptar</button>
                             </EditForm>
-
                         }
                         else
                         {
-                            <div class="alert alert-success" role="alert"><strong> FUNCION EDITAR - OK</strong></div>
-
+                            <div class="alert alert-info" role="alert" style="text-align:center;"><strong> @mensajeEditar</strong></div>
                         }
                     </div>
                 </div>

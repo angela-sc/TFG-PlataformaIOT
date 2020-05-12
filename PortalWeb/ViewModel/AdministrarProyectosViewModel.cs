@@ -41,8 +41,9 @@ namespace PortalWeb.ViewModel
 
         protected string mensajeEliminar; //mensaje que se publica en el pop up segun si se ha eliminado el elemento o no
         protected string preguntaEliminar;
-        protected string encabezadoEliminar; 
+        protected string encabezadoEliminar;
 
+        protected string mensajeEditar;
 
         protected IEnumerable<EntidadProyecto> proyectos = null; //lista de todos los proyectos del usuario
         protected List<EntidadEstacionBase> estaciones;
@@ -101,20 +102,20 @@ namespace PortalWeb.ViewModel
             creado = true;
         }
 
-        protected async Task Editar(ModeloProyecto proyecto)
-        {
-            Console.WriteLine("Función editar activada.");
+        //protected async Task Editar(ModeloProyecto proyecto)
+        //{
+        //    Console.WriteLine("Función editar activada.");
 
-            Proyecto = new ModeloProyecto()
-            {
-                Id = proyecto.Id,
-                Nombre = proyecto.Nombre,
-                Descripcion = string.IsNullOrEmpty(proyecto.Descripcion) ? "" : proyecto.Descripcion
+        //    Proyecto = new ModeloProyecto()
+        //    {
+        //        Id = proyecto.Id,
+        //        Nombre = proyecto.Nombre,
+        //        Descripcion = string.IsNullOrEmpty(proyecto.Descripcion) ? "" : proyecto.Descripcion
                 
-            };
+        //    };
 
-            this.editar = true;            
-        }
+        //    this.editar = true;            
+        //}
 
         
         protected void ActivarEditar(EntidadEstacionBase eb) //Activa el modal, que se muestra cuando EstacionBaseEditar != null
@@ -132,8 +133,16 @@ namespace PortalWeb.ViewModel
                 Id = EstacionBaseEditar.Id,
                 Nombre = EstacionBaseEditar.Nombre                
             };
-
-            await servicioEstacionBase.Editar(estacion);
+            bool resultado = await servicioEstacionBase.Editar(estacion);
+            resultado = false;
+            if (resultado)
+            {
+                mensajeEditar = "Estación editada con éxito.";
+            }
+            else
+            {
+                mensajeEditar = "No se ha podido editar la estación base";
+            }
 
             this.editado = true;
             this.StateHasChanged();
