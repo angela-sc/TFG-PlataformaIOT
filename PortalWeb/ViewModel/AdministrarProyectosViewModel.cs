@@ -1,6 +1,7 @@
 ﻿using Libreria.Entidades;
 using Microsoft.AspNetCore.Components;
 using PortalWeb.Model;
+using PortalWeb.Pages;
 using Servicios;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,21 @@ namespace PortalWeb.ViewModel
 {
     public class AdministrarProyectosViewModel : ComponentBase
     {
-        public Proyecto Proyecto;
+        private ModeloEstacionBase estacionbase = null;        
+        protected ModeloEstacionBase EstacionBaseEditar  //Atributo que nos sirve para editar
+        { 
+            get 
+            { 
+                return estacionbase; 
+            }
+            set 
+            {
+                estacionbase = value;
+                this.StateHasChanged();
+            }
+        }
+
+        protected ModeloProyecto Proyecto;
 
         protected enum EntidadTratada
         {
@@ -43,6 +58,8 @@ namespace PortalWeb.ViewModel
         public int idEliminar; //id del elemento (proyecto, estacion o sensor) que se va a eliminar
         protected EntidadTratada entidadEliminar;
 
+        protected bool editarProyecto, editarEstacionBase, editarSensor = false;
+
         private string CadenaConexion = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=plataforma_iot;Integrated Security=true";
 
         private ServicioProyecto servicioProyecto;
@@ -67,7 +84,7 @@ namespace PortalWeb.ViewModel
         protected async Task Crear()
         {
             Console.WriteLine("Función crear activada.");
-            Proyecto = new Proyecto();
+            Proyecto = new ModeloProyecto();
             this.crear = true;
         }
         public async Task CrearProyecto()
@@ -75,7 +92,7 @@ namespace PortalWeb.ViewModel
             Console.WriteLine("Función crear proyecto activada.");
             servicioProyecto = new ServicioProyecto(CadenaConexion, null);
 
-            servicioProyecto.CrearProyecto(new EntidadProyecto()
+           await servicioProyecto.CrearProyecto(new EntidadProyecto()
             {
                 Nombre = Proyecto.Nombre,
                 Descripcion = Proyecto.Descripcion
@@ -84,11 +101,44 @@ namespace PortalWeb.ViewModel
             creado = true;
         }
 
-        protected async Task Editar()
+        protected async Task Editar(ModeloProyecto proyecto)
         {
             Console.WriteLine("Función editar activada.");
+
+            Proyecto = new ModeloProyecto()
+            {
+                Id = proyecto.Id,
+                Nombre = proyecto.Nombre,
+                Descripcion = string.IsNullOrEmpty(proyecto.Descripcion) ? "" : proyecto.Descripcion
+                
+            };
+
             this.editar = true;            
         }
+
+        
+        protected void ActivarEditar(EntidadEstacionBase eb) //Activa el modal, que se muestra cuando EstacionBaseEditar != null
+        {
+            EstacionBaseEditar = new ModeloEstacionBase()
+            {
+                Id = eb.Id,
+                Nombre = eb.Nombre
+            };
+        }
+        protected async Task EditarEstacionBase() 
+        {
+            var estacion = new EntidadEstacionBase()
+            {
+                Id = EstacionBaseEditar.Id,
+                Nombre = EstacionBaseEditar.Nombre                
+            };
+
+            await servicioEstacionBase.Editar(estacion);
+
+            this.editado = true;
+            this.StateHasChanged();
+        }
+
         protected async Task ActivarEliminar(EntidadTratada entidad, int id)
         {
             Console.WriteLine("Función eliminar activada.");
@@ -116,6 +166,8 @@ namespace PortalWeb.ViewModel
             this.eliminar = true;
             this.eliminado = false;
         }
+
+      
 
         protected async Task Eliminar()
         {
@@ -167,8 +219,7 @@ namespace PortalWeb.ViewModel
                 }
             }
             this.eliminado = true;
-            this.StateHasChanged(); //el componente debe refrescarse para mostrar la vista sin el proyecto
-            
+            this.StateHasChanged(); //el componente debe refrescarse para mostrar la vista sin el proyecto           
         }
 
         //protected async Task EliminarProyecto(int idProyecto)
@@ -212,7 +263,9 @@ namespace PortalWeb.ViewModel
             this.eliminar = false;
             this.eliminado = false;
 
-            this.claseModal = "";
+            //this.claseModal = "";
+            this.EstacionBaseEditar = null;
+
             await CargarDatos();
             this.StateHasChanged();
         }

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Servicios
 {
-    public class ServicioProyecto
+    public class ServicioProyecto : IServicioProyecto
     {
         private ILogger log;
         private IRepositorioProyecto repositorioProyecto;
@@ -42,13 +42,13 @@ namespace Servicios
             return proyectos; //devuelve null o un IEnumerable<EntidadDatoBase>
         }
 
-        public  void CrearProyecto(EntidadProyecto proyecto)
+        public async Task CrearProyecto(EntidadProyecto proyecto)
         {
            
             //bool insertado = false;
             try
             {
-                 repositorioProyecto.InsertaProyecto(proyecto);
+                 await repositorioProyecto.InsertaProyecto(proyecto);
                 //insertado = true;
             }
             catch (Exception)
@@ -73,6 +73,11 @@ namespace Servicios
 
                 return eliminado = false;
             }
+        }
+
+        public async Task<bool> EditarProyecto(EntidadProyecto proyecto)
+        {
+            return await repositorioProyecto.EditarProyecto(proyecto);      
         }
         
     }

@@ -8,9 +8,9 @@ namespace Libreria.Interfaces
 {
     public interface IRepositorioProyecto
     {
-        void InsertaProyecto(EntidadProyecto proyecto);
+        Task InsertaProyecto(EntidadProyecto proyecto);
         
-        void EditarProyecto();
+        Task<bool> EditarProyecto(EntidadProyecto proyecto);
 
         //Metodo para obtener todos los proyectos de un usuario determinado
         Task<IEnumerable<EntidadProyecto>> ObtenerProyectos(int idUsuario);

@@ -20,7 +20,7 @@ namespace Repositorio.SQLServer
             this.cadenaConexion = cadenaConexion;
             this.log = logger;
         }
-        public async void InsertaProyecto(EntidadProyecto proyecto)
+        public async Task InsertaProyecto(EntidadProyecto proyecto)
         {                
             Dictionary<string, object> parametros = new Dictionary<string, object>
             {
@@ -103,9 +103,35 @@ namespace Repositorio.SQLServer
 
 
 
-        public async void EditarProyecto()
+        public async Task<bool> EditarProyecto(EntidadProyecto proyecto)
         {
+            bool editado;
+            Dictionary<string, object> parametros = new Dictionary<string, object>
+            {
+                { "@id", proyecto.Id },
+                { "@nombre", proyecto.Nombre },
+                { "@descripcion", proyecto.Descripcion}
+            };
 
+            string query = @"   UPDATE [plataforma_iot].[dbo].[Proyecto]
+                                SET [nombre] = @nombre, [descripcion] = @descripcion
+                                WHERE [id] = @id";
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(cadenaConexion))
+                {
+                    await conn.ExecuteAsync(query, parametros);
+                    editado = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                //log.Error($"Se ha producido un error al eliminar el proyecto - ERR. REPOSITORIO PROYECTO");
+                Console.WriteLine(ex.Message, "Error: ");
+                editado = false;
+            }
+            return editado;
         }
     }
 }

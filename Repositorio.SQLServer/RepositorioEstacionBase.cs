@@ -208,5 +208,35 @@ namespace Repositorio.SQLServer
             return eliminada;
 
         }
+
+        public async Task<bool> Editar(EntidadEstacionBase estacionBase)
+        {
+            bool editado;
+            Dictionary<string, object> parametros = new Dictionary<string, object>
+            {
+                { "@id", estacionBase.Id },
+                { "@nombre", estacionBase.Nombre }
+            };
+
+            string query = @"   UPDATE [plataforma_iot].[dbo].[EstacionBase]
+                                SET [nombre] = @nombre
+                                WHERE [id] = @id";
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(cadenaConexion))
+                {
+                    await conn.ExecuteAsync(query, parametros);
+                    editado = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                //log.Error($"Se ha producido un error al eliminar el proyecto - ERR. REPOSITORIO PROYECTO");
+                Console.WriteLine(ex.Message, "Error: ");
+                editado = false;
+            }
+            return editado;
+        }
     }
 }
