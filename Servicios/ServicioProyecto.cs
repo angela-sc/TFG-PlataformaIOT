@@ -51,9 +51,10 @@ namespace Servicios
                 //await repositorioProyecto.InsertaProyecto(proyecto);
                 //insertado = true;
 
-                await repositorioProyecto.Crear(proyecto);
-                int idProyecto = await repositorioProyecto.ObtenerId(proyecto.Nombre);
-                await repositorioProyecto.AsociarUsuarioProyecto(idProyecto, idUsuario);
+                //await repositorioProyecto.InsertaProyecto(proyecto);
+                //int idProyecto = await repositorioProyecto.ObtenerId(proyecto.Nombre);
+                //await repositorioProyecto.AsociarUsuarioProyecto(idProyecto, idUsuario);
+                await repositorioProyecto.InsertaProyecto(proyecto, idUsuario);
             }
             catch (Exception)
             {

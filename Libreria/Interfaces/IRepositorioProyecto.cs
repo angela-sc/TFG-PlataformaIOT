@@ -18,9 +18,9 @@ namespace Libreria.Interfaces
         //Metodo para eliminar un proyecto - elimina las estaciones base y sensores asociados al proyecto
         Task<bool> EliminarProyecto(int idProyecto);
 
-        Task AsociarUsuarioProyecto(int idProyecto, int idUsuario);
-        Task Crear(EntidadProyecto proyecto);
-        Task<int> ObtenerId(string nombreProyecto);
+        //Task AsociarUsuarioProyecto(int idProyecto, int idUsuario);
+        Task InsertaProyecto(EntidadProyecto proyecto, int idUsuario);
+        //Task<int> ObtenerId(string nombreProyecto);
         
     }
 }
