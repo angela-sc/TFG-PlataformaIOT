@@ -33,6 +33,11 @@ namespace PortalWeb
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
+            /**
+             * DE MOMENTO SE HARDCODEARÁ AQUÍ HASTA QUE SE IMPLEMENTE EL LOGIN DE USUARIO
+             */
+            InformacionUsuario.IdUsuario = 1;
         }
 
         public IConfiguration Configuration { get; }

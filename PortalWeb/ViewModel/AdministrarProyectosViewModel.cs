@@ -1,5 +1,6 @@
 ﻿using Libreria.Entidades;
 using Microsoft.AspNetCore.Components;
+using PortalWeb.Data;
 using PortalWeb.Model;
 using PortalWeb.Pages;
 using Servicios;
@@ -90,7 +91,7 @@ namespace PortalWeb.ViewModel
             servicioEstacionBase = new ServicioEstacionBase(CadenaConexion, null);
             servicioSensor = new ServicioSensor(CadenaConexion, null);
 
-            idUsuario = 1; //ide del usuario -> BORRAR
+            idUsuario = InformacionUsuario.IdUsuario; //ide del usuario -> BORRAR
 
             await CargarDatos();
             

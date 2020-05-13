@@ -2,6 +2,7 @@
 using Libreria.Interfaces;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
+using PortalWeb.Data;
 using Servicios;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace PortalWeb.ViewModel
         public IEnumerable<EntidadProyecto> proyectos;
         public ServicioProyecto servicio;
 
-        private int usuario = 1;
+        private int usuario = InformacionUsuario.IdUsuario;
 
         // Initialize SearchTerm to "" to prevent null's
         public string SearchTerm { get; set; } = "";
