@@ -33,7 +33,7 @@ else
                         <span class="oi oi-x" style="color:red;" @onclick="@(async () => await ActivarEliminar(EntidadTratada.PROYECTO, proyecto.Id))"></span>
 
                     </div>
-                    
+
                 </div>
 
                 <div class="card-body text-dark">
@@ -54,7 +54,7 @@ else
                                         <span class="oi oi-x" style="color:red;" @onclick="@(async () => await ActivarEliminar(EntidadTratada.ESTACIONBASE, estacion.Id))"></span>
                                     </div>
                                 </li>
-                                
+
                                 @if (sensoresEstacion != null)
                                 {
                                     <ul>
@@ -63,10 +63,10 @@ else
                                             <li>
                                                 @sensor.NombreSensor
                                                 <div style="cursor:pointer; float:right;">
-                                                    <span class="oi oi-pencil btn" style="color:green;" @onclick="@(() => navmanager.NavigateTo($"/admin_estacionesbase/{proyecto.Nombre}"))"></span>
+                                                    <span class="oi oi-pencil btn" style="color:green;" @onclick="@(() => ActivarEditar(sensor))"></span>
                                                     <span class="oi oi-x" style="color:red;" @onclick="@(async () => await ActivarEliminar(EntidadTratada.SENSOR, sensor.IdSensor))"></span>
                                                 </div>
-                                           </li>
+                                            </li>
                                         }
                                     </ul>
                                 }
@@ -173,7 +173,7 @@ else
                                         <label for="nombre">Nombre</label>
                                         <InputText class="form-control" id="nombre" @bind-Value="EstacionBaseEditar.Nombre"></InputText>
                                         <ValidationMessage For="@(()=> EstacionBaseEditar.Nombre)" />
-                                    </div> 
+                                    </div>
                                 </div>
                                 <button class="btn btn-primary" type="submit">Aceptar</button>
                             </EditForm>
@@ -188,7 +188,41 @@ else
         </div>
     }
 
+    @if (SensorEditar != null)
+    {
+        <div class="modal" tabindex="99" style="display: block; margin-top: 5%;" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Editar sensor</h4>
+                        <button type="button" class="close" @onclick="@(async () => await Close())"><span aria-hidden="true">X</span></button>
+                    </div>
+                    <div class="modal-body">
+                        @if (!editado)
+                        {
+                            <EditForm Model="SensorEditar" OnSubmit="@(async () => await EditarSensor())">
+                                <DataAnnotationsValidator />
+                                <ValidationSummary />
 
+                                <div class="form-group">
+                                    <div style="margin-bottom: 5px">
+                                        <label for="nombre">Nombre</label>
+                                        <InputText class="form-control" id="nombre" @bind-Value="SensorEditar.Nombre"></InputText>
+                                        <ValidationMessage For="@(()=> SensorEditar.Nombre)" />
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary" type="submit">Aceptar</button>
+                            </EditForm>
+                        }
+                        else
+                        {
+                            <div class="alert alert-info" role="alert" style="text-align:center;"><strong> @mensajeEditar</strong></div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
 }
 
 

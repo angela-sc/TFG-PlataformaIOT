@@ -75,5 +75,10 @@ namespace Servicios
         {
             return await repositorioSensor.EliminarSensor(sensorid);
         }
+
+        public async Task<bool> Editar(EntidadSensor sensor)
+        {
+            return await repositorioSensor.Editar(sensor);
+        }
     }
 }

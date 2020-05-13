@@ -14,5 +14,6 @@ namespace Libreria.Interfaces
         Task<int> ObtenerIdSensor(string nombreSensor, string nombreEstacionBase);
         Task<bool> EliminarDatos(int fk_SensorId);
         Task<bool> EliminarSensor(int sensorid);
+        Task<bool> Editar(EntidadSensor sensor);
     }
 }

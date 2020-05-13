@@ -27,6 +27,21 @@ namespace PortalWeb.ViewModel
             }
         }
 
+        private ModeloSensor sensor = null;
+        protected ModeloSensor SensorEditar
+        {
+            get
+            {
+                return sensor;
+            }
+            set
+            {
+                sensor = value;
+                this.StateHasChanged();
+            }
+        }
+
+
         protected ModeloProyecto Proyecto;
 
         protected enum EntidadTratada
@@ -134,7 +149,7 @@ namespace PortalWeb.ViewModel
                 Nombre = EstacionBaseEditar.Nombre                
             };
             bool resultado = await servicioEstacionBase.Editar(estacion);
-            resultado = false;
+            
             if (resultado)
             {
                 mensajeEditar = "Estación editada con éxito.";
@@ -146,6 +161,38 @@ namespace PortalWeb.ViewModel
 
             this.editado = true;
             this.StateHasChanged();
+        }
+
+        protected void ActivarEditar(EntidadSensorResultado s)
+        {
+            SensorEditar = new ModeloSensor()
+            {
+                Id = s.IdSensor,
+                Nombre = s.NombreSensor
+            };
+        }
+        protected async Task EditarSensor()
+        {
+            var sensor = new EntidadSensor()
+            {
+                Id = SensorEditar.Id,
+                Nombre = SensorEditar.Nombre
+            };
+
+            bool resultado = await servicioSensor.Editar(sensor);
+            
+            if (resultado)
+            {
+                mensajeEditar = "El nombre del sensor se ha cambiado con éxito.";
+            }
+            else
+            {
+                mensajeEditar = "No se ha podido editar el sensor.";
+            }
+
+            this.editado = true;
+            this.StateHasChanged();
+
         }
 
         protected async Task ActivarEliminar(EntidadTratada entidad, int id)
@@ -274,6 +321,8 @@ namespace PortalWeb.ViewModel
 
             //this.claseModal = "";
             this.EstacionBaseEditar = null;
+
+            this.SensorEditar = null;
 
             await CargarDatos();
             this.StateHasChanged();

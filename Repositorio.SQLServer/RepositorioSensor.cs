@@ -197,6 +197,38 @@ namespace Repositorio.SQLServer
 
             return eliminado;
         }
+
+        public async Task<bool> Editar(EntidadSensor sensor)
+        {
+            bool editado;
+
+            Dictionary<string, object> parametros = new Dictionary<string, object>
+            {
+                { "@id", sensor.Id },
+                { "@nombre", sensor.Nombre}
+            };
+
+            string query = @"   UPDATE [plataforma_iot].[dbo].[Sensor]
+                                SET [nombre] = @nombre
+                                WHERE [id] = @id ";
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(cadenaConexion))
+                {
+                    await conn.ExecuteAsync(query, parametros);
+                    editado = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                //log.Error($"Se ha producido un error al eliminar el proyecto - ERR. REPOSITORIO SENSOR");
+                Console.WriteLine(ex.Message, "Error: ");
+                editado = false;
+            }
+
+            return editado;
+        }
         
     }
 }

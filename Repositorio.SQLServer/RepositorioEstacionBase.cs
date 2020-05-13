@@ -232,7 +232,7 @@ namespace Repositorio.SQLServer
             }
             catch (Exception ex)
             {
-                //log.Error($"Se ha producido un error al eliminar el proyecto - ERR. REPOSITORIO PROYECTO");
+                //log.Error($"Se ha producido un error al eliminar el proyecto - ERR. REPOSITORIO ESTACIÓN BASE");
                 Console.WriteLine(ex.Message, "Error: ");
                 editado = false;
             }

@@ -16,6 +16,7 @@ namespace Libreria.Interfaces
         //Metodos para eliminar un sensor y sus datos
         Task<bool> EliminarDatos(int fk_sensorid);
         Task<bool> EliminarSensor(int sensorid);
+        Task<bool> Editar(EntidadSensor sensor);
 
     }
 }
