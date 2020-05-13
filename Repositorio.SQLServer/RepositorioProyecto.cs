@@ -5,6 +5,7 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,30 +21,30 @@ namespace Repositorio.SQLServer
             this.cadenaConexion = cadenaConexion;
             this.log = logger;
         }
-        public async Task InsertaProyecto(EntidadProyecto proyecto)
-        {                
-            Dictionary<string, object> parametros = new Dictionary<string, object>
-            {
-                { "@nombre", proyecto.Nombre },
-                { "@descripcion", proyecto.Descripcion}
+        //public async Task InsertaProyecto(EntidadProyecto proyecto)
+        //{                
+        //    Dictionary<string, object> parametros = new Dictionary<string, object>
+        //    {
+        //        { "@nombre", proyecto.Nombre },
+        //        { "@descripcion", proyecto.Descripcion}
                 
-            };
+        //    };
 
-            string query = @"INSERT INTO [plataforma_iot].[dbo].[Proyecto] ([nombre],[descripcion])
-                            VALUES (@nombre, @descripcion)";
-            try
-            {
-                using(SqlConnection conn = new SqlConnection(cadenaConexion))
-                {
-                    await conn.ExecuteAsync(query, parametros);
-                }             
-            }
-            catch(Exception ex)
-            {
-                //log.Error($"Se ha producido un error al insertar el proyecto {proyecto.name} en la base de datos - ERR. REPOSITORIO PROYECTO");
-                Console.WriteLine("Error en el método InsertaProyecto "+ex.Message); // --ELIMINAR CUANDO SE PASE EL LOG   
-            }
-        }
+        //    string query = @"INSERT INTO [plataforma_iot].[dbo].[Proyecto] ([nombre],[descripcion])
+        //                    VALUES (@nombre, @descripcion)";
+        //    try
+        //    {
+        //        using(SqlConnection conn = new SqlConnection(cadenaConexion))
+        //        {
+        //            await conn.ExecuteAsync(query, parametros);
+        //        }             
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        //log.Error($"Se ha producido un error al insertar el proyecto {proyecto.name} en la base de datos - ERR. REPOSITORIO PROYECTO");
+        //        Console.WriteLine("Error en el método InsertaProyecto "+ex.Message); // --ELIMINAR CUANDO SE PASE EL LOG   
+        //    }
+        //}
 
         public async Task<IEnumerable<EntidadProyecto>> ObtenerProyectos(int idUsuario)
         {
@@ -132,6 +133,86 @@ namespace Repositorio.SQLServer
                 editado = false;
             }
             return editado;
+        }
+
+        public async Task AsociarUsuarioProyecto(int idProyecto, int idUsuario)
+        {
+            Dictionary<string, object> parametros = new Dictionary<string, object>
+            {
+                { "@idproyecto", idProyecto },
+                { "@idusuario", idUsuario}
+
+            };
+
+            string query = @"INSERT INTO [plataforma_iot].[dbo].[Usuario_en_Proyecto] ([id_usuario],[id_proyecto])
+                            VALUES (@idusuario, @idproyecto)";
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(cadenaConexion))
+                {
+                    await conn.ExecuteAsync(query, parametros);
+                }
+            }
+            catch (Exception ex)
+            {
+                //log.Error($"Se ha producido un error al insertar el proyecto {proyecto.name} en la base de datos - ERR. REPOSITORIO PROYECTO");
+                Console.WriteLine("Error en el método AsociarUsuarioProyecto " + ex.Message); // --ELIMINAR CUANDO SE PASE EL LOG   
+            }
+
+        }
+
+        public async Task Crear(EntidadProyecto proyecto)
+        {
+            Dictionary<string, object> parametros = new Dictionary<string, object>
+            {
+                { "@nombre", proyecto.Nombre },
+                { "@descripcion", proyecto.Descripcion}
+
+            };
+
+            string query = @"INSERT INTO [plataforma_iot].[dbo].[Proyecto] ([nombre],[descripcion])
+                            VALUES (@nombre, @descripcion)";
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(cadenaConexion))
+                {
+                    await conn.ExecuteAsync(query, parametros);
+                }
+            }
+            catch (Exception ex)
+            {
+                //log.Error($"Se ha producido un error al insertar el proyecto {proyecto.name} en la base de datos - ERR. REPOSITORIO PROYECTO");
+                Console.WriteLine("Error en el método InsertaProyecto " + ex.Message); // --ELIMINAR CUANDO SE PASE EL LOG   
+            }
+        }
+
+        public async Task<int> ObtenerId(string nombreProyecto)
+        {
+            Dictionary<string, object> parametros = new Dictionary<string, object>
+            {
+                { "@nombre", nombreProyecto }
+            };
+
+            string query = @"SELECT [id] FROM [plataforma_iot].[dbo].[Proyecto] WHERE [nombre]=@nombre";
+
+            //IEnumerable<EntidadProyecto> resultado = null;
+            int resultado = -1;
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(cadenaConexion))
+                {
+                    var r = await conn.QueryAsync<int>(query, parametros);
+                    resultado = r.FirstOrDefault();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                //log.Error($"Error al obtener los proyectos del usuario {idUsuario} - ERR. REPOSITORIO PROYECTO");
+                Console.WriteLine(ex.Message, "Error en obtener id de Respositorio proyecto: ");
+                resultado = -1;
+            }
+            return resultado;
         }
     }
 }

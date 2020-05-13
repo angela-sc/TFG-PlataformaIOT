@@ -108,13 +108,14 @@ namespace PortalWeb.ViewModel
             Console.WriteLine("Función crear proyecto activada.");
             servicioProyecto = new ServicioProyecto(CadenaConexion, null);
 
-           await servicioProyecto.CrearProyecto(new EntidadProyecto()
+           await servicioProyecto.Crear(new EntidadProyecto()
             {
                 Nombre = Proyecto.Nombre,
-                Descripcion = Proyecto.Descripcion
-            });
+                Descripcion = Proyecto.Descripcion,
+            }, idUsuario);
 
             creado = true;
+            this.StateHasChanged();
         }
 
         //protected async Task Editar(ModeloProyecto proyecto)

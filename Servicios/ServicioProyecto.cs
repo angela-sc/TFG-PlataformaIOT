@@ -42,14 +42,18 @@ namespace Servicios
             return proyectos; //devuelve null o un IEnumerable<EntidadDatoBase>
         }
 
-        public async Task CrearProyecto(EntidadProyecto proyecto)
+        public async Task Crear(EntidadProyecto proyecto, int idUsuario)
         {
            
             //bool insertado = false;
             try
             {
-                 await repositorioProyecto.InsertaProyecto(proyecto);
+                //await repositorioProyecto.InsertaProyecto(proyecto);
                 //insertado = true;
+
+                await repositorioProyecto.Crear(proyecto);
+                int idProyecto = await repositorioProyecto.ObtenerId(proyecto.Nombre);
+                await repositorioProyecto.AsociarUsuarioProyecto(idProyecto, idUsuario);
             }
             catch (Exception)
             {
