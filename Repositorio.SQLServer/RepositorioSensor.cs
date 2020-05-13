@@ -208,9 +208,9 @@ namespace Repositorio.SQLServer
                 { "@nombre", sensor.Nombre}
             };
 
-            string query = @"   UPDATE [plataforma_iot].[dbo].[Sensor]
-                                SET [nombre] = @nombre
-                                WHERE [id] = @id ";
+            string query = @"UPDATE [plataforma_iot].[dbo].[Sensor]
+                             SET [nombre] = @nombre
+                             WHERE [id] = @id ";
 
             try
             {

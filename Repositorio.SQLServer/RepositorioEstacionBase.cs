@@ -51,11 +51,6 @@ namespace Repositorio.SQLServer
             }
         }
 
-        public void InsertaEstacion(EntidadEstacionBase entidadEstacion)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<IEnumerable<EntidadSensorResultado>> ObtenerSensores(string nombreEstacionBase)
         {
             /**
@@ -218,9 +213,9 @@ namespace Repositorio.SQLServer
                 { "@nombre", estacionBase.Nombre }
             };
 
-            string query = @"   UPDATE [plataforma_iot].[dbo].[EstacionBase]
-                                SET [nombre] = @nombre
-                                WHERE [id] = @id";
+            string query = @"UPDATE [plataforma_iot].[dbo].[EstacionBase]
+                             SET [nombre] = @nombre
+                             WHERE [id] = @id";
 
             try
             {
@@ -237,6 +232,35 @@ namespace Repositorio.SQLServer
                 editado = false;
             }
             return editado;
+        }
+
+        public async Task InsertaEstacionBase(EntidadEstacionBase estacionBase) //suponemos que el atributo fk_idproyecto es != null
+        {
+            Dictionary<string, object> parametros = new Dictionary<string, object>
+            {
+                { "@nombre", estacionBase.Nombre },
+                { "@fk_idproyecto", estacionBase.FK_IdProyecto }
+            };
+
+            string query = @" INSERT INTO [plataforma_iot].[dbo].[EstacionBase] ([nombre],[fk_idproyecto])
+                              VALUES (@nombre, @fk_idproyecto)";
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(cadenaConexion))
+                {
+                    await conn.ExecuteAsync(query, parametros);
+                }
+            }
+            catch (Exception ex)
+            {
+                //log.Error($"Ha habido un problema al insertar la estacion base {estacionBase.Nombre} en la base de datos - ERR. REPOSITORIO ESTACION BASE");
+                //return false; //si sucede algo, directamente devuelve false
+
+                Console.WriteLine(ex.Message, "Error en crear de repositorio estacion base:");
+            }
+            //return true;
+
         }
     }
 }

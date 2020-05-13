@@ -45,6 +45,8 @@ namespace PortalWeb.ViewModel
 
         protected ModeloProyecto Proyecto;
 
+        protected ModeloEstacionBase EstacionBase;
+
         protected enum EntidadTratada
         {
             PROYECTO,
@@ -66,7 +68,7 @@ namespace PortalWeb.ViewModel
         protected List<EntidadSensorResultado> sensores;
 
         public bool creado = false; //indica si se ha creado o no el proyecto
-        public bool crear = false;  //indica si se va a crear un proyecto o no
+        public bool crear, crear_estacionbase = false;  //indica si se va a crear un proyecto o no
 
         public bool editar, editado = false; //indican si se va a editar un proyecto y si se ha editado
 
@@ -119,6 +121,13 @@ namespace PortalWeb.ViewModel
             this.StateHasChanged();
         }
 
+        protected async Task CrearEB()
+        {
+            Console.WriteLine("Función crear estacion base activada.");
+            EstacionBase = new ModeloEstacionBase();
+            this.crear_estacionbase = true;
+        }
+
         //protected async Task Editar(ModeloProyecto proyecto)
         //{
         //    Console.WriteLine("Función editar activada.");
@@ -128,13 +137,13 @@ namespace PortalWeb.ViewModel
         //        Id = proyecto.Id,
         //        Nombre = proyecto.Nombre,
         //        Descripcion = string.IsNullOrEmpty(proyecto.Descripcion) ? "" : proyecto.Descripcion
-                
+
         //    };
 
         //    this.editar = true;            
         //}
 
-        
+
         protected void ActivarEditar(EntidadEstacionBase eb) //Activa el modal, que se muestra cuando EstacionBaseEditar != null
         {
             EstacionBaseEditar = new ModeloEstacionBase()
