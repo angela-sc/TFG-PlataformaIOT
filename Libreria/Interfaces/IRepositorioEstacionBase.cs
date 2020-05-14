@@ -8,7 +8,7 @@ namespace Libreria.Interfaces
 {
     public interface IRepositorioEstacionBase
     {
-        Task InsertaEstacionBase(EntidadEstacionBase estacionBase); 
+        Task Crear(EntidadEstacionBase estacionBase); 
         Task<int> ObtenerId(string estacionBase);
         Task<IEnumerable<EntidadSensorResultado>> ObtenerSensores(string nombreEstacionBase);
         Task<IEnumerable<EntidadEstacionBase>> ObtenerEstacionesBase(string nombreProyecto);

@@ -42,6 +42,20 @@ namespace PortalWeb.ViewModel
             }
         }
 
+        private ModeloProyecto proyecto = null;
+        protected ModeloProyecto ProyectoEditar
+        {
+            get
+            {
+                return proyecto;
+            }
+
+            set
+            {
+                proyecto = value;
+                this.StateHasChanged();
+            }
+        }
 
         protected ModeloProyecto Proyecto;
 
@@ -121,28 +135,32 @@ namespace PortalWeb.ViewModel
             this.StateHasChanged();
         }
 
-        protected async Task CrearEB()
+        protected async Task CrearEB(int proyecto)
         {
             Console.WriteLine("Función crear estacion base activada.");
             EstacionBase = new ModeloEstacionBase();
+            EstacionBase.FK_IdProyecto = proyecto;
+           
             this.crear_estacionbase = true;
         }
 
-        //protected async Task Editar(ModeloProyecto proyecto)
-        //{
-        //    Console.WriteLine("Función editar activada.");
+        public async Task CrearEstacionBase()
+        {
 
-        //    Proyecto = new ModeloProyecto()
-        //    {
-        //        Id = proyecto.Id,
-        //        Nombre = proyecto.Nombre,
-        //        Descripcion = string.IsNullOrEmpty(proyecto.Descripcion) ? "" : proyecto.Descripcion
+            Console.WriteLine("Función crear estación base activada.");
+            servicioEstacionBase = new ServicioEstacionBase(CadenaConexion, null);
 
-        //    };
+            await servicioEstacionBase.Crear(new EntidadEstacionBase()
+            {
+                Nombre = EstacionBase.Nombre,
+                FK_IdProyecto = EstacionBase.FK_IdProyecto
 
-        //    this.editar = true;            
-        //}
+            });
 
+
+            creado = true;
+            this.StateHasChanged();
+        }
 
         protected void ActivarEditar(EntidadEstacionBase eb) //Activa el modal, que se muestra cuando EstacionBaseEditar != null
         {
@@ -199,6 +217,42 @@ namespace PortalWeb.ViewModel
             else
             {
                 mensajeEditar = "No se ha podido editar el sensor.";
+            }
+
+            this.editado = true;
+            this.StateHasChanged();
+
+        }
+
+        protected void ActivarEditar(EntidadProyecto p)
+        {
+            ProyectoEditar = new ModeloProyecto()
+            {
+                Id = p.Id,
+                Nombre = p.Nombre,
+                Descripcion = p.Descripcion
+            };
+        }
+        protected async Task EditarProyecto()
+        {
+            var proyecto = new EntidadProyecto()
+            {
+                Id = ProyectoEditar.Id,
+                Nombre = ProyectoEditar.Nombre,
+                Descripcion = ProyectoEditar.Descripcion
+
+            };
+           
+
+            bool resultado = await servicioProyecto.EditarProyecto(proyecto);
+
+            if (resultado)
+            {
+                mensajeEditar = "Los cambios se han guardado con éxito.";
+            }
+            else
+            {
+                mensajeEditar = "No se ha podido editar el proyecto.";
             }
 
             this.editado = true;
@@ -332,8 +386,11 @@ namespace PortalWeb.ViewModel
 
             //this.claseModal = "";
             this.EstacionBaseEditar = null;
-
             this.SensorEditar = null;
+            this.ProyectoEditar = null;
+
+            this.crear_estacionbase = false;
+            
 
             await CargarDatos();
             this.StateHasChanged();

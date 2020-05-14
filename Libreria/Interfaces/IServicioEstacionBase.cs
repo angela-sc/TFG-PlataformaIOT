@@ -12,5 +12,6 @@ namespace Libreria.Interfaces
         Task<IEnumerable<EntidadEstacionBase>> ListaEstacionesBase(string nombreProyecto);
         Task<bool> EliminarEstacionBase(int idEstacionBase);
         Task<bool> Editar(EntidadEstacionBase estacionBase);
+        Task Crear(EntidadEstacionBase estacionBase);
     }
 }

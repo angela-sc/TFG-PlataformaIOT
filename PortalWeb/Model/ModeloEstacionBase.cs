@@ -12,6 +12,6 @@ namespace PortalWeb.Model
 
         [Required(ErrorMessage = "El nombre no puede estar vacío.")]
         public string Nombre { get; set; }
-        //public int FK_IdProyecto { get; set; }
+        public int FK_IdProyecto { get; set; }
     }
 }

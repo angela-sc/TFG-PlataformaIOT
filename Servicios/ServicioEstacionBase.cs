@@ -67,5 +67,10 @@ namespace Servicios
         {
             return await repositorioEstacionBase.Editar(estacionBase);
         }
+
+        public async Task Crear(EntidadEstacionBase estacionBase)
+        {
+            await repositorioEstacionBase.Crear(estacionBase);            
+        }
     }
 }

@@ -44,24 +44,14 @@ namespace Servicios
 
         public async Task Crear(EntidadProyecto proyecto, int idUsuario)
         {
-           
-            //bool insertado = false;
             try
             {
-                //await repositorioProyecto.InsertaProyecto(proyecto);
-                //insertado = true;
-
-                //await repositorioProyecto.InsertaProyecto(proyecto);
-                //int idProyecto = await repositorioProyecto.ObtenerId(proyecto.Nombre);
-                //await repositorioProyecto.AsociarUsuarioProyecto(idProyecto, idUsuario);
                 await repositorioProyecto.InsertaProyecto(proyecto, idUsuario);
             }
             catch (Exception)
             {
                 //log.Warning($"Problema al obtener los proyectos del usuario {idUsuario}. No tiene ningún proyecto asociado.");
-                
             }
-            //return insertado;
         }
 
         public async Task<bool> EliminarProyecto(int idProyecto)

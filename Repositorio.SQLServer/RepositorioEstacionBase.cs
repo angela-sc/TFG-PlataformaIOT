@@ -234,7 +234,7 @@ namespace Repositorio.SQLServer
             return editado;
         }
 
-        public async Task InsertaEstacionBase(EntidadEstacionBase estacionBase) //suponemos que el atributo fk_idproyecto es != null
+        public async Task Crear(EntidadEstacionBase estacionBase) //suponemos que el atributo fk_idproyecto es != null
         {
             Dictionary<string, object> parametros = new Dictionary<string, object>
             {
