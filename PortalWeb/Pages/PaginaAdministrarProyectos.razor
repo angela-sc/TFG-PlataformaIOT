@@ -48,6 +48,7 @@ else
                                 <li>
                                     @estacion.Nombre
                                     <div style="cursor:pointer; float:right;">
+                                        <span class="oi oi-plus btn" style="color:dodgerblue;" @onclick="@(() => CrearSE(estacion.Id))"></span>
                                         <span class="oi oi-pencil btn" style="color:green;" @onclick="@(() => ActivarEditar(estacion))"></span>
                                         <span class="oi oi-x" style="color:red;" @onclick="@(async () => await ActivarEliminar(EntidadTratada.ESTACIONBASE, estacion.Id))"></span>
                                     </div>
@@ -69,12 +70,13 @@ else
                                     </ul>
                                 }
                             </ul>
+                            @*<button class="btn" @onclick="@(async () => await CrearSE(estacion.Id))"><span class="oi oi-plus"></span> Añadir <strong>sensor a la estación base</strong></button>*@
                         }
                     }
-                <div style="color:dodgerblue; float:left; padding-top:10px; cursor:pointer">
-                    <a class="btn" @onclick="@(async () => await CrearEB(proyecto.Id))"><span class="oi oi-plus"></span> Añadir <strong>estación base</strong></a><br />
-                    <a><span class="oi oi-plus"></span> Añadir <strong>sensor</strong></a>
-                </div>    
+                    <div style="color:dodgerblue; float:left; padding-top:10px; cursor:pointer">
+                        <a class="btn" @onclick="@(async () => await CrearEB(proyecto.Id))"><span class="oi oi-plus"></span> Añadir <strong>estación base</strong></a><br />
+                        
+                    </div>
                 </div>
             </div>
         }
@@ -138,11 +140,13 @@ else
                         <h4 class="modal-title">Añade una estación base al proyecto</h4>
                         <button type="button" class="close" @onclick="@(async () => await Close())"><span aria-hidden="true">X</span></button>
                     </div>
-                   
+
                     <div class="modal-body">
                         @if (!creado)
                         {
-                            <EditForm Model="EstacionBase">
+                            <EditForm Model="EstacionBase" OnSubmit="@(async () => await CrearEstacionBase())">
+                                <DataAnnotationsValidator />
+                                <ValidationSummary />
                                 <div class="form-group">
                                     <div style="margin-bottom: 5px">
                                         <label for="nombre">Nombre</label>
@@ -150,22 +154,64 @@ else
                                         <ValidationMessage For="@(()=> EstacionBase.Nombre)" />
                                     </div>
                                 </div>
-                                <button class="btn btn-info" type="button" @onclick="@(async () => await CrearEstacionBase())">Aceptar</button>
+                                <button class="btn btn-primary" type="submit">Aceptar</button>
                             </EditForm>
-
                         }
                         else
                         {
                             <div class="alert alert-success" role="alert"><strong>¡Estacion creada!</strong></div>
-
                         }
 
                     </div>
                 </div>
             </div>
-
         </div>
+    }
 
+    if (crear_sensor)
+    {
+        <div class="modal" tabindex="99" style="display: block; margin-top: 5%;" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Añade un nuevo sensor</h4>
+                        <button type="button" class="close" @onclick="@(async () => await Close())"><span aria-hidden="true">X</span></button>
+                    </div>
+
+                    <div class="modal-body">
+                        @if (!creado)
+                        {
+                            <EditForm Model="Sensor" OnSubmit="@(async () => await CrearSensor())">
+                                <DataAnnotationsValidator />
+                                <ValidationSummary />
+                                <div class="form-group">
+                                    <div style="margin-bottom: 5px">
+                                        <label for="nombre">Nombre</label>
+                                        <InputText class="form-control" id="name" @bind-Value="Sensor.Nombre"></InputText>
+                                        <ValidationMessage For="@(()=> Sensor.Nombre)" />
+                                    </div>
+                                    <div style="margin-bottom: 5px">
+                                        <label for="longigut">Longitud</label>
+                                        <InputText class="form-control" id="longitud" @bind-Value="Sensor.Longitud"></InputText>
+                                        <ValidationMessage For="@(()=> Sensor.Longitud)" />
+                                    </div>
+                                    <div style="margin-bottom: 5px">
+                                        <label for="latitud">Latitud</label>
+                                        <InputNumber class="form-control" id="latitud" @bind-Value="Sensor.Latitud"></InputNumber>
+                                        <ValidationMessage For="@(()=> Sensor.Latitud)" />
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary" type="submit">Aceptar</button>
+                            </EditForm>
+                        }
+                        else
+                        {
+                            <div class="alert alert-success" role="alert"><strong>¡Sensor creado!</strong></div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
     }
 
     @if (eliminar)
@@ -219,10 +265,10 @@ else
                                     </div>
                                 </div>
                                 <div style="margin-bottom: 5px">
-                                        <label for="descripcion">Descripción</label>
-                                        <InputTextArea class="form-control" id="descripcion" @bind-Value="ProyectoEditar.Descripcion"></InputTextArea>
-                                        <ValidationMessage For="@(()=> ProyectoEditar.Descripcion)" />
-                                    </div>
+                                    <label for="descripcion">Descripción</label>
+                                    <InputTextArea class="form-control" id="descripcion" @bind-Value="ProyectoEditar.Descripcion"></InputTextArea>
+                                    <ValidationMessage For="@(()=> ProyectoEditar.Descripcion)" />
+                                </div>
                                 <button class="btn btn-primary" type="submit">Aceptar</button>
                             </EditForm>
                         }

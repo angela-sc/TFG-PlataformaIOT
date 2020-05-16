@@ -59,7 +59,8 @@ namespace PortalWeb.ViewModel
 
         protected ModeloProyecto Proyecto;
 
-        protected ModeloEstacionBase EstacionBase;
+        protected ModeloEstacionBase EstacionBase; //atributo para crear una estacion base
+        protected ModeloSensor Sensor; //atributo para crear un sensor
 
         protected enum EntidadTratada
         {
@@ -82,7 +83,7 @@ namespace PortalWeb.ViewModel
         protected List<EntidadSensorResultado> sensores;
 
         public bool creado = false; //indica si se ha creado o no el proyecto
-        public bool crear, crear_estacionbase = false;  //indica si se va a crear un proyecto o no
+        public bool crear, crear_estacionbase, crear_sensor = false;  //indica si se va a crear un proyecto o no
 
         public bool editar, editado = false; //indican si se va a editar un proyecto y si se ha editado
 
@@ -161,6 +162,32 @@ namespace PortalWeb.ViewModel
             creado = true;
             this.StateHasChanged();
         }
+
+        protected async Task CrearSE(int estacionbase)
+        {
+            Console.WriteLine("Función activar sensor activada.");
+            Sensor = new ModeloSensor();
+            Sensor.FK_IdEstacionBase = estacionbase;
+
+            this.crear_sensor = true;
+        }
+        public async Task CrearSensor()
+        {
+            Console.WriteLine("Función crear sensor activada.");
+            servicioSensor = new ServicioSensor(CadenaConexion, null);
+            await servicioSensor.Crear(new EntidadSensor()
+            {
+                Nombre = Sensor.Nombre,
+                Longitud = Sensor.Longitud,
+                Latitud = Sensor.Latitud.ToString(),
+                FK_IdEstacionBase = Sensor.FK_IdEstacionBase
+            });
+
+            creado = true;
+            this.StateHasChanged();
+        }
+
+
 
         protected void ActivarEditar(EntidadEstacionBase eb) //Activa el modal, que se muestra cuando EstacionBaseEditar != null
         {
@@ -390,6 +417,7 @@ namespace PortalWeb.ViewModel
             this.ProyectoEditar = null;
 
             this.crear_estacionbase = false;
+            this.crear_sensor = false;
             
 
             await CargarDatos();

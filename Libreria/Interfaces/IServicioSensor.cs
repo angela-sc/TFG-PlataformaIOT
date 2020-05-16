@@ -15,5 +15,6 @@ namespace Libreria.Interfaces
         Task<bool> EliminarDatos(int fk_SensorId);
         Task<bool> EliminarSensor(int sensorid);
         Task<bool> Editar(EntidadSensor sensor);
+        Task Crear(EntidadSensor sensor);
     }
 }

@@ -80,5 +80,10 @@ namespace Servicios
         {
             return await repositorioSensor.Editar(sensor);
         }
+
+        public async Task Crear(EntidadSensor sensor)
+        {
+            await repositorioSensor.InsertaSensor(sensor);
+        }
     }
 }
