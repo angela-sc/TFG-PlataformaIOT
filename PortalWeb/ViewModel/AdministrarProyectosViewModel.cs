@@ -163,11 +163,11 @@ namespace PortalWeb.ViewModel
             this.StateHasChanged();
         }
 
-        protected async Task CrearSE(int estacionbase)
+        protected async Task CrearSE(int idEstacionBase)
         {
             Console.WriteLine("Función activar sensor activada.");
             Sensor = new ModeloSensor();
-            Sensor.FK_IdEstacionBase = estacionbase;
+            Sensor.FK_IdEstacionBase = idEstacionBase;
 
             this.crear_sensor = true;
         }
@@ -178,7 +178,7 @@ namespace PortalWeb.ViewModel
             await servicioSensor.Crear(new EntidadSensor()
             {
                 Nombre = Sensor.Nombre,
-                Longitud = Sensor.Longitud,
+                Longitud = Sensor.Longitud.ToString(),
                 Latitud = Sensor.Latitud.ToString(),
                 FK_IdEstacionBase = Sensor.FK_IdEstacionBase
             });
@@ -314,8 +314,6 @@ namespace PortalWeb.ViewModel
             this.eliminar = true;
             this.eliminado = false;
         }
-
-      
 
         protected async Task Eliminar()
         {

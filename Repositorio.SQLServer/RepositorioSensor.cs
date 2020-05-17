@@ -43,7 +43,7 @@ namespace Repositorio.SQLServer
                 { "@fk_idestacionbase", sensor.FK_IdEstacionBase }
             };
 
-            string query = @"INSERT INTO [plataforma_iot].[dbo].[Sensor] ([nombre],[longitud],[latitud][fk_idestacionbase])
+            string query = @"INSERT INTO [plataforma_iot].[dbo].[Sensor] ([nombre],[longitud],[latitud],[fk_idestacionbase])
                                 VALUES (@nombre, @longitud, @latitud, @fk_idestacionbase)";
             try
             {

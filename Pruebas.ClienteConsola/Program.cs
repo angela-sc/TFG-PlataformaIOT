@@ -50,9 +50,9 @@ namespace Pruebas.ClienteConsola
                 FK_IdEstacionBase = 1,
                 Id = 11,
                 Nombre = "EB01SE11",
-                Latitud= 0.00,
-                Longitud = 0.00
-            });
+                Latitud = 0.00.ToString(),
+                Longitud = 0.00.ToString()
+            }); 
             var res = client.Post(json);
 
             Console.WriteLine(res.ResponseText);
