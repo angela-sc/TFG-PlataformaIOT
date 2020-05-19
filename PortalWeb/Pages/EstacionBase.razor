@@ -1,4 +1,5 @@
-﻿@page "/estacionbase/{nombreEstacionBase}"
+﻿@*@page "/estacionbase/{nombreEstacionBase}"*@
+@page "/estacionbase/{idEstacionBase}"
 
 @using Libreria.Entidades
 @using Syncfusion.Blazor.Maps
@@ -11,7 +12,7 @@
         @if (listaSensores.Count() > 0)
         {
             <header class="jumbotron">
-                <h3>Estación @nombreEstacionBase </h3>
+                <h3>Estación base @nombreEstacionBase </h3>
                 <!--<p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa, ipsam, eligendi, in quo sunt possimus non incidunt odit vero aliquid similique quaerat nam nobis illo aspernatur vitae fugiat numquam repellat.</p>-->
                 <!--<a href="#" class="btn btn-primary btn-lg">Call to action!</a>-->
                 <div class="map">
@@ -66,7 +67,7 @@
                                     <p>Temperatura: @sensor.Temperatura ºC</p>
                                     <p>Humedad: @sensor.Humedad %</p>
                                 }
-                                <a href="/data/@nombreEstacionBase/@sensor.NombreSensor" class="btn btn-primary">Ver más detalles</a>
+                                <a href="/data/@idEstacionBase/@sensor.IdSensor" class="btn btn-primary">Ver más detalles</a>
                             </div>
                         </div>
                     </div>
@@ -81,7 +82,7 @@
                 <h5><span class="oi oi-warning"> </span> Esta estación base no tiene sensores asociados</h5>
             </header>*@
             <header class="jumbotron">
-                <h3>Estación @nombreEstacionBase   |  </h3><h5><span class="oi oi-warning">  </span> Esta estación base no tiene sensores asociados.</h5>
+                <h3>Estación base @nombreEstacionBase   |  </h3><h5><span class="oi oi-warning">  </span> Esta estación base no tiene sensores asociados.</h5>
                 <div class="map">
                     <SfMaps @ref="mapa">
                         <!--<MapsTitleSettings Text="Sensores"></MapsTitleSettings>-->

@@ -35,6 +35,7 @@ namespace Repositorio.SQLServer
          * */
         public async Task<bool> InsertaSensor(EntidadSensor sensor)
         {
+            bool insertado;
             Dictionary<string, object> parametros = new Dictionary<string, object>
             {
                 { "@nombre", sensor.Nombre },
@@ -51,17 +52,19 @@ namespace Repositorio.SQLServer
                 {
                     await conn.ExecuteAsync(query, parametros);
                 }
+                insertado = true;
             }
             catch (Exception)
             {
                 log.Error($"Ha habido un problema al insertar el sensor {sensor.Nombre} en la base de datos - ERR. REPOSITORIO SENSOR");
-                return false; //si sucede algo, directamente devuelve false
+                insertado = false; //si sucede algo devuelve false
             }
-            return true;
+            return insertado;
         }
 
         public async Task<bool> InsertaDato(EntidadDato dato)
         {
+            bool insertado;
             Dictionary<string, object> parametros = new Dictionary<string, object>
             {
                 { "@stamp", dato.Stamp },
@@ -73,19 +76,21 @@ namespace Repositorio.SQLServer
             //query sql para insertar los datos en la tabla
             string query = @"INSERT INTO [plataforma_iot].[dbo].[Datos] ([stamp],[fk_idsensor],[humedad],[temperatura]) 
                              VALUES (@stamp, @fk_sensor, @humedad, @temperatura)";
+
             try
             {               
                 using (SqlConnection conn = new SqlConnection(cadenaConexion))  //nueva conexion con la BD. Al utilizar using nos aseguramos de que se libera la sesion
                 {
                     await conn.ExecuteAsync(query, parametros);
-                }
+                    insertado = true;
+                }               
             }
             catch(Exception)
             {
                 log.Error($"No se ha podido insertar el dato {dato.Stamp} en el sensor - ERR. REPOSITORIO SENSOR");
-                return false;
+                insertado = false;
             }
-            return true;          
+            return insertado;          
         }
 
         public async Task<IEnumerable<EntidadDatoBase>> ObtenerDatos(int idSensor, int top)
@@ -104,7 +109,7 @@ namespace Repositorio.SQLServer
             {
                 using (SqlConnection conn = new SqlConnection(cadenaConexion))
                 {
-                    result = await conn.QueryAsync<EntidadDatoBase>(query);
+                    result = await conn.QueryAsync<EntidadDatoBase>(query, parametros);
                 }
             }
             catch (Exception)
@@ -114,31 +119,33 @@ namespace Repositorio.SQLServer
             return result;
         }
 
+     
         public async Task<int> ObtenerId(string nombreSensor, int idEstacionBase)
         {
+            int id = -1;
+
             Dictionary<string, object> parametros = new Dictionary<string, object>
             {
-                { "@sensor", nombreSensor },
+                { "@nombre", nombreSensor },
                 { "@fk_idestacionbase", idEstacionBase }
             };
 
-            string query = @"SELECT [Id] FROM [plataforma_iot].[dbo].[Sensor] WHERE [Name]= @sensor AND [FK_BaseStationId] = @fk_idestacionbase";
+            string query = @"SELECT [id] FROM [plataforma_iot].[dbo].[Sensor] WHERE [nombre] = @nombre AND [fk_idestacionbase] = @fk_idestacionbase";
 
             try
             {
                 using (SqlConnection conn = new SqlConnection(cadenaConexion))
                 {
-                    var result = await conn.QueryAsync<int>(query, parametros);
-                    return result.FirstOrDefault();
+                    var resultado = await conn.QueryAsync<int>(query, parametros);
+                    id = resultado.FirstOrDefault();
                 }
             }
             catch (Exception)
             {
-                //throw ex; //excepcion al establecer la conexion
-                //Console.WriteLine(ex.Message, "Error en RepositorioSensor en el metodo GetID");
                 log.Warning($"No se ha encontrado ningún id para el sensor {nombreSensor} en la estación base {idEstacionBase} - ERR. REPOSITORIO SENSOR");
-                return -1;
+                id = -1 ;
             }
+            return id;
         }
 
         public async Task<bool> EliminarDatos(int fk_idsensor)
@@ -149,6 +156,7 @@ namespace Repositorio.SQLServer
             {
                 { "@fk_idsensor", fk_idsensor }
             };
+
             string query = string.Format(@"DELETE FROM [plataforma_iot].[dbo].[Datos] WHERE [fk_idsensor] = @fk_idsensor");
 
             try
@@ -157,13 +165,14 @@ namespace Repositorio.SQLServer
                 {
                     await conn.ExecuteAsync(query, parametros);
                 }
+                eliminado = true;
 
             }catch(Exception ex)
             {
                 //log.Error($"No se ha podido eliminar los datos del sensor {fk_idsensor} - ERR. REPOSITORIO SENSOR");
                 Console.WriteLine($"Error al borrar los datos del sensor {fk_idsensor}: ", ex.Message);
 
-                return eliminado;
+                return eliminado; //¿esto va aqui?
             }
             return eliminado;
         }

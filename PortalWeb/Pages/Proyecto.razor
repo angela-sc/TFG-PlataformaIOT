@@ -26,7 +26,7 @@
 
             @foreach (EntidadEstacionBase eb in estacionesBase)
             {
-                var link = $"estacionbase/{eb.Nombre}";
+                var link = $"estacionbase/{eb.Id}";
                 <a href=@link class="list-group-item list-group-item-action">Estacion base @eb.Nombre</a>
             }
         </div>

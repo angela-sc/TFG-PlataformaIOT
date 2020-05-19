@@ -18,7 +18,9 @@ namespace PortalWeb.ViewModel
         [Parameter]
         public string nombreEstacionBase { get; set; }
 
-        //public string nombreEstacionBase = "EB01";
+        [Parameter]
+        public string idEstacionBase { get; set; }
+
         public ServicioEstacionBase servicio = new ServicioEstacionBase("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=plataforma_iot;Integrated Security=true", null);
 
         public IEnumerable<EntidadSensorResultado> listaSensores = new List<EntidadSensorResultado>(); //lista de sensores de dicha estacion base
@@ -28,36 +30,36 @@ namespace PortalWeb.ViewModel
 
         public double latitudInicial, longitudInicial;
 
+        private int id;
+        
         protected override async Task OnInitializedAsync()
         {
+            Int32.TryParse(idEstacionBase, out int id);
+            nombreEstacionBase = await servicio.Nombre(id);
             listaSensores = await servicio.ObtenerSensores(nombreEstacionBase);
 
             //que pasa si la estacion base no tiene sensores -> devuelve una lista null
-            
-                foreach (EntidadSensorResultado sensor in listaSensores)
-                {
 
-                    if (sensor.Fecha == default(DateTime))
-                    {
-                        MarkerDataSource.Add(new MapMarkerDataSource { latitude = Convert.ToDouble(sensor.Latitud), longitude = Convert.ToDouble(sensor.Longitud), name = sensor.NombreSensor, color = "red" });
-                    }
-                    else
-                    {
-                        MarkerDataSource.Add(new MapMarkerDataSource { latitude = Convert.ToDouble(sensor.Latitud), longitude = Convert.ToDouble(sensor.Longitud), name = sensor.NombreSensor, color = "green" });
-                    }
+            foreach (EntidadSensorResultado sensor in listaSensores)
+            {
+
+                if (sensor.Fecha == default(DateTime))
+                {
+                    MarkerDataSource.Add(new MapMarkerDataSource { latitude = Convert.ToDouble(sensor.Latitud), longitude = Convert.ToDouble(sensor.Longitud), name = sensor.NombreSensor, color = "red" });
                 }
+                else
+                {
+                    MarkerDataSource.Add(new MapMarkerDataSource { latitude = Convert.ToDouble(sensor.Latitud), longitude = Convert.ToDouble(sensor.Longitud), name = sensor.NombreSensor, color = "green" });
+                }
+            }
             if (listaSensores.Count() > 0)
             {
                 latitudInicial = MarkerDataSource.ElementAt(0).latitude;
                 longitudInicial = MarkerDataSource.ElementAt(0).longitude;
-                
-
             }
 
             mapa.Refresh(); // Refrescar mapa
-        }
-
-        
+        }      
     }
 
     //Clase "intermedia" utilizada para añadir marcadores al mapa

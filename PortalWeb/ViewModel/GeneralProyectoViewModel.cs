@@ -28,6 +28,7 @@ namespace PortalWeb.ViewModel
             servicio = new ServicioProyecto(CadenaConexion, null);
 
             proyectos = await servicio.ObtenerProyectos(usuario);
+            this.StateHasChanged();
         }
 
         //Metodos para la búsqueda de proyectos+

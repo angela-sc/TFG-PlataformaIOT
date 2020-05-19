@@ -13,24 +13,19 @@ namespace PortalWeb.ViewModel
     {
         [Parameter]
         public string proyecto { get; set; } //nombre del proyecto
+        
+        protected IEnumerable<EntidadEstacionBase> estacionesBase; //Lista con las estaciones base del proyecto
 
-        //Lista con las estaciones base del proyecto
-        protected IEnumerable<EntidadEstacionBase> estacionesBase;
-
-        //private ServicioProyecto servicioProyecto;
         private IServicioEstacionBase servicioEstacionBase;
-
         private string CadenaConexion = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=plataforma_iot;Integrated Security=true";
+
         protected override async Task OnInitializedAsync()
         {
             estacionesBase = new List<EntidadEstacionBase>();
-            //servicio = new ServicioProyecto("Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = plataformadb; Integrated Security = true", null);
-            servicioEstacionBase = new ServicioEstacionBase(CadenaConexion, null);
 
-            //obtenemos las estaciones pertenecientes al proyecto
-            estacionesBase = await servicioEstacionBase.ListaEstacionesBase(proyecto);
-        }
-
-        
+            servicioEstacionBase = new ServicioEstacionBase(CadenaConexion, null);    
+            
+            estacionesBase = await servicioEstacionBase.ListaEstacionesBase(proyecto); //obtenemos las estaciones pertenecientes al proyecto
+        }        
     }
 }

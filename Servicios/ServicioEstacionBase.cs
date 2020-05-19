@@ -25,6 +25,12 @@ namespace Servicios
             this.repositorioEstacionBase = new RepositorioEstacionBase(cadenaConexion, log);
         }
 
+        public async Task<string> Nombre (int idEstacionBase)
+        {
+            string nombre = await repositorioEstacionBase.ObtenerNombre(idEstacionBase);
+            return nombre;
+        }
+
         public async Task<IEnumerable<EntidadSensorResultado>> ObtenerSensores(string nombreEstacionBase)
         {
             IEnumerable<EntidadSensorResultado> sensores = new List<EntidadSensorResultado>();
@@ -32,9 +38,8 @@ namespace Servicios
 
             return sensores;
         }
-
-        //Metodo para obtener la lista de estaciones base pertenecientes a un proyecto > ¿pasamos id o nombre del proyeecto?
-        public async Task<IEnumerable<EntidadEstacionBase>> ListaEstacionesBase(string nombreProyecto)
+        
+        public async Task<IEnumerable<EntidadEstacionBase>> ListaEstacionesBase(string nombreProyecto) //Metodo para obtener la lista de estaciones base pertenecientes a un proyecto > ¿pasamos id o nombre del proyeecto?
         {
             IEnumerable<EntidadEstacionBase> estacionesBase = new List<EntidadEstacionBase>();
             try

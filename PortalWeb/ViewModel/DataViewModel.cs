@@ -20,15 +20,16 @@ namespace PortalWeb.ViewModel
 
         [Parameter]
         public string sensor { get; set; }
+        
         [Parameter]
-        public string estacionbase { get; set; }
+        public string estacionbase { get; set; }   //id de la estacion base en formato string   
 
         [Parameter]
         public int selectedValue { get; set; }
 
         private ServicioSensor servicio = new ServicioSensor("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=plataforma_iot;Integrated Security=true", null);
        
-        private int id; // = 2; //para obtener el id del sensor debemos tener el nombre y la estación base
+        private int idSensor, idEstacionBase; // = 2; //para obtener el id del sensor debemos tener el nombre y la estación base
         
         private List<double> datosTemperatura = new List<double>();
         private List<double> datosHumedad = new List<double>();
@@ -50,13 +51,16 @@ namespace PortalWeb.ViewModel
 
         protected override async Task OnInitializedAsync()
         {
-            id = await servicio.ObtenerIdSensor(sensor, estacionbase);
+            Int32.TryParse(estacionbase, out idEstacionBase);
+
+            Int32.TryParse(sensor, out idSensor);
+            //idSensor = await servicio.ObtenerId(sensor, idEstacionBase);
 
           
 
             //var datos = await servicio.ObtenerDatos(id);
             datos = new List<EntidadDatoBase>();
-            datos = await servicio.ObtenerDatos(id, RadioValue2 );
+            datos = await servicio.ObtenerDatos(idSensor, RadioValue2 );
 
 
             List<string> labels = new List<string>();
@@ -132,7 +136,7 @@ namespace PortalWeb.ViewModel
 
             if(RadioValue2 > datos.Count())
             {
-                datos = await servicio.ObtenerDatos(id, RadioValue2);
+                datos = await servicio.ObtenerDatos(idSensor, RadioValue2);
                 StateHasChanged();
 
             }

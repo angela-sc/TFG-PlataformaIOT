@@ -19,9 +19,8 @@ namespace Servicios
             this.log = logger;
             this.repositorioSensor = new RepositorioSensor(cadenaConexion, log);
         }
-
-        //Obtiene todos los datos asociados a un sensor, sin filtros
-        public async Task<IEnumerable<EntidadDatoBase>> ObtenerDatos(int idSensor, int top)
+        
+        public async Task<IEnumerable<EntidadDatoBase>> ObtenerDatos(int idSensor, int top) //Obtiene todos los datos asociados a un sensor, sin filtros
         {
             IEnumerable<EntidadDatoBase> datos = null;
 
@@ -37,8 +36,8 @@ namespace Servicios
             return datos; //devuelve null o un IEnumerable<EntidadDatoBase>
         }
 
-        //Devuelve una lista con los datos de temperatura de un sensor determinado
-        public async Task<IEnumerable<double>> ObtenerTemperatura(int idSensor, int top)
+        
+        public async Task<IEnumerable<double>> ObtenerTemperatura(int idSensor, int top) //Devuelve una lista con los datos de temperatura de un sensor determinado
         {
             IEnumerable<EntidadDatoBase> AllData = await repositorioSensor.ObtenerDatos(idSensor, top);
             List<double> temperatura = new List<double>();
@@ -51,12 +50,14 @@ namespace Servicios
             return temperatura;
         }  
 
-        public async Task<int> ObtenerIdSensor(string nombreSensor, string nombreEstacionBase)
+       
+
+        public async Task<int> ObtenerId(string nombreSensor, int idEstacionBase)
         {
             int resultado = -1;
             try
             {
-                resultado = await repositorioSensor.ObtenerId(nombreSensor, 2);
+                resultado = await repositorioSensor.ObtenerId(nombreSensor, idEstacionBase);
             }
             catch(Exception ex)
             {

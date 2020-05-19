@@ -25,30 +25,58 @@ namespace Repositorio.SQLServer
             this.log = logger;
         }
 
-        //Metodo que obtiene el id de la estación base a partir de su nombre
-        public async Task<int> ObtenerId(string nombreEstacionBase)
+        
+        public async Task<int> ObtenerId(string nombreEstacionBase) //Metodo que obtiene el id de la estación base a partir de su nombre
         {
+            int id = -1;
+
             Dictionary<string, object> parametros = new Dictionary<string, object>()
             {
                 {"@nombre", nombreEstacionBase}
             };
 
-            string query = string.Format(@"SELECT [id] FROM [plataforma_iot].[dbo].[EstacionBase]
-                                            WHERE [nombre] = @nombre");
+            string query = string.Format(@"SELECT [id] FROM [plataforma_iot].[dbo].[EstacionBase] WHERE [nombre] = @nombre");
 
             try
             {
                 using (SqlConnection con = new SqlConnection(cadenaConexion))
                 {
                     var resultado = await con.QueryAsync<int>(query);
-                    return resultado.FirstOrDefault();
+                    id =  resultado.FirstOrDefault();
                 }
             }
             catch (Exception)
             {
                 log.Warning($"No se ha encontrado ningún id para la estacion base {nombreEstacionBase} - ERR. REPOSITORIO ESTACION BASE");
-                return -1;
+                id = -1;
             }
+            return id;
+        }
+        public async Task<string> ObtenerNombre(int idEstacionBase)
+        {
+            string nombre = "";
+            Dictionary<string, object> parametros = new Dictionary<string, object>()
+            {
+                {"@id", idEstacionBase}
+            };
+
+            string query = string.Format(@"SELECT [nombre] FROM [plataforma_iot].[dbo].[EstacionBase] WHERE [id] = @id");
+
+            try
+            {
+                using (SqlConnection con = new SqlConnection(cadenaConexion))
+                {
+                    var resultado = await con.QueryAsync<string>(query, parametros);
+                    nombre = resultado.FirstOrDefault();
+                }
+            }
+            catch (Exception)
+            {
+                log.Warning($"No se ha encontrado ningún id para la estacion base {idEstacionBase} - ERR. REPOSITORIO ESTACION BASE");
+                nombre = "";
+            }
+            return nombre;
+
         }
 
         public async Task<IEnumerable<EntidadSensorResultado>> ObtenerSensores(string nombreEstacionBase)
@@ -146,13 +174,14 @@ namespace Repositorio.SQLServer
             return resultado;
         }
 
-        //A partir del nombre del proyecto obtiene la estacion base
-        public async Task<IEnumerable<EntidadEstacionBase>> ObtenerEstacionesBase(string nombreProyecto)
+        
+        public async Task<IEnumerable<EntidadEstacionBase>> ObtenerEstacionesBase(string nombreProyecto) //A partir del nombre del proyecto obtiene la estacion base
         {
             Dictionary<string, object> parametros = new Dictionary<string, object>() 
             {
                 {"@proyecto", nombreProyecto} 
             };
+
             string query = @"
                              SELECT eb.* FROM [plataforma_iot].[dbo].[EstacionBase] eb
                              JOIN [plataforma_iot].[dbo].[Proyecto] p ON eb.[fk_idproyecto] = p.[id]
@@ -201,7 +230,6 @@ namespace Repositorio.SQLServer
             }
 
             return eliminada;
-
         }
 
         public async Task<bool> Editar(EntidadEstacionBase estacionBase)
@@ -258,9 +286,7 @@ namespace Repositorio.SQLServer
                 //return false; //si sucede algo, directamente devuelve false
 
                 Console.WriteLine(ex.Message, "Error en crear de repositorio estacion base:");
-            }
-            //return true;
-
+            }           
         }
     }
 }

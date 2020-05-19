@@ -14,7 +14,6 @@ using Microsoft.Extensions.Hosting;
 using PortalWeb.Data;
 using Syncfusion.Blazor;
 
-using Blazorise;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
 
