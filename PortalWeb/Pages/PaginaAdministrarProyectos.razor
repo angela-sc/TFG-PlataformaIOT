@@ -29,8 +29,8 @@ else
                 <div class="card-header" style="background-color:rgba(0,0,0,.03);">
                     @proyecto.Nombre
                     <div style="cursor:pointer; float:right;">
-                        <span class="oi oi-pencil btn" style="color:green;" @onclick="@(() => ActivarEditar(proyecto))"></span>
-                        <span class="oi oi-x" style="color:red;" @onclick="@(async () => await ActivarEliminar(EntidadTratada.PROYECTO, proyecto.Id))"></span>
+                        <span class="oi oi-pencil" style="color:green; padding-left:4px;" @onclick="@(() => ActivarEditar(proyecto))"></span>
+                        <span class="oi oi-x" style="color:red; padding-left:4px;" @onclick="@(async () => await ActivarEliminar(EntidadTratada.PROYECTO, proyecto.Id))"></span>
                     </div>
                 </div>
 
@@ -47,10 +47,10 @@ else
                             <ul class="list-unstyled">
                                 <li>
                                     @estacion.Nombre
-                                    <div style="cursor:pointer; float:right;">
-                                        <span class="oi oi-plus btn" style="color:dodgerblue;" @onclick="@(() => CrearSE(estacion.Id))"></span>
-                                        <span class="oi oi-pencil btn" style="color:green;" @onclick="@(() => ActivarEditar(estacion))"></span>
-                                        <span class="oi oi-x" style="color:red;" @onclick="@(async () => await ActivarEliminar(EntidadTratada.ESTACIONBASE, estacion.Id))"></span>
+                                    <div style="cursor:pointer; float:right; ">
+                                        <span class="oi oi-plus" style="color:dodgerblue; padding-left:4px;" @onclick="@(() => CrearSE(estacion.Id))"></span>
+                                        <span class="oi oi-pencil" style="color:green; padding-left:4px;" @onclick="@(() => ActivarEditar(estacion))"></span>
+                                        <span class="oi oi-x" style="color:red; padding-left:4px;" @onclick="@(async () => await ActivarEliminar(EntidadTratada.ESTACIONBASE, estacion.Id))"></span>
                                     </div>
                                 </li>
 
@@ -62,8 +62,8 @@ else
                                             <li>
                                                 @sensor.NombreSensor
                                                 <div style="cursor:pointer; float:right;">
-                                                    <span class="oi oi-pencil btn" style="color:green;" @onclick="@(() => ActivarEditar(sensor))"></span>
-                                                    <span class="oi oi-x" style="color:red;" @onclick="@(async () => await ActivarEliminar(EntidadTratada.SENSOR, sensor.IdSensor))"></span>
+                                                    <span class="oi oi-pencil" style="color:green; padding-left:4px;" @onclick="@(() => ActivarEditar(sensor))"></span>
+                                                    <span class="oi oi-x" style="color:red; padding-left:4px;" @onclick="@(async () => await ActivarEliminar(EntidadTratada.SENSOR, sensor.IdSensor))"></span>
                                                 </div>
                                             </li>
                                         }
