@@ -1,27 +1,35 @@
-﻿@page "/analisis"
+﻿@page "/analisis/{proyecto}"
+@*proyecto = nombre del proyecto, es unico en la tabla*@
 
 @using PortalWeb.ViewModel
+@using Blazorise
+
 @inherits AnalisisViewModel
 
-<h3>Análisis</h3>
+<h3>Análisis - @proyecto</h3>
 
-@if (proyectos != null)
+
+@if (aux == null)
 {
-    foreach(var proyecto in proyectos)
-    {
-        <div class="container mt-3">
-            <div class="row">
-                <div class="col-6">
-                    <div class="btn-group dropright">
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">@proyecto.Nombre</button>                        
-                        <a class="dropdown-item"></a>
-                    </div> 
-                </div>
-            </div>
-        </div>
-    }
+    <p><em>Cargando datos...</em></p>
+
 }
 else
 {
-    <p><em>Cargando ...</em></p>
+    <br />
+    <label>> Humedad</label><br />
+    @foreach (var dato in aux)
+    {
+        @dato.Humedad;<br />
+    }
+    <br />
+
+    <label>> Temperatura</label><br />
+    @foreach (var dato in aux)
+    {
+        @dato.Temperatura; <br />
+    }
+
+
 }
+

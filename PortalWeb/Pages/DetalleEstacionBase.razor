@@ -1,0 +1,28 @@
+﻿@page "/estacionbase/detalle/{nombreEstacionBase}"
+
+@using Blazorise
+@using PortalWeb.ViewModel
+
+@inherits DetalleEstacionBaseViewModel
+
+
+<div class="container-fluid">
+
+    <h3>Detalle estación base @nombreEstacionBase</h3>
+    <!-- grafica TEMPERATURA-->
+
+    <div class="card mb-4">
+        <div class="card-header"> Temperatura</div>
+        <div class="card-body">
+            <LineChart @ref="graficaTemperatura" TItem="double"></LineChart>
+        </div>
+    </div>
+
+    <!-- grafica HUMEDAD-->
+
+    <div class="card mb-4">
+        <div class="card-header"> Humedad</div>
+        <div class="card-body">
+        </div>
+    </div>
+</div>

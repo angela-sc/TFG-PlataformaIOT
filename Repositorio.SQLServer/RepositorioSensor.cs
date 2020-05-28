@@ -54,9 +54,10 @@ namespace Repositorio.SQLServer
                 }
                 insertado = true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                log.Error($"Ha habido un problema al insertar el sensor {sensor.Nombre} en la base de datos - ERR. REPOSITORIO SENSOR");
+                //log.Error($"Ha habido un problema al insertar el sensor {sensor.Nombre} en la base de datos - ERR. REPOSITORIO SENSOR");
+                Console.WriteLine(ex.Message, $"Ha habido un problema al insertar el sensor {sensor.Nombre} en la base de datos - ERR. REPOSITORIO SENSOR");
                 insertado = false; //si sucede algo devuelve false
             }
             return insertado;
@@ -93,7 +94,8 @@ namespace Repositorio.SQLServer
             return insertado;          
         }
 
-        public async Task<IEnumerable<EntidadDatoBase>> ObtenerDatos(int idSensor, int top)
+        
+        public async Task<IEnumerable<EntidadDatoBase>> ObtenerDatos(int idSensor, int top) // > -- Obtiene los datos para un sensor determinado. Se utiliza en la vista detallada de sensor
         {
             Dictionary<string, object> parametros = new Dictionary<string, object>
             {
@@ -119,6 +121,30 @@ namespace Repositorio.SQLServer
             return result;
         }
 
+        //public async Task<IEnumerable<EntidadSensorResultado>> ObtenerDatosSensores(int idEstacionBase) // > -- Obtiene los datos de los sensores de una estacion base
+        //{
+        //    Dictionary<string, object> parametros = new Dictionary<string, object>
+        //    {
+        //        { "@idEstacionBase", idEstacionBase}               
+        //    };
+
+        //    IEnumerable<EntidadSensorResultado> resultado = null;
+
+        //    string query = @"SELECT ";
+        //    try
+        //    {
+        //        using (SqlConnection conn = new SqlConnection(cadenaConexion))
+        //        {
+        //            resultado = await conn.QueryAsync<EntidadSensorResultado>(query, parametros);
+        //        }
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        //log.Warning($"Ha habido un problema al obtener los datos de la estación base {idEstacionBase} de la base de datos - ERR. REPOSITORIO SENSOR 'ObtenerDatosSensores'");
+        //        Console.WriteLine(ex.Message, " -- ERR. REPOSITORIO SENSOR 'ObtenerDatosSensores'");
+        //    }
+        //    return resultado;
+        //}
      
         public async Task<int> ObtenerId(string nombreSensor, int idEstacionBase)
         {

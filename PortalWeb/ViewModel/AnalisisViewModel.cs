@@ -1,4 +1,5 @@
-﻿using Libreria.Entidades;
+﻿using Blazorise;
+using Libreria.Entidades;
 using Libreria.Interfaces;
 using Microsoft.AspNetCore.Components;
 using PortalWeb.Data;
@@ -12,21 +13,52 @@ namespace PortalWeb.ViewModel
 {
     public class AnalisisViewModel : ComponentBase
     {
-        protected IEnumerable<EntidadProyecto> proyectos;
-        
+        [Parameter]
+        public string proyecto { get; set; } //nombre del proyecto, unico en la tabla 'Proyecto'
 
-        private IServicioProyecto servicioProyecto;
-        private int idUsuario;
+        protected List<EntidadDatoBase> aux;
+
+
+
+        private IEnumerable<EntidadEstacionBase> estacionesbase = null;
+        private IEnumerable<EntidadSensorResultado> sensores = null;
+        
+        private IServicioProyecto servicioP;
+        private IServicioEstacionBase servicioEB;
+        private IServicioSensor servicioS;
+
+
+        private int idUsuario = InformacionUsuario.IdUsuario;
+        private string CadenaConexion = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=plataforma_iot;Integrated Security=true";
 
         protected override async Task OnInitializedAsync()
         {
-            idUsuario = InformacionUsuario.IdUsuario;
-            servicioProyecto = new ServicioProyecto("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=plataforma_iot;Integrated Security=true", null);
+            aux = new List<EntidadDatoBase>();
 
-            proyectos = new List<EntidadProyecto>();
-            proyectos = await servicioProyecto.ObtenerProyectos(idUsuario);
+            servicioP = new ServicioProyecto(CadenaConexion, null);
+            servicioEB = new ServicioEstacionBase(CadenaConexion, null);
+            servicioS = new ServicioSensor(CadenaConexion, null);
 
-            this.StateHasChanged();
+            estacionesbase = new List<EntidadEstacionBase>();
+            estacionesbase = await servicioEB.ListaEstacionesBase(proyecto);
+
+            sensores = new List<EntidadSensorResultado>();
+            foreach(var estacion in estacionesbase)
+            {
+                var s = await servicioEB.ObtenerSensores(estacion.Nombre);
+                foreach(var sensor in s)
+                {
+                    var datos = await servicioS.ObtenerDatos(sensor.IdSensor, 10);
+
+                   foreach(var d in datos)
+                    {
+                        aux.Add(d);
+                    }
+                   
+                }                                           
+            }
+
+            this.StateHasChanged();          
         }
     }
 }

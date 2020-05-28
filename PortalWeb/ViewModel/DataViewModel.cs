@@ -35,7 +35,7 @@ namespace PortalWeb.ViewModel
         private List<double> datosHumedad = new List<double>();
 
         public IEnumerable<EntidadDatoBase> datos; //Datos que se representan en la página web
-        public LineChart<double> lineChartTemperature, lineChartHumity; //graficaS        
+        public LineChart<double> lineChartTemperature, lineChartHumity; //graficas        
 
         //Etiquetas del eje X
         string[] Labels = { }; 

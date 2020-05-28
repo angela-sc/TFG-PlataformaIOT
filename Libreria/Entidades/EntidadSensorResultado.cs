@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Libreria.Entidades
 {
-    //Clase resultado: datos del sensor en la vista de una estacion bae
+    //Clase resultado: datos del sensor en la vista de una estacion base
     public class EntidadSensorResultado
     {
         public string NombreSensor { get; set; } //nombre del sensor

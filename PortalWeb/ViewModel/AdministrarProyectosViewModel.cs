@@ -168,6 +168,7 @@ namespace PortalWeb.ViewModel
             Console.WriteLine("Función activar sensor activada.");
             Sensor = new ModeloSensor();
             Sensor.FK_IdEstacionBase = idEstacionBase;
+            
 
             this.crear_sensor = true;
         }

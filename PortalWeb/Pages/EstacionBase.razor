@@ -8,9 +8,46 @@
 @inherits EstacionBaseViewModel
 
 <!-- Page Content -->
-    <div class="container">
+    <div class="container-fluid">
         @if (listaSensores.Count() > 0)
         {
+            var link = $"estacionbase/detalle/{nombreEstacionBase}";
+            <div class="breadcrumb mb-4">
+                Estación base @nombreEstacionBase
+
+                <div class="ml-auto"><a href=@link> 👁️‍🗨️ vista detallada</a></div>
+            </div>
+
+            <div class="map" style="border-color:lightslategray">
+                <SfMaps @ref="mapa">
+                    <!--<MapsTitleSettings Text="Sensores"></MapsTitleSettings>-->
+                    @* To zoom and pan *@
+                    <MapsZoomSettings Enable="true"
+                                      Toolbars='new string[]{"ZoomIn", "ZoomOut", "Reset" }'
+                                      ZoomFactor="13" MaxZoom="20"
+                                      MouseWheelZoom="true">
+                    </MapsZoomSettings>
+                    <MapsCenterPosition Latitude=latitudInicial Longitude=longitudInicial></MapsCenterPosition>
+
+                    <MapsLayers>
+                        <MapsLayer LayerType="ShapeLayerType.OSM">
+                            @* Add marker *@
+                            <MapsMarkerSettings>
+                                <MapsMarker Visible="true"
+                                            Height="25"
+                                            Width="25"
+                                            DataSource="MarkerDataSource"
+                                            ColorValuePath="color">
+                                    <MapsMarkerTooltipSettings ValuePath="name" Visible="true"></MapsMarkerTooltipSettings>
+                                    @*para dar formato y añadir más valores Format="<b>${name}</b><br>Finalist: <b>${Winner}</b><br>Win: <b>${Finalist} en MapsMarkerTooltipSettings*@
+                                </MapsMarker>
+                            </MapsMarkerSettings>
+                        </MapsLayer>
+                    </MapsLayers>
+
+                </SfMaps>
+            </div>
+
             <header class="jumbotron">
                 <h3>Estación base @nombreEstacionBase </h3>
                 <!--<p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa, ipsam, eligendi, in quo sunt possimus non incidunt odit vero aliquid similique quaerat nam nobis illo aspernatur vitae fugiat numquam repellat.</p>-->
