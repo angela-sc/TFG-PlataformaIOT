@@ -17,7 +17,7 @@
             <div class="row offset-md-3">
                 <label>Cantidad de datos a mostrar:     </label>
 
-                @foreach (var item2 in new int[] { 1, 3, 5, 10, 20 })
+                @foreach (var item2 in new int[] { 3, 5, 10, 20 })
                 {
                     <div class="col-sm">
                         <input type="radio" name="technology" id="@item2" value="@item2" @onchange="RadioSelection2" checked=@(RadioValue2.Equals(item2)) />

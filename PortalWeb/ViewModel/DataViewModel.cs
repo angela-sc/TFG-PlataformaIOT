@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using PortalWeb.Resources;
 using Servicios;
 using Syncfusion.Blazor.PivotView;
+using Syncfusion.Blazor.TreeGrid;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,8 +32,8 @@ namespace PortalWeb.ViewModel
        
         private int idSensor, idEstacionBase; // = 2; //para obtener el id del sensor debemos tener el nombre y la estación base
         
-        private List<double> datosTemperatura = new List<double>();
-        private List<double> datosHumedad = new List<double>();
+        private List<double> datosTemperatura;
+        private List<double> datosHumedad;
 
         public IEnumerable<EntidadDatoBase> datos; //Datos que se representan en la página web
         public LineChart<double> lineChartTemperature, lineChartHumity; //graficas        
@@ -48,20 +49,12 @@ namespace PortalWeb.ViewModel
         List<string> backgroundColorsHumedad = new List<string> { ChartColor.FromRgba(0, 180, 175, 0.2f)};
         List<string> borderColorsHumedad = new List<string> { ChartColor.FromRgba(0, 180, 175, 1f)};
 
-
-        protected override async Task OnInitializedAsync()
+        private async Task CargaDatos()
         {
-            Int32.TryParse(estacionbase, out idEstacionBase);
-
-            Int32.TryParse(sensor, out idSensor);
-            //idSensor = await servicio.ObtenerId(sensor, idEstacionBase);
-
-          
-
-            //var datos = await servicio.ObtenerDatos(id);
             datos = new List<EntidadDatoBase>();
-            datos = await servicio.ObtenerDatos(idSensor, RadioValue2 );
-
+            datos = await servicio.ObtenerDatos(idSensor, RadioValue2);
+            datosTemperatura = new List<double>();
+            datosHumedad = new List<double>();
 
             List<string> labels = new List<string>();
 
@@ -73,7 +66,13 @@ namespace PortalWeb.ViewModel
             }
 
             Labels = labels.ToArray();
-            await HandleRedraw();
+            //StateHasChanged();
+        }
+
+        protected override async Task OnInitializedAsync()
+        {
+            Int32.TryParse(estacionbase, out idEstacionBase);
+            Int32.TryParse(sensor, out idSensor);
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -82,21 +81,27 @@ namespace PortalWeb.ViewModel
             {
                 await HandleRedraw();
             }
-           
         }
 
-        async Task HandleRedraw()
+        protected async Task HandleRedraw()
         {
-            lineChartTemperature.Clear();
-            lineChartTemperature.AddLabel(Labels);
-            lineChartTemperature.AddDataSet(GetLineChartTemperatureDataset());
-
-            lineChartHumity.Clear();
-            lineChartHumity.AddLabel(Labels);
-            lineChartHumity.AddDataSet(GetLineChartHumityDataset());
-
+            await CargaDatos();
+            
+            await lineChartTemperature.Clear();
             await lineChartTemperature.Update();
+            StateHasChanged();
+            await lineChartTemperature.AddLabel(Labels);
+            await lineChartTemperature.AddDataSet(GetLineChartTemperatureDataset());
+            await lineChartTemperature.Update();
+            StateHasChanged();
+
+            await lineChartHumity.Clear();
             await lineChartHumity.Update();
+            StateHasChanged();
+            await lineChartHumity.AddLabel(Labels);
+            await lineChartHumity.AddDataSet(GetLineChartHumityDataset());
+            await lineChartHumity.Update();
+            StateHasChanged();
         }
 
         LineChartDataset<double> GetLineChartTemperatureDataset()
@@ -128,33 +133,13 @@ namespace PortalWeb.ViewModel
         }
 
 
-        public int RadioValue2 = 20;  //cantidad de datos que se muestra en la vista
+        public int RadioValue2;  //cantidad de datos que se muestra en la vista
 
         public async void RadioSelection2(ChangeEventArgs args)
         {
             RadioValue2 = Convert.ToInt32(args.Value);
-
-            if(RadioValue2 > datos.Count())
-            {
-                datos = await servicio.ObtenerDatos(idSensor, RadioValue2);
-                StateHasChanged();
-
-            }
-            else
-            {
-                datos = datos.Take(RadioValue2);
-            }
-            List<string> labels = new List<string>();
-
-            foreach (var dato in datos)
-            {
-                datosTemperatura.Add(dato.Temperatura);
-                datosHumedad.Add(dato.Humedad);
-                labels.Add(dato.Stamp.ToString());
-            }
-
-            Labels = labels.ToArray();
             await HandleRedraw();
+            //StateHasChanged();
         }
     }
 }

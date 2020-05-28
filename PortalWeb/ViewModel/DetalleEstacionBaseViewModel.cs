@@ -3,7 +3,9 @@ using Libreria.Entidades;
 using Libreria.Interfaces;
 using Microsoft.AspNetCore.Components;
 using Servicios;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace PortalWeb.ViewModel
@@ -11,8 +13,16 @@ namespace PortalWeb.ViewModel
     public class DetalleEstacionBaseViewModel : ComponentBase
     {
         // > -- PARAMETROS
-        [Parameter]
+        #region PARAMETROS
+        [ParameterAttribute]
         public string nombreEstacionBase { get; set; }
+
+        [Parameter]
+        public List<Tuple<string,List<double>>> listaDatosTemp { get; set; }
+
+        [Parameter]
+        public List<Tuple<string, List<double>>> listaDatosHum { get; set; }
+        #endregion
 
 
         // > -- ATRIBUTOS PRIVADOS        
@@ -29,15 +39,33 @@ namespace PortalWeb.ViewModel
 
         List<string> backgroundColors = new List<string> { ChartColor.FromRgba(255, 99, 132, 0.2f), ChartColor.FromRgba(54, 162, 235, 0.2f), ChartColor.FromRgba(255, 206, 86, 0.2f), ChartColor.FromRgba(75, 192, 192, 0.2f), ChartColor.FromRgba(153, 102, 255, 0.2f), ChartColor.FromRgba(255, 159, 64, 0.2f) };
         List<string> borderColors = new List<string> { ChartColor.FromRgba(255, 99, 132, 1f), ChartColor.FromRgba(54, 162, 235, 1f), ChartColor.FromRgba(255, 206, 86, 1f), ChartColor.FromRgba(75, 192, 192, 1f), ChartColor.FromRgba(153, 102, 255, 1f), ChartColor.FromRgba(255, 159, 64, 1f) };
-        string[] labels = { "Red", "Blue", "Yellow", "Green", "Purple", "Orange" };
+        string[] Labels;
 
-        // > -- FUNCIONES
-        protected override async Task OnInitializedAsync()
+         //> -- FUNCIONES
+        private async Task CargaDatos()
         {
-            sensores = await servicioEB.ObtenerSensores(nombreEstacionBase);
+            var sensores = await servicioEB.ObtenerSensores(nombreEstacionBase);
+            listaDatosTemp = new List<Tuple<string, List<double>>>();
+            listaDatosHum = new List<Tuple<string, List<double>>>();
+            List<DateTime> stamps = new List<DateTime>();
 
-            await HandleRedraw();
+            foreach (var sensor in sensores)
+            {
+                var datos = await servicioSE.ObtenerDatos(sensor.IdSensor, 10);
+                listaDatosTemp.Add(new Tuple<string, List<double>>(sensor.NombreSensor, datos.Select(_ => (double)_.Temperatura).ToList()));
+                listaDatosHum.Add(new Tuple<string, List<double>>(sensor.NombreSensor, datos.Select(_ => (double)_.Humedad).ToList()));
+
+                stamps.AddRange(datos.Select(_ => _.Stamp).ToList());
+            }
+
+            Labels = stamps.OrderBy(_ => _.Ticks).Distinct().Select(_ => _.ToString()).ToArray();
+            StateHasChanged();
         }
+
+        //protected override async Task OnInitializedAsync()
+        //{
+
+        //}
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
@@ -47,65 +75,33 @@ namespace PortalWeb.ViewModel
             }
         }
 
-        async Task HandleRedraw()
+        protected async Task HandleRedraw()
         {
-            graficaTemperatura.Clear();
-            graficaTemperatura.AddLabel(labels);
+            await CargaDatos();
+            await graficaTemperatura.Clear();
+            await graficaTemperatura.AddLabel(Labels);
             
-            foreach(var sensor in sensores)
+            foreach(var datosSensor in listaDatosTemp)
             {
-                ObtenerListaDatosTemperatura(sensor.IdSensor); //obtenemos la lista con los datos para el dataset
-                graficaTemperatura.AddDataSet(ObtenerDataSetTemperatura(sensor));
+                await graficaTemperatura.AddDataSet(ObtenerDataSet(datosSensor.Item1, datosSensor.Item2));
             }
 
             await graficaTemperatura.Update();
+            StateHasChanged();
         }
 
-        LineChartDataset<double> ObtenerDataSetTemperatura(EntidadSensorResultado sensor) // obtiene cada uno de los datasets de temperatura: 1 dataset x sensor
+        LineChartDataset<double> ObtenerDataSet(string nombreSensor, List<double> datosSensor) // obtiene cada uno de los datasets de temperatura: 1 dataset x sensor
         {
-          
             return new LineChartDataset<double>
             {
-                Data = datosTemperatura,
-                Label = sensor.NombreSensor,
+                Data = datosSensor,
+                Label = nombreSensor,
                 BackgroundColor = backgroundColors,
                 BorderColor = borderColors,
                 Fill = false,
                 PointRadius = 2,
                 BorderDash = new List<int> { }
             };
-            //Data = ,
-            //Label = "",
-            //BackgroundColor =,
-            //BorderColor =,
-            //Fill = false,
-            //PointRadius = 2,
-            //BorderDash = new List<int> { }
-        }
-
-        LineChartDataset<double> ObtenerDataSetHumedad()
-        {
-            return new LineChartDataset<double>();
-            //Data = ,
-            //Label = "",
-            //BackgroundColor =,
-            //BorderColor =,
-            //Fill = false,
-            //PointRadius = 2,
-            //BorderDash = new List<int> { }
-        }
-
-        private async void ObtenerListaDatosTemperatura(int idSensor)
-        {
-            IEnumerable<EntidadDatoBase> datos = new List<EntidadDatoBase>();
-            datos =  await servicioSE.ObtenerDatos(idSensor, 10);
-
-            datosTemperatura = new List<double>();
-
-            foreach(var dato in datos)
-            {
-                datosTemperatura.Add(dato.Temperatura);
-            }            
         }
     }
  }

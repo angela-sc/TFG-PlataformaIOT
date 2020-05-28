@@ -9,12 +9,13 @@
 <div class="container-fluid">
 
     <h3>Detalle estación base @nombreEstacionBase</h3>
+    <a role="button" @onclick="@(async () => { await HandleRedraw(); })">Redraw</a>
     <!-- grafica TEMPERATURA-->
 
     <div class="card mb-4">
         <div class="card-header"> Temperatura</div>
         <div class="card-body">
-            <LineChart @ref="graficaTemperatura" TItem="double"></LineChart>
+            <LineChart @ref="graficaTemperatura" TItem="double" />
         </div>
     </div>
 
