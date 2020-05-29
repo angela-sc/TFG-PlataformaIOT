@@ -14,7 +14,7 @@ namespace PortalWeb.ViewModel
     {
         // > -- PARAMETROS
         #region PARAMETROS
-        [ParameterAttribute]
+        [Parameter]
         public string nombreEstacionBase { get; set; }
 
         [Parameter]
@@ -62,6 +62,12 @@ namespace PortalWeb.ViewModel
             StateHasChanged();
         }
 
+        private int GenerarRandom()
+        {
+            Random rnd = new Random();
+            return rnd.Next(0, backgroundColors.Count());
+        }
+
         //protected override async Task OnInitializedAsync()
         //{
 
@@ -77,27 +83,40 @@ namespace PortalWeb.ViewModel
 
         protected async Task HandleRedraw()
         {
-            await CargaDatos();
+            await CargaDatos(); // -- cargamos los datos para las dos gráficas          
+
             await graficaTemperatura.Clear();
             await graficaTemperatura.AddLabel(Labels);
-            
-            foreach(var datosSensor in listaDatosTemp)
-            {
-                await graficaTemperatura.AddDataSet(ObtenerDataSet(datosSensor.Item1, datosSensor.Item2));
-            }
 
+           
+            foreach (var datosSensor in listaDatosTemp)
+            {
+                var numRandom = GenerarRandom(); // -- generamos un numero aleatorio entre 0y 7 para el color de cada dataset
+                await graficaTemperatura.AddDataSet(ObtenerDataSet(datosSensor.Item1, datosSensor.Item2, numRandom));
+                
+            }
             await graficaTemperatura.Update();
+            StateHasChanged();
+
+            await graficaHumedad.Clear();
+            await graficaHumedad.AddLabel(Labels);
+            foreach (var datosSensor in listaDatosHum)
+            {
+                var numRandom = GenerarRandom(); // -- generamos un numero aleatorio entre 0y 7 para el color de cada dataset
+                await graficaHumedad.AddDataSet(ObtenerDataSet(datosSensor.Item1, datosSensor.Item2, numRandom));
+            }
+            await graficaHumedad.Update();
             StateHasChanged();
         }
 
-        LineChartDataset<double> ObtenerDataSet(string nombreSensor, List<double> datosSensor) // obtiene cada uno de los datasets de temperatura: 1 dataset x sensor
+        LineChartDataset<double> ObtenerDataSet(string nombreSensor, List<double> datosSensor, int indice) // obtiene cada uno de los datasets de temperatura: 1 dataset x sensor
         {
             return new LineChartDataset<double>
             {
                 Data = datosSensor,
                 Label = nombreSensor,
-                BackgroundColor = backgroundColors,
-                BorderColor = borderColors,
+                BackgroundColor = backgroundColors.ElementAt(indice),
+                BorderColor = borderColors.ElementAt(indice),
                 Fill = false,
                 PointRadius = 2,
                 BorderDash = new List<int> { }
