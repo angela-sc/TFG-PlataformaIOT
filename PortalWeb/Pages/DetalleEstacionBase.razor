@@ -12,27 +12,28 @@
         <a role="button" @onclick="@(async () => { await HandleRedraw(); })">Redraw</a>
 
         <!-- grafica TEMPERATURA-->
-        <div class="row" >
-            <div class="col-xl-12">
+        <div class="row">
+            <div class="col-xl-9">
                 <div class="card mb-4">
                     <div class="card-header"> Temperatura</div>
                     <div class="card-body">
                         <LineChart @ref="graficaTemperatura" TItem="double" />
                     </div>
                 </div>
+
             </div>
         </div>
 
         <!-- grafica HUMEDAD-->
         <div class="row">
-            <div class="col-xl-12">
+            <div class="col-xl-9">
                 <div class="card mb-4">
                     <div class="card-header"> Humedad</div>
                     <div class="card-body">
                         <LineChart @ref="graficaHumedad" TItem="double" />
                     </div>
                 </div>
-            </div>            
+            </div>
         </div>
-
+      
     </div>

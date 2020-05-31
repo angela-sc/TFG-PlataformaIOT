@@ -35,10 +35,8 @@ namespace PortalWeb.ViewModel
         // > -- GRAFICAS
         protected LineChart<double> graficaTemperatura, graficaHumedad;
 
-        private List<double> datosTemperatura;
-
-        List<string> backgroundColors = new List<string> { ChartColor.FromRgba(255, 99, 132, 0.2f), ChartColor.FromRgba(54, 162, 235, 0.2f), ChartColor.FromRgba(255, 206, 86, 0.2f), ChartColor.FromRgba(75, 192, 192, 0.2f), ChartColor.FromRgba(153, 102, 255, 0.2f), ChartColor.FromRgba(255, 159, 64, 0.2f) };
-        List<string> borderColors = new List<string> { ChartColor.FromRgba(255, 99, 132, 1f), ChartColor.FromRgba(54, 162, 235, 1f), ChartColor.FromRgba(255, 206, 86, 1f), ChartColor.FromRgba(75, 192, 192, 1f), ChartColor.FromRgba(153, 102, 255, 1f), ChartColor.FromRgba(255, 159, 64, 1f) };
+        //List<string> backgroundColors = new List<string> { ChartColor.FromRgba(255, 99, 132, 0.2f), ChartColor.FromRgba(54, 162, 235, 0.2f), ChartColor.FromRgba(255, 206, 86, 0.2f), ChartColor.FromRgba(75, 192, 192, 0.2f), ChartColor.FromRgba(153, 102, 255, 0.2f), ChartColor.FromRgba(255, 159, 64, 0.2f) };
+        List<string> coloresGraficas = new List<string> { ChartColor.FromRgba(255, 99, 132, 1f), ChartColor.FromRgba(54, 162, 235, 1f), ChartColor.FromRgba(255, 206, 86, 1f), ChartColor.FromRgba(75, 192, 192, 1f), ChartColor.FromRgba(153, 102, 255, 1f), ChartColor.FromRgba(255, 159, 64, 1f) };
         string[] Labels;
 
          //> -- FUNCIONES
@@ -61,13 +59,6 @@ namespace PortalWeb.ViewModel
             Labels = stamps.OrderBy(_ => _.Ticks).Distinct().Select(_ => _.ToString()).ToArray();
             StateHasChanged();
         }
-
-        private int GenerarRandom()
-        {
-            Random rnd = new Random();
-            return rnd.Next(0, backgroundColors.Count());
-        }
-
         //protected override async Task OnInitializedAsync()
         //{
 
@@ -88,22 +79,22 @@ namespace PortalWeb.ViewModel
             await graficaTemperatura.Clear();
             await graficaTemperatura.AddLabel(Labels);
 
-           
-            foreach (var datosSensor in listaDatosTemp)
-            {
-                var numRandom = GenerarRandom(); // -- generamos un numero aleatorio entre 0y 7 para el color de cada dataset
-                await graficaTemperatura.AddDataSet(ObtenerDataSet(datosSensor.Item1, datosSensor.Item2, numRandom));
-                
+            int indiceColor = 0; // -- indice utilizado en el array de colores para que cada sensor (dataset) tenga un color
+            foreach (var datosSensor in listaDatosTemp.OrderBy(_ => _.Item1)) // -- datasets ordenados por nombre de sensor
+            {              
+                await graficaTemperatura.AddDataSet(ObtenerDataSet(datosSensor.Item1, datosSensor.Item2, indiceColor));
+                indiceColor = (indiceColor + 1) % coloresGraficas.Count();
             }
             await graficaTemperatura.Update();
             StateHasChanged();
 
             await graficaHumedad.Clear();
             await graficaHumedad.AddLabel(Labels);
-            foreach (var datosSensor in listaDatosHum)
-            {
-                var numRandom = GenerarRandom(); // -- generamos un numero aleatorio entre 0y 7 para el color de cada dataset
-                await graficaHumedad.AddDataSet(ObtenerDataSet(datosSensor.Item1, datosSensor.Item2, numRandom));
+            indiceColor = 0;
+            foreach (var datosSensor in listaDatosHum.OrderBy(_ => _.Item1)) // -- datasets ordenados por nombre de sensor
+            {                
+                await graficaHumedad.AddDataSet(ObtenerDataSet(datosSensor.Item1, datosSensor.Item2, indiceColor));
+                indiceColor = (indiceColor + 1) % coloresGraficas.Count();
             }
             await graficaHumedad.Update();
             StateHasChanged();
@@ -115,8 +106,8 @@ namespace PortalWeb.ViewModel
             {
                 Data = datosSensor,
                 Label = nombreSensor,
-                BackgroundColor = backgroundColors.ElementAt(indice),
-                BorderColor = borderColors.ElementAt(indice),
+                BackgroundColor = coloresGraficas.ElementAt(indice),
+                BorderColor = coloresGraficas.ElementAt(indice),
                 Fill = false,
                 PointRadius = 2,
                 BorderDash = new List<int> { }
