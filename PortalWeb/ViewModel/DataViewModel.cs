@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
+using Microsoft.JSInterop;
 using PortalWeb.Resources;
 using Servicios;
 using Syncfusion.Blazor.PivotView;
@@ -18,6 +19,8 @@ namespace PortalWeb.ViewModel
 {
     public class DataViewModel : ComponentBase
     {
+        //[Inject]
+        //protected IJSRuntime JSRuntime { get; set; }
 
         [Parameter]
         public string sensor { get; set; }
@@ -102,6 +105,7 @@ namespace PortalWeb.ViewModel
             await lineChartHumity.AddDataSet(GetLineChartHumityDataset());
             await lineChartHumity.Update();
             StateHasChanged();
+            //await JSRuntime.InvokeVoidAsync("resizeEvent", new object[] { });
         }
 
         LineChartDataset<double> GetLineChartTemperatureDataset()
