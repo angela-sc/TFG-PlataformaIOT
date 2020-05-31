@@ -40,7 +40,7 @@ namespace PortalWeb.ViewModel
         protected DateTime? fechaFin=null;
 
          //> -- FUNCIONES
-        private async Task CargaDatos()
+        private async Task CargarDatos()
         {
             var sensores = await servicioEB.ObtenerSensores(nombreEstacionBase);
             listaDatosTemp = new List<Tuple<string, List<double>>>();
@@ -60,7 +60,7 @@ namespace PortalWeb.ViewModel
             StateHasChanged();
         }
 
-        private async Task CargaDatos(DateTime? fechaInicio, DateTime? fechaFin)
+        private async Task CargarDatos(DateTime? fechaInicio, DateTime? fechaFin)
         {
             var sensores = await servicioEB.ObtenerSensores(nombreEstacionBase);
             listaDatosTemp = new List<Tuple<string, List<double>>>();
@@ -94,36 +94,18 @@ namespace PortalWeb.ViewModel
 
         protected async Task HandleRedraw()
         {
-            await CargaDatos(); // -- cargamos los datos para las dos gráficas          
-
-            await graficaTemperatura.Clear();
-            await graficaTemperatura.AddLabel(Labels);
-
-            int indiceColor = 0; // -- indice utilizado en el array de colores para que cada sensor (dataset) tenga un color
-            foreach (var datosSensor in listaDatosTemp.OrderBy(_ => _.Item1)) // -- datasets ordenados por nombre de sensor
-            {              
-                await graficaTemperatura.AddDataSet(ObtenerDataSet(datosSensor.Item1, datosSensor.Item2, indiceColor));
-                indiceColor = (indiceColor + 1) % coloresGraficas.Count();
-            }
-            await graficaTemperatura.Update();
-            StateHasChanged();
-
-            await graficaHumedad.Clear();
-            await graficaHumedad.AddLabel(Labels);
-            indiceColor = 0;
-            foreach (var datosSensor in listaDatosHum.OrderBy(_ => _.Item1)) // -- datasets ordenados por nombre de sensor
-            {                
-                await graficaHumedad.AddDataSet(ObtenerDataSet(datosSensor.Item1, datosSensor.Item2, indiceColor));
-                indiceColor = (indiceColor + 1) % coloresGraficas.Count();
-            }
-            await graficaHumedad.Update();
-            StateHasChanged();
+            await CargarDatos(); // -- cargamos los datos para las dos gráficas          
+            await CargarGrafica();
         }
 
         protected async Task HandleRedraw(DateTime? inicio, DateTime? fin)
         {
-            await CargaDatos(inicio, fin); // -- cargamos los datos para las dos gráficas          
+            await CargarDatos(inicio, fin); // -- cargamos los datos para las dos gráficas          
+            await CargarGrafica();           
+        }
 
+        private async Task CargarGrafica()
+        {
             await graficaTemperatura.Clear();
             await graficaTemperatura.AddLabel(Labels);
 
@@ -146,8 +128,8 @@ namespace PortalWeb.ViewModel
             }
             await graficaHumedad.Update();
             StateHasChanged();
-        }
 
+        }
         LineChartDataset<double> ObtenerDataSet(string nombreSensor, List<double> datosSensor, int indice) // obtiene cada uno de los datasets de temperatura: 1 dataset x sensor
         {
             return new LineChartDataset<double>
