@@ -121,7 +121,7 @@ namespace Repositorio.SQLServer
             return result;
         }
 
-        public async Task<IEnumerable<EntidadDatoBase>> ObtenerDatos(int idSensor, DateTime? fechaInicio, DateTime? fechaFin) 
+        public async Task<IEnumerable<EntidadDatoBase>> ObtenerDatos(int idSensor, DateTime? fechaInicio, DateTime? fechaFin) // > -- filtra los datos para un sensor determinado según una fecha de inicio y fin
         {
 
             Dictionary<string, object> parametros = new Dictionary<string, object>
@@ -148,28 +148,21 @@ namespace Repositorio.SQLServer
                 catch (Exception ex)
                 {
                     log.Warning(ex.Message);
-                }
-                
-
+                }               
             }
             else
             {
-                if(fechaFin == null)
+                result = null;
+                if (fechaFin == null)
                 {
-                    log.Error("");
+                    log.Error("Error: fecha de fin vacía - ERR. REPOSITORIO SENSOR > ObtenerDatos");
                 }
                 if(fechaInicio == null)
                 {
-                    log.Error("");
-                }
-                
+                    log.Error("Error: fecha de inicio vacía - ERR. REPOSITORIO SENSOR > ObtenerDatos");
+                }                
             }
-
-
             return result;
-
-
-
         }
 
         //public async Task<IEnumerable<EntidadSensorResultado>> ObtenerDatosSensores(int idEstacionBase) // > -- Obtiene los datos de los sensores de una estacion base

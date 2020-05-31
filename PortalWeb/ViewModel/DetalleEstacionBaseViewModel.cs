@@ -59,6 +59,26 @@ namespace PortalWeb.ViewModel
             Labels = stamps.OrderBy(_ => _.Ticks).Distinct().Select(_ => _.ToString()).ToArray();
             StateHasChanged();
         }
+
+        private async Task CargaDatos(DateTime? fechaInicio, DateTime? fechaFin)
+        {
+            var sensores = await servicioEB.ObtenerSensores(nombreEstacionBase);
+            listaDatosTemp = new List<Tuple<string, List<double>>>();
+            listaDatosHum = new List<Tuple<string, List<double>>>();
+            List<DateTime> stamps = new List<DateTime>();
+
+            foreach (var sensor in sensores)
+            {
+                var datos = await servicioSE.ObtenerDatos(sensor.IdSensor, fechaInicio, fechaFin);
+                listaDatosTemp.Add(new Tuple<string, List<double>>(sensor.NombreSensor, datos.Select(_ => (double)_.Temperatura).ToList()));
+                listaDatosHum.Add(new Tuple<string, List<double>>(sensor.NombreSensor, datos.Select(_ => (double)_.Humedad).ToList()));
+
+                stamps.AddRange(datos.Select(_ => _.Stamp).ToList());
+            }
+
+            Labels = stamps.OrderBy(_ => _.Ticks).Distinct().Select(_ => _.ToString()).ToArray();
+            StateHasChanged();
+        }
         //protected override async Task OnInitializedAsync()
         //{
 
@@ -100,6 +120,34 @@ namespace PortalWeb.ViewModel
             StateHasChanged();
         }
 
+        protected async Task HandleRedraw(DateTime? inicio, DateTime? fin)
+        {
+            await CargaDatos(inicio, fin); // -- cargamos los datos para las dos gráficas          
+
+            await graficaTemperatura.Clear();
+            await graficaTemperatura.AddLabel(Labels);
+
+            int indiceColor = 0; // -- indice utilizado en el array de colores para que cada sensor (dataset) tenga un color
+            foreach (var datosSensor in listaDatosTemp.OrderBy(_ => _.Item1)) // -- datasets ordenados por nombre de sensor
+            {
+                await graficaTemperatura.AddDataSet(ObtenerDataSet(datosSensor.Item1, datosSensor.Item2, indiceColor));
+                indiceColor = (indiceColor + 1) % coloresGraficas.Count();
+            }
+            await graficaTemperatura.Update();
+            StateHasChanged();
+
+            await graficaHumedad.Clear();
+            await graficaHumedad.AddLabel(Labels);
+            indiceColor = 0;
+            foreach (var datosSensor in listaDatosHum.OrderBy(_ => _.Item1)) // -- datasets ordenados por nombre de sensor
+            {
+                await graficaHumedad.AddDataSet(ObtenerDataSet(datosSensor.Item1, datosSensor.Item2, indiceColor));
+                indiceColor = (indiceColor + 1) % coloresGraficas.Count();
+            }
+            await graficaHumedad.Update();
+            StateHasChanged();
+        }
+
         LineChartDataset<double> ObtenerDataSet(string nombreSensor, List<double> datosSensor, int indice) // obtiene cada uno de los datasets de temperatura: 1 dataset x sensor
         {
             return new LineChartDataset<double>
@@ -117,15 +165,13 @@ namespace PortalWeb.ViewModel
         // > -- METODOS PARA FILTRAR LAS GRAFICAS
         protected async Task FiltrarPorFecha()
         {
-            if(fechaInicio == null || fechaFin == null)
+            if(fechaInicio != null && fechaFin != null)
             {
-                //Console.WriteLine("fechaInicio o fechaFin son null");
+                await HandleRedraw(fechaInicio, fechaFin);
             }
             else
             {
-                //comprobamos que la fecha de inicio es menor que la de fin
-
-                //Console.WriteLine($"fecha inicio: {fechaInicio} / fecha fin: {fechaFin}");
+                //Si las fechas son incorrectas no se mostrará nada diferente
             }
         }
     }

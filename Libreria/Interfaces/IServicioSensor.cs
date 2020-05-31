@@ -9,7 +9,7 @@ namespace Libreria.Interfaces
     public interface IServicioSensor
     {
         Task<IEnumerable<EntidadDatoBase>> ObtenerDatos(int idSensor, int top);
-        //Task<List<EntidadDatoBase>> BuscarDatos(int idSensor, DateTime inicio, DateTime fin);
+        Task<IEnumerable<EntidadDatoBase>> ObtenerDatos(int idSensor, DateTime? fechaInicio, DateTime? fechaFin);
         Task<IEnumerable<double>> ObtenerTemperatura(int idSensor, int top);
         Task<int> ObtenerId(string nombreSensor, int idEstacionBase);
         Task<bool> EliminarDatos(int fk_SensorId);

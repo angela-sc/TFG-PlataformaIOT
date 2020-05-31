@@ -36,7 +36,23 @@ namespace Servicios
             return datos; //devuelve null o un IEnumerable<EntidadDatoBase>
         }
 
-        
+        public async Task<IEnumerable<EntidadDatoBase>> ObtenerDatos(int idSensor, DateTime? fechaInicio, DateTime? fechaFin) //Obtiene todos los datos asociados a un sensor, FILTRANDO por fecha de inicio y fin
+        {
+            IEnumerable<EntidadDatoBase> datos = null;
+
+            try
+            {
+                datos = await repositorioSensor.ObtenerDatos(idSensor, fechaInicio, fechaFin);
+            }
+            catch (Exception)
+            {
+                log.Warning($"Problema al obtener datos del sensor {idSensor}; no se encuentra en la base de datos.");
+            }
+
+            return datos; //devuelve null o un IEnumerable<EntidadDatoBase>
+        }
+
+
         public async Task<IEnumerable<double>> ObtenerTemperatura(int idSensor, int top) //Devuelve una lista con los datos de temperatura de un sensor determinado
         {
             IEnumerable<EntidadDatoBase> AllData = await repositorioSensor.ObtenerDatos(idSensor, top);
