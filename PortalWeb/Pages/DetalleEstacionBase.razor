@@ -11,14 +11,15 @@
 <div class="row mb-2">
     <div class="col-md-1">Inicio:</div>
     <div class="col-md-3">
-        <DateEdit TValue="DateTime?" />
+        <DateEdit TValue="DateTime?" @bind-Date="@fechaInicio"/>
     </div>
     <div class="col-md-1">Fin:</div>
     <div class="col-md-3">
-        <DateEdit TValue="DateTime?" />
+        <DateEdit TValue="DateTime?" @bind-Date="@fechaFin" />
     </div>
     <div class="col-md-1">
-        <a @onclick="@(async () => { await HandleRedraw(); })" class="btn btn-primary" style="color:white;">Refrescar</a>
+        <a @onclick="@(async () => { await HandleRedraw(); })" class="btn btn-primary" style="color:white;">Redrae</a>
+        <a @onclick="@(async () => { await FiltrarPorFecha(); })" class="btn btn-primary" style="color:white;">Refrescar</a>
     </div>
 </div>
 

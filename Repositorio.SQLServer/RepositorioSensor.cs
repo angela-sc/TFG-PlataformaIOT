@@ -121,6 +121,57 @@ namespace Repositorio.SQLServer
             return result;
         }
 
+        public async Task<IEnumerable<EntidadDatoBase>> ObtenerDatos(int idSensor, DateTime? fechaInicio, DateTime? fechaFin) 
+        {
+
+            Dictionary<string, object> parametros = new Dictionary<string, object>
+            {
+                { "@id", idSensor},
+                { "@fechainicio", fechaInicio },
+                { "@fechafin", fechaFin}
+            };
+
+            string query = @"SELECT [stamp] [Stamp], [humedad] [Humedad], [temperatura] [Temperatura] 
+                             FROM [plataforma_iot].[dbo].[Datos] WHERE [stamp] BETWEEN @fechainicio AND @fechafin";
+            
+            IEnumerable<EntidadDatoBase> result = null;
+
+            if (fechaInicio != null && fechaFin != null)
+            {
+                try
+                {
+                    using (SqlConnection conn = new SqlConnection(cadenaConexion))
+                    {
+                        result = await conn.QueryAsync<EntidadDatoBase>(query, parametros);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    log.Warning(ex.Message);
+                }
+                
+
+            }
+            else
+            {
+                if(fechaFin == null)
+                {
+                    log.Error("");
+                }
+                if(fechaInicio == null)
+                {
+                    log.Error("");
+                }
+                
+            }
+
+
+            return result;
+
+
+
+        }
+
         //public async Task<IEnumerable<EntidadSensorResultado>> ObtenerDatosSensores(int idEstacionBase) // > -- Obtiene los datos de los sensores de una estacion base
         //{
         //    Dictionary<string, object> parametros = new Dictionary<string, object>
@@ -145,7 +196,7 @@ namespace Repositorio.SQLServer
         //    }
         //    return resultado;
         //}
-     
+
         public async Task<int> ObtenerId(string nombreSensor, int idEstacionBase)
         {
             int id = -1;
@@ -264,6 +315,8 @@ namespace Repositorio.SQLServer
 
             return editado;
         }
+
+        
         
     }
 }

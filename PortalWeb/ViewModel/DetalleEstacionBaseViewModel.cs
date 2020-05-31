@@ -24,20 +24,20 @@ namespace PortalWeb.ViewModel
         public List<Tuple<string, List<double>>> listaDatosHum { get; set; }
         #endregion
 
-
         // > -- ATRIBUTOS PRIVADOS        
         private IServicioEstacionBase servicioEB = new ServicioEstacionBase("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=plataforma_iot;Integrated Security=true", null);
         private IServicioSensor servicioSE = new ServicioSensor("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=plataforma_iot;Integrated Security=true", null);
-        
-        private IEnumerable<EntidadSensorResultado> sensores; //sensores de una estacion base
-
-
+               
         // > -- GRAFICAS
         protected LineChart<double> graficaTemperatura, graficaHumedad;
 
         //List<string> backgroundColors = new List<string> { ChartColor.FromRgba(255, 99, 132, 0.2f), ChartColor.FromRgba(54, 162, 235, 0.2f), ChartColor.FromRgba(255, 206, 86, 0.2f), ChartColor.FromRgba(75, 192, 192, 0.2f), ChartColor.FromRgba(153, 102, 255, 0.2f), ChartColor.FromRgba(255, 159, 64, 0.2f) };
         List<string> coloresGraficas = new List<string> { ChartColor.FromRgba(255, 99, 132, 1f), ChartColor.FromRgba(54, 162, 235, 1f), ChartColor.FromRgba(255, 206, 86, 1f), ChartColor.FromRgba(75, 192, 192, 1f), ChartColor.FromRgba(153, 102, 255, 1f), ChartColor.FromRgba(255, 159, 64, 1f) };
         string[] Labels;
+
+        // > -- FILTRO GRAFICAS
+        protected DateTime? fechaInicio = null;
+        protected DateTime? fechaFin=null;
 
          //> -- FUNCIONES
         private async Task CargaDatos()
@@ -112,6 +112,21 @@ namespace PortalWeb.ViewModel
                 PointRadius = 2,
                 BorderDash = new List<int> { }
             };
+        }
+
+        // > -- METODOS PARA FILTRAR LAS GRAFICAS
+        protected async Task FiltrarPorFecha()
+        {
+            if(fechaInicio == null || fechaFin == null)
+            {
+                //Console.WriteLine("fechaInicio o fechaFin son null");
+            }
+            else
+            {
+                //comprobamos que la fecha de inicio es menor que la de fin
+
+                //Console.WriteLine($"fecha inicio: {fechaInicio} / fecha fin: {fechaFin}");
+            }
         }
     }
  }
