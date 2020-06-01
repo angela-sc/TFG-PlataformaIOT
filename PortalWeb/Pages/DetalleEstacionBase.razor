@@ -8,7 +8,7 @@
 <h3>Detalle estación base @nombreEstacionBase</h3><br />
 
 <!-- Selector fecha -->
-<div class="row mb-2">
+@*<div class="row mb-1">
     <div class="col-md-1">Inicio:</div>
     <div class="col-md-3">
         <DateEdit TValue="DateTime?" @bind-Date="@fechaInicio"/>
@@ -20,6 +20,28 @@
     <div class="col-md-1">
         <a @onclick="@(async () => { await HandleRedraw(); })" class="btn btn-primary" style="color:white;">Redrae</a>
         <a @onclick="@(async () => { await FiltrarPorFecha(); })" class="btn btn-primary" style="color:white;">Refrescar</a>
+    </div>
+</div>*@
+
+<!-- SELECTOR DE FECHAS -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel">
+            <div class="panel-body">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <div class="col mb-2"> <label>Inicio:</label></div>
+                        <div class="col mb-2"><DateEdit TValue="DateTime?" @bind-Date="@fechaInicio" id="fechaInicio" /></div>
+
+                        <div class="col mb-2"> <label> Fin:</label></div>
+                        <div class="col mb-2"><DateEdit TValue="DateTime?" @bind-Date="@fechaFin" id="fechaFin" /></div>
+                                           
+                    </div>
+                    <div class="ml-3 mb-2"> <button type="submit" class="btn btn-primary" @onclick="@(async () => { await FiltrarPorFecha(); })"> Refrescar datos</button></div>
+                </div>
+            </div>
+
+        </div>
     </div>
 </div>
 

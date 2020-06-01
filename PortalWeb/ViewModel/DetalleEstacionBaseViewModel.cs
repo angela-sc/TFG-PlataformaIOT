@@ -29,17 +29,14 @@ namespace PortalWeb.ViewModel
         private IServicioSensor servicioSE = new ServicioSensor("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=plataforma_iot;Integrated Security=true", null);
                
         // > -- GRAFICAS
-        protected LineChart<double> graficaTemperatura, graficaHumedad;
-
-        //List<string> backgroundColors = new List<string> { ChartColor.FromRgba(255, 99, 132, 0.2f), ChartColor.FromRgba(54, 162, 235, 0.2f), ChartColor.FromRgba(255, 206, 86, 0.2f), ChartColor.FromRgba(75, 192, 192, 0.2f), ChartColor.FromRgba(153, 102, 255, 0.2f), ChartColor.FromRgba(255, 159, 64, 0.2f) };
+        protected LineChart<double> graficaTemperatura, graficaHumedad;        
         List<string> coloresGraficas = new List<string> { ChartColor.FromRgba(255, 99, 132, 1f), ChartColor.FromRgba(54, 162, 235, 1f), ChartColor.FromRgba(255, 206, 86, 1f), ChartColor.FromRgba(75, 192, 192, 1f), ChartColor.FromRgba(153, 102, 255, 1f), ChartColor.FromRgba(255, 159, 64, 1f) };
         string[] Labels;
-
         // > -- FILTRO GRAFICAS
         protected DateTime? fechaInicio = null;
         protected DateTime? fechaFin=null;
 
-         //> -- FUNCIONES
+        //> -- FUNCIONES
         private async Task CargarDatos()
         {
             var sensores = await servicioEB.ObtenerSensores(nombreEstacionBase);
@@ -69,7 +66,7 @@ namespace PortalWeb.ViewModel
 
             foreach (var sensor in sensores)
             {
-                var datos = await servicioSE.ObtenerDatos(sensor.IdSensor, fechaInicio, fechaFin);
+                var datos = await servicioSE.ObtenerDatos(sensor.IdSensor, fechaInicio, fechaFin); // FILTRAMOS POR FECHA
                 listaDatosTemp.Add(new Tuple<string, List<double>>(sensor.NombreSensor, datos.Select(_ => (double)_.Temperatura).ToList()));
                 listaDatosHum.Add(new Tuple<string, List<double>>(sensor.NombreSensor, datos.Select(_ => (double)_.Humedad).ToList()));
 
@@ -79,6 +76,7 @@ namespace PortalWeb.ViewModel
             Labels = stamps.OrderBy(_ => _.Ticks).Distinct().Select(_ => _.ToString()).ToArray();
             StateHasChanged();
         }
+        
         //protected override async Task OnInitializedAsync()
         //{
 
