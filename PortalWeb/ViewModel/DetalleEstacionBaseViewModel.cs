@@ -29,18 +29,35 @@ namespace PortalWeb.ViewModel
         private IServicioSensor servicioSE = new ServicioSensor("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=plataforma_iot;Integrated Security=true", null);
                
         // > -- GRAFICAS
-        protected LineChart<double> graficaTemperatura, graficaHumedad;
-
-        //List<string> backgroundColors = new List<string> { ChartColor.FromRgba(255, 99, 132, 0.2f), ChartColor.FromRgba(54, 162, 235, 0.2f), ChartColor.FromRgba(255, 206, 86, 0.2f), ChartColor.FromRgba(75, 192, 192, 0.2f), ChartColor.FromRgba(153, 102, 255, 0.2f), ChartColor.FromRgba(255, 159, 64, 0.2f) };
+        protected LineChart<double> graficaTemperatura, graficaHumedad;        
         List<string> coloresGraficas = new List<string> { ChartColor.FromRgba(255, 99, 132, 1f), ChartColor.FromRgba(54, 162, 235, 1f), ChartColor.FromRgba(255, 206, 86, 1f), ChartColor.FromRgba(75, 192, 192, 1f), ChartColor.FromRgba(153, 102, 255, 1f), ChartColor.FromRgba(255, 159, 64, 1f) };
         string[] Labels;
-
         // > -- FILTRO GRAFICAS
         protected DateTime? fechaInicio = null;
         protected DateTime? fechaFin=null;
 
-         //> -- FUNCIONES
-        private async Task CargarDatos()
+        //> -- FUNCIONES
+        //private async Task CargarDatos()
+        //{
+        //    var sensores = await servicioEB.ObtenerSensores(nombreEstacionBase);
+        //    listaDatosTemp = new List<Tuple<string, List<double>>>();
+        //    listaDatosHum = new List<Tuple<string, List<double>>>();
+        //    List<DateTime> stamps = new List<DateTime>();
+
+        //    foreach (var sensor in sensores)
+        //    {
+        //        var datos = await servicioSE.ObtenerDatos(sensor.IdSensor, 10);
+        //        listaDatosTemp.Add(new Tuple<string, List<double>>(sensor.NombreSensor, datos.Select(_ => (double)_.Temperatura).ToList()));
+        //        listaDatosHum.Add(new Tuple<string, List<double>>(sensor.NombreSensor, datos.Select(_ => (double)_.Humedad).ToList()));
+
+        //        stamps.AddRange(datos.Select(_ => _.Stamp).ToList());
+        //    }
+
+        //    Labels = stamps.OrderBy(_ => _.Ticks).Distinct().Select(_ => _.ToString()).ToArray();
+        //    StateHasChanged();
+        //}
+
+        private async Task CargarDatos(DateTime? fechaInicio=null, DateTime? fechaFin=null)
         {
             var sensores = await servicioEB.ObtenerSensores(nombreEstacionBase);
             listaDatosTemp = new List<Tuple<string, List<double>>>();
@@ -49,7 +66,16 @@ namespace PortalWeb.ViewModel
 
             foreach (var sensor in sensores)
             {
-                var datos = await servicioSE.ObtenerDatos(sensor.IdSensor, 10);
+                IEnumerable<EntidadDatoBase> datos;
+                
+                if(fechaInicio == null || fechaFin == null)
+                {
+                    datos = await servicioSE.ObtenerDatos(sensor.IdSensor, 10);
+                }
+                else
+                {
+                    datos = await servicioSE.ObtenerDatos(sensor.IdSensor, fechaInicio, fechaFin.Value.AddDays(1)); // FILTRAMOS POR FECHA
+                }                
                 listaDatosTemp.Add(new Tuple<string, List<double>>(sensor.NombreSensor, datos.Select(_ => (double)_.Temperatura).ToList()));
                 listaDatosHum.Add(new Tuple<string, List<double>>(sensor.NombreSensor, datos.Select(_ => (double)_.Humedad).ToList()));
 
@@ -59,26 +85,7 @@ namespace PortalWeb.ViewModel
             Labels = stamps.OrderBy(_ => _.Ticks).Distinct().Select(_ => _.ToString()).ToArray();
             StateHasChanged();
         }
-
-        private async Task CargarDatos(DateTime? fechaInicio, DateTime? fechaFin)
-        {
-            var sensores = await servicioEB.ObtenerSensores(nombreEstacionBase);
-            listaDatosTemp = new List<Tuple<string, List<double>>>();
-            listaDatosHum = new List<Tuple<string, List<double>>>();
-            List<DateTime> stamps = new List<DateTime>();
-
-            foreach (var sensor in sensores)
-            {
-                var datos = await servicioSE.ObtenerDatos(sensor.IdSensor, fechaInicio, fechaFin);
-                listaDatosTemp.Add(new Tuple<string, List<double>>(sensor.NombreSensor, datos.Select(_ => (double)_.Temperatura).ToList()));
-                listaDatosHum.Add(new Tuple<string, List<double>>(sensor.NombreSensor, datos.Select(_ => (double)_.Humedad).ToList()));
-
-                stamps.AddRange(datos.Select(_ => _.Stamp).ToList());
-            }
-
-            Labels = stamps.OrderBy(_ => _.Ticks).Distinct().Select(_ => _.ToString()).ToArray();
-            StateHasChanged();
-        }
+        
         //protected override async Task OnInitializedAsync()
         //{
 
@@ -92,13 +99,13 @@ namespace PortalWeb.ViewModel
             }
         }
 
-        protected async Task HandleRedraw()
-        {
-            await CargarDatos(); // -- cargamos los datos para las dos gráficas          
-            await CargarGrafica();
-        }
+        //protected async Task HandleRedraw()
+        //{
+        //    await CargarDatos(); // -- cargamos los datos para las dos gráficas          
+        //    await CargarGrafica();
+        //}
 
-        protected async Task HandleRedraw(DateTime? inicio, DateTime? fin)
+        protected async Task HandleRedraw(DateTime? inicio=null, DateTime? fin=null) //inicio tiene el valor por defecto null si no se especifica
         {
             await CargarDatos(inicio, fin); // -- cargamos los datos para las dos gráficas          
             await CargarGrafica();           
@@ -154,6 +161,7 @@ namespace PortalWeb.ViewModel
             else
             {
                 //Si las fechas son incorrectas no se mostrará nada diferente
+                await HandleRedraw();
             }
         }
     }
