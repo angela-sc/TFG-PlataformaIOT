@@ -19,7 +19,7 @@ namespace PortalWeb.ViewModel
 {
     public class AdministrarProyectosViewModel : ComponentBase
     {
-        private readonly string cadenaConexion = Program.GetConfiguration()["cadenaConexion"];
+        //private readonly string cadenaConexion = Program.GetConfiguration()["cadenaConexion"];
                
         private ModeloEstacionBase estacionbase = null;        
         protected ModeloEstacionBase EstacionBaseEditar  //Atributo que nos sirve para editar
@@ -104,18 +104,18 @@ namespace PortalWeb.ViewModel
         //private string cadenaConexion = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=plataforma_iot;Integrated Security=true";
         
 
-        private IServicioProyecto servicioProyecto;
-        private IServicioEstacionBase servicioEstacionBase;
-        private IServicioSensor servicioSensor;
+        private IServicioProyecto servicioProyecto = FactoriaServicios.GetServicioProyecto();
+        private IServicioEstacionBase servicioEstacionBase = FactoriaServicios.GetServicioEstacionBase();
+        private IServicioSensor servicioSensor = FactoriaServicios.GetServicioSensor();
 
         private int idUsuario; // usuario logado
 
         protected override async Task OnInitializedAsync()
         {
-            servicioProyecto = new ServicioProyecto(cadenaConexion, null);
-            servicioEstacionBase = new ServicioEstacionBase(cadenaConexion, null);
-            servicioSensor = new ServicioSensor(cadenaConexion, null);
-
+            //servicioProyecto = new ServicioProyecto(cadenaConexion, null);
+            //servicioEstacionBase = new ServicioEstacionBase(cadenaConexion, null);
+            //servicioSensor = new ServicioSensor(cadenaConexion, null);
+            
             idUsuario = InformacionUsuario.IdUsuario; //ide del usuario -> BORRAR
 
             await CargarDatos();
@@ -132,7 +132,7 @@ namespace PortalWeb.ViewModel
         public async Task CrearProyecto()
         {
             Console.WriteLine("Función crear proyecto activada.");
-            servicioProyecto = new ServicioProyecto(cadenaConexion, null);
+            //servicioProyecto = new ServicioProyecto(cadenaConexion, null);
 
            await servicioProyecto.Crear(new EntidadProyecto()
             {
@@ -157,7 +157,7 @@ namespace PortalWeb.ViewModel
         {
 
             Console.WriteLine("Función crear estación base activada.");
-            servicioEstacionBase = new ServicioEstacionBase(cadenaConexion, null);
+           // servicioEstacionBase = new ServicioEstacionBase(cadenaConexion, null);
 
             await servicioEstacionBase.Crear(new EntidadEstacionBase()
             {
@@ -183,7 +183,7 @@ namespace PortalWeb.ViewModel
         public async Task CrearSensor()
         {
             Console.WriteLine("Función crear sensor activada.");
-            servicioSensor = new ServicioSensor(cadenaConexion, null);
+            //servicioSensor = new ServicioSensor(cadenaConexion, null);
             await servicioSensor.Crear(new EntidadSensor()
             {
                 Nombre = Sensor.Nombre,

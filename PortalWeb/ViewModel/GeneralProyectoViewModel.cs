@@ -14,7 +14,7 @@ namespace PortalWeb.ViewModel
     public class GeneralProyectoViewModel : ComponentBase
     {       
         public IEnumerable<EntidadProyecto> proyectos;
-        public ServicioProyecto servicio;
+        public IServicioProyecto servicioProyecto = FactoriaServicios.GetServicioProyecto();
 
         private int usuario = InformacionUsuario.IdUsuario;
 
@@ -25,14 +25,13 @@ namespace PortalWeb.ViewModel
         protected override async Task OnInitializedAsync()
         {
             proyectos = new List<EntidadProyecto>();
-            servicio = new ServicioProyecto(CadenaConexion, null);
+            //servicioProyecto = new ServicioProyecto(CadenaConexion, null);
 
-            proyectos = await servicio.ObtenerProyectos(usuario);
+            proyectos = await servicioProyecto.ObtenerProyectos(usuario);
             this.StateHasChanged();
         }
 
         //Metodos para la búsqueda de proyectos+
-
         public List<EntidadProyecto> proyectosFiltrados => proyectos.Where(i => i.Nombre.ToLower().Contains(SearchTerm.ToLower())).ToList();
         
 

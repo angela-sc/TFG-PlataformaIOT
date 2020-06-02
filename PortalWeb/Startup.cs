@@ -16,6 +16,7 @@ using Syncfusion.Blazor;
 
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
+using Serilog;
 
 namespace PortalWeb
 {
@@ -32,6 +33,15 @@ namespace PortalWeb
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
+            FactoriaServicios.SetCadenaConexion(configuration.GetValue<string>("CadenaConexion"));
+            
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .Enrich.FromLogContext()
+                .WriteTo.File(configuration.GetValue<string>("DirectorioLog"))
+                .CreateLogger();
+            FactoriaServicios.SetLogger(Log.Logger);
 
             /**
              * DE MOMENTO SE HARDCODEARÁ AQUÍ HASTA QUE SE IMPLEMENTE EL LOGIN DE USUARIO
@@ -52,7 +62,7 @@ namespace PortalWeb
 
             services.AddBlazorise(options => { options.ChangeTextOnKeyPress = true; })
                .AddBootstrapProviders()
-               .AddFontAwesomeIcons();       
+               .AddFontAwesomeIcons();                   
                        
         }
 

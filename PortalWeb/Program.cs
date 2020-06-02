@@ -19,19 +19,24 @@ namespace PortalWeb
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)                
+            Host.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration((hostingContext, config) =>
+                {
+                    config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
                     
                 });
 
-        public static IConfigurationRoot GetConfiguration()
-        {
-            return new ConfigurationBuilder()
-              .SetBasePath(Directory.GetCurrentDirectory())
-              .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-              .Build();
-        }
+        //public static IConfigurationRoot GetConfiguration()
+        //{
+        //    return new ConfigurationBuilder()
+        //      .SetBasePath(Directory.GetCurrentDirectory())
+        //      .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+        //      .Build();
+        //}
     }
 }

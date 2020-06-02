@@ -2,6 +2,7 @@
 using Libreria.Entidades;
 using Libreria.Interfaces;
 using Microsoft.AspNetCore.Components;
+using PortalWeb.Data;
 using Servicios;
 using System;
 using System.Collections.Generic;
@@ -24,10 +25,9 @@ namespace PortalWeb.ViewModel
         public List<Tuple<string, List<double>>> listaDatosHum { get; set; }
         #endregion
 
-        // > -- ATRIBUTOS PRIVADOS    
-        private readonly string cadenaConexion = Program.GetConfiguration()["CadenaConexion"];
-        private IServicioEstacionBase servicioEB;// = new ServicioEstacionBase(cadenaConexion, null);
-        private IServicioSensor servicioSE;// = new ServicioSensor("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=plataforma_iot;Integrated Security=true", null);
+        // > -- ATRIBUTOS PRIVADOS            
+        private IServicioEstacionBase servicioEB = FactoriaServicios.GetServicioEstacionBase();// = new ServicioEstacionBase(cadenaConexion, null);
+        private IServicioSensor servicioSE = FactoriaServicios.GetServicioSensor();// = new ServicioSensor("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=plataforma_iot;Integrated Security=true", null);
                
         // > -- GRAFICAS
         protected LineChart<double> graficaTemperatura, graficaHumedad;        
@@ -69,8 +69,8 @@ namespace PortalWeb.ViewModel
         
         protected override async Task OnInitializedAsync()
         {
-            servicioEB = new ServicioEstacionBase(cadenaConexion, null);
-            servicioSE = new ServicioSensor(cadenaConexion, null);
+            //servicioEB = new ServicioEstacionBase(cadenaConexion, null);
+            //servicioSE = new ServicioSensor(cadenaConexion, null);
 
             await HandleRedraw();
         }
