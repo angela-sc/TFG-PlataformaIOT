@@ -68,8 +68,8 @@ namespace Repositorio.SQLServer
             }
             catch (Exception ex)
             {
-                //log.Error($"Error al obtener los proyectos del usuario {idUsuario} - ERR. REPOSITORIO PROYECTO");
-                Console.WriteLine(ex.Message, "Error: ");
+                log.Error($"ERR. REPOSITORIO PROYECTO (ObtenerProyectos) - {ex.Message}");
+                //Console.WriteLine(ex.Message, "Error: ");
             }
             return resultado;
         }
@@ -95,8 +95,8 @@ namespace Repositorio.SQLServer
             }
             catch (Exception ex)
             {
-                //log.Error($"Se ha producido un error al eliminar el proyecto - ERR. REPOSITORIO PROYECTO");
-                Console.WriteLine(ex.Message, "Error: ");
+                log.Error($"ERR. REPOSITORIO PROYECTO (EliminarProyecto) - {ex.Message}");
+                //Console.WriteLine(ex.Message, "Error: ");
                 eliminado = false;
             }
             return eliminado;
@@ -126,8 +126,8 @@ namespace Repositorio.SQLServer
             }
             catch (Exception ex)
             {
-                //log.Error($"Se ha producido un error al eliminar el proyecto - ERR. REPOSITORIO PROYECTO");
-                Console.WriteLine(ex.Message, "Error: ");
+                log.Error($"ERR. REPOSITORIO PROYECTO (EditarProyecto) - {ex.Message}");
+                //Console.WriteLine(ex.Message, "Error: ");
                 editado = false;
             }
             return editado;
@@ -183,8 +183,8 @@ namespace Repositorio.SQLServer
             }
             catch (Exception ex)
             {
-                //log.Error($"Se ha producido un error al insertar el proyecto {proyecto.name} en la base de datos - ERR. REPOSITORIO PROYECTO");
-                Console.WriteLine("Error en el método InsertaProyecto " + ex.Message); // --ELIMINAR CUANDO SE PASE EL LOG   
+                log.Error($"ERR. REPOSITORIO PROYECTO (InsertaProyecto) - {ex.Message}");
+                //Console.WriteLine("Error en el método InsertaProyecto " + ex.Message); // --ELIMINAR CUANDO SE PASE EL LOG   
             }
         }
 

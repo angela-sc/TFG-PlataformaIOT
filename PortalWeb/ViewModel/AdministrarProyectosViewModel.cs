@@ -201,8 +201,6 @@ namespace PortalWeb.ViewModel
             this.StateHasChanged();
         }
 
-
-
         protected void ActivarEditar(EntidadEstacionBase eb) //Activa el modal, que se muestra cuando EstacionBaseEditar != null
         {
             EstacionBaseEditar = new ModeloEstacionBase()

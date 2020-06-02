@@ -50,9 +50,9 @@ namespace Repositorio.SQLServer
                     insertado = true;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                log.Error($"Se ha producido un erro al insertar el usuario {usuario.Email} en la base de datos - ERR. REPOSITORIO USUARIO");
+                log.Error($"ERR. REPOSITORIO USUARIO (InsertaUsuario) - {ex.Message}");
                 return insertado; //¿esto se puede quitar?
             }
             return insertado;

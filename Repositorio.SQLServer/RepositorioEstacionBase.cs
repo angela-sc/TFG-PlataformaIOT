@@ -24,8 +24,7 @@ namespace Repositorio.SQLServer
             this.cadenaConexion = cadenaConexion;
             this.log = logger;
         }
-
-        
+      
         public async Task<int> ObtenerId(string nombreEstacionBase) //Metodo que obtiene el id de la estación base a partir de su nombre
         {
             int id = -1;
@@ -45,9 +44,9 @@ namespace Repositorio.SQLServer
                     id =  resultado.FirstOrDefault();
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                log.Warning($"No se ha encontrado ningún id para la estacion base {nombreEstacionBase} - ERR. REPOSITORIO ESTACION BASE");
+                log.Error($"ERR. REPOSITORIO ESTACION BASE (ObtenerId) - ", ex.Message);
                 id = -1;
             }
             return id;
@@ -70,13 +69,12 @@ namespace Repositorio.SQLServer
                     nombre = resultado.FirstOrDefault();
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                log.Warning($"No se ha encontrado ningún id para la estacion base {idEstacionBase} - ERR. REPOSITORIO ESTACION BASE");
+                log.Error($"ERR. REPOSITORIO ESTACION BASE (ObtenerNombre) - {ex.Message}");
                 nombre = "";
             }
             return nombre;
-
         }
 
         public async Task<IEnumerable<EntidadSensorResultado>> ObtenerSensores(string nombreEstacionBase)
@@ -168,8 +166,8 @@ namespace Repositorio.SQLServer
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                //log.Error($"No se ha podido obtener la lista de sensores de la estación base '{nombreEstacionBase}' - ERR. REPOSITORIO ESTACION BASE");
+                //Console.WriteLine(ex.Message);
+                log.Error($"ERR. REPOSITORIO ESTACION BASE (ObtenerSensores) - {ex.Message}");
             }
             return resultado;
         }
@@ -196,9 +194,9 @@ namespace Repositorio.SQLServer
                     estaciones = await conn.QueryAsync<EntidadEstacionBase>(query, parametros);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                //log.Error($"No se ha podido obtener la lista de estaciones base del proyecto '{nombreProyecto}' - ERR. REPOSITORIO ESTACION BASE");
+                log.Error($"ERR. REPOSITORIO ESTACION BASE (ObtenerEstacionesBase) - {ex.Message}");
             }
             return estaciones;
         }
@@ -221,11 +219,12 @@ namespace Repositorio.SQLServer
                 {
                     await conn.ExecuteAsync(query, parametros);
                     eliminada = true;
-                }
+                    //log.Information("Se ha eliminado correctamente una estacion base");
+                }                
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                //log.Error($"No se ha podido obtener la lista de estaciones base del proyecto '{nombreProyecto}' - ERR. REPOSITORIO ESTACION BASE");
+                log.Error($"ERR. REPOSITORIO ESTACION BASE (Eliminar) - {ex.Message}");
                 eliminada = false;
             }
 
@@ -255,8 +254,8 @@ namespace Repositorio.SQLServer
             }
             catch (Exception ex)
             {
-                //log.Error($"Se ha producido un error al eliminar el proyecto - ERR. REPOSITORIO ESTACIÓN BASE");
-                Console.WriteLine(ex.Message, "Error: ");
+                log.Error($"ERR. REPOSITORIO ESTACIÓN BASE (Editar) - {ex.Message}");
+                //Console.WriteLine(ex.Message, "Error: ");
                 editado = false;
             }
             return editado;
@@ -282,10 +281,9 @@ namespace Repositorio.SQLServer
             }
             catch (Exception ex)
             {
-                //log.Error($"Ha habido un problema al insertar la estacion base {estacionBase.Nombre} en la base de datos - ERR. REPOSITORIO ESTACION BASE");
+                log.Error($"ERR. REPOSITORIO ESTACION BASE (Crear) - {ex.Message}");
                 //return false; //si sucede algo, directamente devuelve false
-
-                Console.WriteLine(ex.Message, "Error en crear de repositorio estacion base:");
+                //Console.WriteLine(ex.Message, "Error en crear de repositorio estacion base:");
             }           
         }
     }
