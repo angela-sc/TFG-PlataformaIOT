@@ -173,13 +173,27 @@ namespace PortalWeb.ViewModel
         }
         public async Task CrearSensor()
         {
-            Console.WriteLine("Función crear sensor activada.");
-            //servicioSensor = new ServicioSensor(cadenaConexion, null);
+            //Console.WriteLine("Función crear sensor activada.");
+
+            // -- comprobamos si se ha introducido alguna coordenada con punto y lo cambiamos por una coma para que se represente bien
+            // -- IMPORTANTE > las coordenadas se representan con ,
+            var longitud = Sensor.Longitud.ToString();
+            var latitud = Sensor.Latitud.ToString();
+            if (longitud.Contains('.')) 
+            {
+                longitud.Replace('.', ',');
+            }
+            if (latitud.Contains('.'))
+            {
+                latitud.Replace('.', ',');
+            }
+
             await servicioSensor.Crear(new EntidadSensor()
             {
                 Nombre = Sensor.Nombre,
-                Longitud = Sensor.Longitud.ToString(),
-                Latitud = Sensor.Latitud.ToString(),
+                
+                Longitud = longitud,
+                Latitud = latitud,
                 FK_IdEstacionBase = Sensor.FK_IdEstacionBase
             });
 
