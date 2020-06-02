@@ -19,6 +19,7 @@ namespace PortalWeb.ViewModel
 {
     public class DataViewModel : ComponentBase
     {
+        private readonly string cadenaConexion = Program.GetConfiguration()["cadenaConexion"];
         //[Inject]
         //protected IJSRuntime JSRuntime { get; set; }
 

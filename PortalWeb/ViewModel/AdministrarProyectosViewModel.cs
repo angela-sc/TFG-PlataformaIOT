@@ -1,5 +1,9 @@
 ﻿using Libreria.Entidades;
+using Libreria.Interfaces;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using PortalWeb.Data;
 using PortalWeb.Model;
 using PortalWeb.Pages;
@@ -8,12 +12,15 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace PortalWeb.ViewModel
 {
     public class AdministrarProyectosViewModel : ComponentBase
     {
+        private readonly string cadenaConexion = Program.GetConfiguration()["cadenaConexion"];
+               
         private ModeloEstacionBase estacionbase = null;        
         protected ModeloEstacionBase EstacionBaseEditar  //Atributo que nos sirve para editar
         { 
@@ -94,19 +101,20 @@ namespace PortalWeb.ViewModel
 
         protected bool editarProyecto, editarEstacionBase, editarSensor = false;
 
-        private string CadenaConexion = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=plataforma_iot;Integrated Security=true";
+        //private string cadenaConexion = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=plataforma_iot;Integrated Security=true";
+        
 
-        private ServicioProyecto servicioProyecto;
-        private ServicioEstacionBase servicioEstacionBase;
-        private ServicioSensor servicioSensor;
+        private IServicioProyecto servicioProyecto;
+        private IServicioEstacionBase servicioEstacionBase;
+        private IServicioSensor servicioSensor;
 
         private int idUsuario; // usuario logado
 
         protected override async Task OnInitializedAsync()
         {
-            servicioProyecto = new ServicioProyecto(CadenaConexion, null);
-            servicioEstacionBase = new ServicioEstacionBase(CadenaConexion, null);
-            servicioSensor = new ServicioSensor(CadenaConexion, null);
+            servicioProyecto = new ServicioProyecto(cadenaConexion, null);
+            servicioEstacionBase = new ServicioEstacionBase(cadenaConexion, null);
+            servicioSensor = new ServicioSensor(cadenaConexion, null);
 
             idUsuario = InformacionUsuario.IdUsuario; //ide del usuario -> BORRAR
 
@@ -124,7 +132,7 @@ namespace PortalWeb.ViewModel
         public async Task CrearProyecto()
         {
             Console.WriteLine("Función crear proyecto activada.");
-            servicioProyecto = new ServicioProyecto(CadenaConexion, null);
+            servicioProyecto = new ServicioProyecto(cadenaConexion, null);
 
            await servicioProyecto.Crear(new EntidadProyecto()
             {
@@ -149,7 +157,7 @@ namespace PortalWeb.ViewModel
         {
 
             Console.WriteLine("Función crear estación base activada.");
-            servicioEstacionBase = new ServicioEstacionBase(CadenaConexion, null);
+            servicioEstacionBase = new ServicioEstacionBase(cadenaConexion, null);
 
             await servicioEstacionBase.Crear(new EntidadEstacionBase()
             {
@@ -175,7 +183,7 @@ namespace PortalWeb.ViewModel
         public async Task CrearSensor()
         {
             Console.WriteLine("Función crear sensor activada.");
-            servicioSensor = new ServicioSensor(CadenaConexion, null);
+            servicioSensor = new ServicioSensor(cadenaConexion, null);
             await servicioSensor.Crear(new EntidadSensor()
             {
                 Nombre = Sensor.Nombre,
@@ -449,6 +457,16 @@ namespace PortalWeb.ViewModel
                 }
             }
 
+        }
+
+        public Task StartAsync(CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task StopAsync(CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
         }
     }
       

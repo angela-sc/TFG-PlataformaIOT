@@ -26,7 +26,7 @@
                         @foreach (var p in proyectosFiltrados)
                         {
                             var link = $"proyecto/{p.Nombre}";
-                            <li href=@link class="list-group-item list-group-item-action">@p.Nombre</li>
+                            <a href=@link class="list-group-item list-group-item-action">@p.Nombre</a>                            
                         }
                     </ul>
                 </div>

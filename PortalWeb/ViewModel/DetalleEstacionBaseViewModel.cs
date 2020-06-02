@@ -18,15 +18,16 @@ namespace PortalWeb.ViewModel
         public string nombreEstacionBase { get; set; }
 
         [Parameter]
-        public List<Tuple<string,List<double>>> listaDatosTemp { get; set; }
+        public List<Tuple<string, List<double>>> listaDatosTemp { get; set; }
 
         [Parameter]
         public List<Tuple<string, List<double>>> listaDatosHum { get; set; }
         #endregion
 
-        // > -- ATRIBUTOS PRIVADOS        
-        private IServicioEstacionBase servicioEB = new ServicioEstacionBase("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=plataforma_iot;Integrated Security=true", null);
-        private IServicioSensor servicioSE = new ServicioSensor("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=plataforma_iot;Integrated Security=true", null);
+        // > -- ATRIBUTOS PRIVADOS    
+        private readonly string cadenaConexion = Program.GetConfiguration()["CadenaConexion"];
+        private IServicioEstacionBase servicioEB;// = new ServicioEstacionBase(cadenaConexion, null);
+        private IServicioSensor servicioSE;// = new ServicioSensor("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=plataforma_iot;Integrated Security=true", null);
                
         // > -- GRAFICAS
         protected LineChart<double> graficaTemperatura, graficaHumedad;        
@@ -66,10 +67,13 @@ namespace PortalWeb.ViewModel
             StateHasChanged();
         }
         
-        //protected override async Task OnInitializedAsync()
-        //{
+        protected override async Task OnInitializedAsync()
+        {
+            servicioEB = new ServicioEstacionBase(cadenaConexion, null);
+            servicioSE = new ServicioSensor(cadenaConexion, null);
 
-        //}
+            await HandleRedraw();
+        }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
