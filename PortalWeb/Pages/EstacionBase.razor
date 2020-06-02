@@ -18,17 +18,15 @@
                 <a href=@link> 👁️‍🗨️ vista detallada</a>
             </div>
             
-
             <div class="map mb-3">
                 <SfMaps @ref="mapa">
-                    <!--<MapsTitleSettings Text="Sensores"></MapsTitleSettings>-->
                     @* To zoom and pan *@
                     <MapsZoomSettings Enable="true"
                                       Toolbars='new string[]{"ZoomIn", "ZoomOut", "Reset" }'
                                       ZoomFactor="13" MaxZoom="20"
                                       MouseWheelZoom="true">
                     </MapsZoomSettings>
-                    <MapsCenterPosition Latitude=latitudInicial Longitude=longitudInicial></MapsCenterPosition>
+                    <MapsCenterPosition Latitude=@latitudInicial Longitude=@longitudInicial></MapsCenterPosition>
 
                     <MapsLayers>
                         <MapsLayer LayerType="ShapeLayerType.OSM">
@@ -37,7 +35,7 @@
                                 <MapsMarker Visible="true"
                                             Height="25"
                                             Width="25"
-                                            DataSource="MarkerDataSource"
+                                            DataSource="@MarkerDataSource"
                                             ColorValuePath="color">
                                     <MapsMarkerTooltipSettings ValuePath="name" Visible="true"></MapsMarkerTooltipSettings>
                                     @*para dar formato y añadir más valores Format="<b>${name}</b><br>Finalist: <b>${Winner}</b><br>Win: <b>${Finalist} en MapsMarkerTooltipSettings*@
@@ -45,7 +43,6 @@
                             </MapsMarkerSettings>
                         </MapsLayer>
                     </MapsLayers>
-
                 </SfMaps>
             </div>
 

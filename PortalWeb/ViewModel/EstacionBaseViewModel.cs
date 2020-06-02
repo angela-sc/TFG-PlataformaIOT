@@ -45,7 +45,6 @@ namespace PortalWeb.ViewModel
 
             foreach (EntidadSensorResultado sensor in listaSensores)
             {
-
                 if (sensor.Fecha == default(DateTime))
                 {
                     MarkerDataSource.Add(new MapMarkerDataSource { latitude = Convert.ToDouble(sensor.Latitud), longitude = Convert.ToDouble(sensor.Longitud), name = sensor.NombreSensor, color = "red" });

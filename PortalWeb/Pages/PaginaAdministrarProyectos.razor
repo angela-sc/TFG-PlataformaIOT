@@ -189,15 +189,16 @@ else
                                         <ValidationMessage For="@(()=> Sensor.Nombre)" />
                                     </div>
                                     <div style="margin-bottom: 5px">
-                                        <label for="longigut">Longitud</label>
-                                        <InputNumber class="form-control" id="longitud" @bind-Value="Sensor.Longitud"></InputNumber>
-                                        <ValidationMessage For="@(()=> Sensor.Longitud)" />
-                                    </div>
-                                    <div style="margin-bottom: 5px">
                                         <label for="latitud">Latitud</label>
                                         <InputNumber type="double" class="form-control" id="latitud" @bind-Value="Sensor.Latitud"></InputNumber>
                                         <ValidationMessage For="@(()=> Sensor.Latitud)" />
                                     </div>
+                                    <div style="margin-bottom: 5px">
+                                        <label for="longigut">Longitud</label>
+                                        <InputNumber class="form-control" id="longitud" @bind-Value="Sensor.Longitud"></InputNumber>
+                                        <ValidationMessage For="@(()=> Sensor.Longitud)" />
+                                    </div>
+
                                 </div>
                                 <button class="btn btn-primary" type="submit">Aceptar</button>
                             </EditForm>
