@@ -276,3 +276,40 @@ app {
 #add-button:hover{
     background-color: RoyalBlue;
 }
+
+
+/* > pagina general proyectos */
+.label {
+    display: inline;
+    padding: .2em .6em .3em;
+    font-size: 75%;
+    font-weight: bold;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+}
+
+.label-info {
+    /*background-color: #5bc0de;*/
+    background-color: #337ab7;
+}
+
+.panel-footer {
+    padding: 10px 15px;
+    background-color: #ffffff;
+    /*border-top: 1px solid #dee2e6;*/
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+#buscarproyecto {
+    border: 1px solid #ffffff7a !important;
+    background-color: #ffffff7a !important;
+}
+
+#buscarproyecto :focus {
+    box-shadow: none;
+}

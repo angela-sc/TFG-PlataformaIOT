@@ -7,15 +7,16 @@
 
 @inherits EstacionBaseViewModel
 
+
 <!-- Page Content -->
     <div class="container-fluid">
         @if (listaSensores.Count() > 0)
         {
             var link = $"estacionbase/detalle/{nombreEstacionBase}";
-            <div class="mb-4">
-                <h1>🗼 Estación base @nombreEstacionBase</h1>
+            <div class="mb-4 row">
+                <h1 class="col">🗼 Estación base @nombreEstacionBase</h1>
 
-                <div class="ml-auto"><a href=@link> 👁️‍🗨️ vista detallada</a></div>
+                <div class="col ml-auto"><a href=@link> 👁️‍🗨️ vista detallada</a></div>
             </div>
 
             <div class="map">

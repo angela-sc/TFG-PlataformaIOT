@@ -8,60 +8,43 @@
 
 @inherits GeneralProyectoViewModel
 
+@if (proyectos != null)
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-md-5"><span class="oi oi-list"></span> Proyectos disponibles</div>
+                        <div class="col-md-3"></div>
+                        <div class="col-md-4"><input @bind-value="SearchTerm" @bind-value:event="oninput" placeholder="Buscar..." class="form-control" id="buscarproyecto" /></div>
+                    </div>
+                </div>
 
-<div class="list-group">
-    <p>Proyectos disponibles</p>
+                <div class="panel-body">
+                    <ul class="list-group">
+                        @foreach (var p in proyectosFiltrados)
+                        {
+                            var link = $"proyecto/{p.Nombre}";
+                            <li href=@link class="list-group-item list-group-item-action">@p.Nombre</li>
+                        }
+                    </ul>
+                </div>
 
-    <input @bind-value="SearchTerm" @bind-value:event="oninput" />
+                <div class="panel-footer">
+                    <div class="row"  >
+                        <div class="col-md-12">
+                            <h6 style="float:right;">Total <span class="label label-info">@proyectos.Count()</span></h6>
+                        </div>
+                    </div>
+                </div>
 
-    @if (proyectos == null)
-    {
-        <p><em>Cargando proyectos...</em></p>
-    }
-    else
-    {
-        @*<div class="col-md-9">
-                <input type="text" onkeyup="@SearchBoxkeyPress"/>
-                <button class="btn" type="submit"> Buscar</button>
-            </div>*@
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <p><em>Cargando proyectos...</em></p>
 
-        <h4 class="mt-4">Proyectos disponibles</h4>
-        <ul>
-            @foreach (var p in proyectosFiltrados)
-            {
-                @*<li>@p.name</li>*@
-
-                var link = $"proyecto/{p.Nombre}";
-
-                <a href=@link class="list-group-item list-group-item-action">@p.Nombre</a>
-            }
-        
-        </ul>
-
-    }
-
-</div>
-
-@*@code {
-
-        private IEnumerable<EntidadProyecto> proyectos;
-        private ServicioProyecto servicio;
-
-        private int usuario = 1;
-
-        protected override async Task OnInitializedAsync()
-        {
-            proyectos = new List<EntidadProyecto>();
-            servicio = new ServicioProyecto("Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = plataformadb; Integrated Security = true", null);
-
-            proyectos = await servicio.ObtenerProyectos(usuario);
-
-        }
-
-
-        //private void NavigateToEstacionBaseComponent()
-        //{
-        //    NavigationManager.NavigateTo($"proyecto/asdkfhalkjsdfhalksdjfhl");
-        //}
-
-    }*@
+}
