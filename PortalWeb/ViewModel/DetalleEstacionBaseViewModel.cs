@@ -36,27 +36,7 @@ namespace PortalWeb.ViewModel
         protected DateTime? fechaInicio = null;
         protected DateTime? fechaFin=null;
 
-        //> -- FUNCIONES
-        //private async Task CargarDatos()
-        //{
-        //    var sensores = await servicioEB.ObtenerSensores(nombreEstacionBase);
-        //    listaDatosTemp = new List<Tuple<string, List<double>>>();
-        //    listaDatosHum = new List<Tuple<string, List<double>>>();
-        //    List<DateTime> stamps = new List<DateTime>();
-
-        //    foreach (var sensor in sensores)
-        //    {
-        //        var datos = await servicioSE.ObtenerDatos(sensor.IdSensor, 10);
-        //        listaDatosTemp.Add(new Tuple<string, List<double>>(sensor.NombreSensor, datos.Select(_ => (double)_.Temperatura).ToList()));
-        //        listaDatosHum.Add(new Tuple<string, List<double>>(sensor.NombreSensor, datos.Select(_ => (double)_.Humedad).ToList()));
-
-        //        stamps.AddRange(datos.Select(_ => _.Stamp).ToList());
-        //    }
-
-        //    Labels = stamps.OrderBy(_ => _.Ticks).Distinct().Select(_ => _.ToString()).ToArray();
-        //    StateHasChanged();
-        //}
-
+        //> -- FUNCIONES      
         private async Task CargarDatos(DateTime? fechaInicio=null, DateTime? fechaFin=null)
         {
             var sensores = await servicioEB.ObtenerSensores(nombreEstacionBase);
@@ -98,12 +78,6 @@ namespace PortalWeb.ViewModel
                 await HandleRedraw();
             }
         }
-
-        //protected async Task HandleRedraw()
-        //{
-        //    await CargarDatos(); // -- cargamos los datos para las dos gráficas          
-        //    await CargarGrafica();
-        //}
 
         protected async Task HandleRedraw(DateTime? inicio=null, DateTime? fin=null) //inicio tiene el valor por defecto null si no se especifica
         {
