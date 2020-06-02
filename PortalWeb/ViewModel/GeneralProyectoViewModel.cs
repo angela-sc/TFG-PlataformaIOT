@@ -13,21 +13,18 @@ namespace PortalWeb.ViewModel
 {
     public class GeneralProyectoViewModel : ComponentBase
     {       
-        public IEnumerable<EntidadProyecto> proyectos;
-        public IServicioProyecto servicioProyecto = FactoriaServicios.GetServicioProyecto();
+        protected IEnumerable<EntidadProyecto> proyectos;
+        protected IServicioProyecto servicioProyecto = FactoriaServicios.GetServicioProyecto();
+        public string SearchTerm { get; set; } = "";  // Initialize SearchTerm to "" to prevent null's
 
+        // > -- ATRIBUTOS PRIVADOS
         private int usuario = InformacionUsuario.IdUsuario;
 
-        // Initialize SearchTerm to "" to prevent null's
-        public string SearchTerm { get; set; } = "";
-
-        private string CadenaConexion = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=plataforma_iot;Integrated Security=true";
         protected override async Task OnInitializedAsync()
         {
-            proyectos = new List<EntidadProyecto>();
-            //servicioProyecto = new ServicioProyecto(CadenaConexion, null);
-
+            proyectos = new List<EntidadProyecto>();          
             proyectos = await servicioProyecto.ObtenerProyectos(usuario);
+
             this.StateHasChanged();
         }
 

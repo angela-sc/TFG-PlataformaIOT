@@ -1,10 +1,12 @@
 ﻿using Blazorise.Charts;
 using Libreria.Entidades;
+using Libreria.Interfaces;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using Microsoft.JSInterop;
+using PortalWeb.Data;
 using PortalWeb.Resources;
 using Servicios;
 using Syncfusion.Blazor.PivotView;
@@ -18,8 +20,7 @@ using System.Threading.Tasks;
 namespace PortalWeb.ViewModel
 {
     public class DataViewModel : ComponentBase
-    {
-        //private readonly string cadenaConexion = Program.GetConfiguration()["cadenaConexion"];
+    {       
         //[Inject]
         //protected IJSRuntime JSRuntime { get; set; }
 
@@ -30,9 +31,7 @@ namespace PortalWeb.ViewModel
         public string estacionbase { get; set; }   //id de la estacion base en formato string   
 
         [Parameter]
-        public int selectedValue { get; set; }
-
-        private ServicioSensor servicio = new ServicioSensor("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=plataforma_iot;Integrated Security=true", null);
+        public int selectedValue { get; set; }        
        
         private int idSensor, idEstacionBase; // = 2; //para obtener el id del sensor debemos tener el nombre y la estación base
         
@@ -52,6 +51,9 @@ namespace PortalWeb.ViewModel
         //La grafica de humedad en azul
         List<string> backgroundColorsHumedad = new List<string> { ChartColor.FromRgba(0, 180, 175, 0.2f)};
         List<string> borderColorsHumedad = new List<string> { ChartColor.FromRgba(0, 180, 175, 1f)};
+
+        // > -- SERVICIO
+        private IServicioSensor servicio = FactoriaServicios.GetServicioSensor();
 
         private async Task CargaDatos()
         {

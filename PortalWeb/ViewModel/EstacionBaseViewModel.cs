@@ -1,7 +1,9 @@
 ﻿using Libreria.Entidades;
+using Libreria.Interfaces;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
+using PortalWeb.Data;
 using Servicios;
 using Syncfusion.Blazor.Maps;
 using System;
@@ -19,9 +21,7 @@ namespace PortalWeb.ViewModel
         public string nombreEstacionBase { get; set; }
 
         [Parameter]
-        public string idEstacionBase { get; set; }
-
-        public ServicioEstacionBase servicio = new ServicioEstacionBase("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=plataforma_iot;Integrated Security=true", null);
+        public string idEstacionBase { get; set; }        
 
         public IEnumerable<EntidadSensorResultado> listaSensores = new List<EntidadSensorResultado>(); //lista de sensores de dicha estacion base
         
@@ -31,12 +31,15 @@ namespace PortalWeb.ViewModel
         public double latitudInicial, longitudInicial;
 
         private int id;
+
+        //> -- SERVICIO
+        private IServicioEstacionBase servicioEstacionBase = FactoriaServicios.GetServicioEstacionBase();
         
         protected override async Task OnInitializedAsync()
         {
             Int32.TryParse(idEstacionBase, out int id);
-            nombreEstacionBase = await servicio.Nombre(id);
-            listaSensores = await servicio.ObtenerSensores(nombreEstacionBase);
+            nombreEstacionBase = await servicioEstacionBase.Nombre(id);
+            listaSensores = await servicioEstacionBase.ObtenerSensores(nombreEstacionBase);
 
             //que pasa si la estacion base no tiene sensores -> devuelve una lista null
 

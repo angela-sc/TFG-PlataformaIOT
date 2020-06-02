@@ -79,7 +79,7 @@ namespace PortalWeb.Data
             }
             else
             {
-                if (servicioProyecto == null)
+                if (servicioSensor == null)
                 {
                     servicioSensor = new ServicioSensor(cadenaConexion, log);
                 }

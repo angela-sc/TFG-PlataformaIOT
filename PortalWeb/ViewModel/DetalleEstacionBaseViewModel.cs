@@ -26,8 +26,8 @@ namespace PortalWeb.ViewModel
         #endregion
 
         // > -- ATRIBUTOS PRIVADOS            
-        private IServicioEstacionBase servicioEB = FactoriaServicios.GetServicioEstacionBase();// = new ServicioEstacionBase(cadenaConexion, null);
-        private IServicioSensor servicioSE = FactoriaServicios.GetServicioSensor();// = new ServicioSensor("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=plataforma_iot;Integrated Security=true", null);
+        private IServicioEstacionBase servicioEB = FactoriaServicios.GetServicioEstacionBase();
+        private IServicioSensor servicioSE = FactoriaServicios.GetServicioSensor();
                
         // > -- GRAFICAS
         protected LineChart<double> graficaTemperatura, graficaHumedad;        
@@ -69,10 +69,8 @@ namespace PortalWeb.ViewModel
         
         protected override async Task OnInitializedAsync()
         {
-            //servicioEB = new ServicioEstacionBase(cadenaConexion, null);
-            //servicioSE = new ServicioSensor(cadenaConexion, null);
-
-            await HandleRedraw();
+            //await HandleRedraw();
+            //this.StateHasChanged();
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -137,9 +135,10 @@ namespace PortalWeb.ViewModel
                 await HandleRedraw(fechaInicio, fechaFin);
             }
             else
-            {
-                //Si las fechas son incorrectas no se mostrará nada diferente
-                await HandleRedraw();
+            {               
+                await HandleRedraw(); //Si las fechas son incorrectas no se mostrará nada diferente
+                
+                this.StateHasChanged();
             }
         }
     }

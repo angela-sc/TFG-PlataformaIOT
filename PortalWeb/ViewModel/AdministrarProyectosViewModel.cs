@@ -18,9 +18,7 @@ using System.Threading.Tasks;
 namespace PortalWeb.ViewModel
 {
     public class AdministrarProyectosViewModel : ComponentBase
-    {
-        //private readonly string cadenaConexion = Program.GetConfiguration()["cadenaConexion"];
-               
+    {       
         private ModeloEstacionBase estacionbase = null;        
         protected ModeloEstacionBase EstacionBaseEditar  //Atributo que nos sirve para editar
         { 
@@ -65,7 +63,6 @@ namespace PortalWeb.ViewModel
         }
 
         protected ModeloProyecto Proyecto;
-
         protected ModeloEstacionBase EstacionBase; //atributo para crear una estacion base
         protected ModeloSensor Sensor; //atributo para crear un sensor
 
@@ -101,9 +98,7 @@ namespace PortalWeb.ViewModel
 
         protected bool editarProyecto, editarEstacionBase, editarSensor = false;
 
-        //private string cadenaConexion = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=plataforma_iot;Integrated Security=true";
-        
-
+        // > -- SERVICIOS
         private IServicioProyecto servicioProyecto = FactoriaServicios.GetServicioProyecto();
         private IServicioEstacionBase servicioEstacionBase = FactoriaServicios.GetServicioEstacionBase();
         private IServicioSensor servicioSensor = FactoriaServicios.GetServicioSensor();
@@ -111,11 +106,7 @@ namespace PortalWeb.ViewModel
         private int idUsuario; // usuario logado
 
         protected override async Task OnInitializedAsync()
-        {
-            //servicioProyecto = new ServicioProyecto(cadenaConexion, null);
-            //servicioEstacionBase = new ServicioEstacionBase(cadenaConexion, null);
-            //servicioSensor = new ServicioSensor(cadenaConexion, null);
-            
+        {           
             idUsuario = InformacionUsuario.IdUsuario; //ide del usuario -> BORRAR
 
             await CargarDatos();

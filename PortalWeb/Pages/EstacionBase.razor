@@ -14,9 +14,10 @@
         {
             var link = $"estacionbase/detalle/{nombreEstacionBase}";
             <div class="mb-4 row">
-                <h1 class="col">🗼 Estación base @nombreEstacionBase</h1>
-                <div><a href=@link> 👁️‍🗨️ vista detallada</a></div>
+                <h1>🗼 Estación base @nombreEstacionBase</h1>
+                <a href=@link> 👁️‍🗨️ vista detallada</a>
             </div>
+            
 
             <div class="map mb-3">
                 <SfMaps @ref="mapa">
