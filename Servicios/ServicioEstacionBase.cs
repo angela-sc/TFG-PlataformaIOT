@@ -21,8 +21,7 @@ namespace Servicios
         {
             this.cadenaConexion = cadenaConexion;
             this.log = log;
-
-            this.repositorioEstacionBase = new RepositorioEstacionBase(cadenaConexion, log);
+            repositorioEstacionBase = new RepositorioEstacionBase(cadenaConexion, log);
         }
 
         public async Task<string> Nombre (int idEstacionBase)
@@ -54,7 +53,7 @@ namespace Servicios
             return estacionesBase;
         }
 
-        public async Task<bool> EliminarEstacionBase(int idEstacionBase)
+        public async Task<bool> Eliminar(int idEstacionBase)
         {
             bool eliminada;
             try

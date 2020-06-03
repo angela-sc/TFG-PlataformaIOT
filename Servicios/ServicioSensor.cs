@@ -64,9 +64,7 @@ namespace Servicios
             }
 
             return temperatura;
-        }  
-
-       
+        }   
 
         public async Task<int> ObtenerId(string nombreSensor, int idEstacionBase)
         {

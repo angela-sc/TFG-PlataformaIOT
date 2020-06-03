@@ -13,15 +13,15 @@ namespace PortalWeb.ViewModel
 {
     public class GeneralProyectoViewModel : ComponentBase
     {       
-        protected IEnumerable<EntidadProyecto> proyectos;
-        
-        public string SearchTerm { get; set; } = "";  // Initialize SearchTerm to "" to prevent null's
+        protected IEnumerable<EntidadProyecto> proyectos;      
+        protected string SearchTerm { get; set; } = "";  // Initialize SearchTerm to "" to prevent null's
 
         // > -- ATRIBUTOS PRIVADOS
         private int usuario = InformacionUsuario.IdUsuario;
         
         private IServicioProyecto servicioProyecto = FactoriaServicios.GetServicioProyecto();
         private IServicioEstacionBase servicioEstacionBase = FactoriaServicios.GetServicioEstacionBase();
+        private IServicioSensor servicioSensor = FactoriaServicios.GetServicioSensor(); // -- añadido hoy
 
         protected override async Task OnInitializedAsync()
         {
@@ -39,6 +39,7 @@ namespace PortalWeb.ViewModel
         protected bool mostrar = false;
         protected string nombreProyecto;
         protected IEnumerable<EntidadEstacionBase> estacionesBase;
+        
         public async Task Mostrar(string proyecto)
         {
             this.mostrar = true;

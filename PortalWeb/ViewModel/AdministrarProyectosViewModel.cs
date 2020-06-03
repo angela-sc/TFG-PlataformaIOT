@@ -283,7 +283,7 @@ namespace PortalWeb.ViewModel
             };
            
 
-            bool resultado = await servicioProyecto.EditarProyecto(proyecto);
+            bool resultado = await servicioProyecto.Editar(proyecto);
 
             if (resultado)
             {
@@ -334,7 +334,7 @@ namespace PortalWeb.ViewModel
             bool resultadoBorrado;
             if (entidadEliminar == EntidadTratada.PROYECTO)
             { 
-                resultadoBorrado = await servicioProyecto.EliminarProyecto(idEliminar);
+                resultadoBorrado = await servicioProyecto.Eliminar(idEliminar);
                 if (resultadoBorrado)
                 {
                     mensajeEliminar = "El proyecto se ha eliminado correctamente.";
@@ -348,7 +348,7 @@ namespace PortalWeb.ViewModel
             }
             else if(entidadEliminar == EntidadTratada.ESTACIONBASE)
             {
-                resultadoBorrado = await servicioEstacionBase.EliminarEstacionBase(idEliminar);
+                resultadoBorrado = await servicioEstacionBase.Eliminar(idEliminar);
 
                 if (resultadoBorrado)
                 {
@@ -380,11 +380,11 @@ namespace PortalWeb.ViewModel
             this.StateHasChanged(); //el componente debe refrescarse para mostrar la vista sin el proyecto           
         }
 
-        //protected async Task EliminarProyecto(int idProyecto)
+        //protected async Task Eliminar(int idProyecto)
         //{
         //    Console.WriteLine("Función 'eliminar proyecto' activada.");
 
-        //    var resultadoBorrado = await servicioProyecto.EliminarProyecto(idProyecto);
+        //    var resultadoBorrado = await servicioProyecto.Eliminar(idProyecto);
         //    this.eliminado = true;
 
         //    if (resultadoBorrado)
@@ -394,11 +394,11 @@ namespace PortalWeb.ViewModel
 
         //    this.StateHasChanged(); //el componente debe refrescarse para mostrar la vista sin el proyecto
         //}
-        //protected async Task EliminarEstacionBase(int idEstacionBase)
+        //protected async Task Eliminar(int idEstacionBase)
         //{
-        //    Console.WriteLine("Función 'EliminarEstacionBase' activada.");
+        //    Console.WriteLine("Función 'Eliminar' activada.");
 
-        //    var resultadoBorrado = await servicioEstacionBase.EliminarEstacionBase(idEstacionBase);
+        //    var resultadoBorrado = await servicioEstacionBase.Eliminar(idEstacionBase);
         //    this.eliminado = true;
 
         //    if (resultadoBorrado)

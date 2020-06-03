@@ -54,7 +54,7 @@ namespace Servicios
             }
         }
 
-        public async Task<bool> EliminarProyecto(int idProyecto)
+        public async Task<bool> Eliminar(int idProyecto)
         {
             bool eliminado = false;
 
@@ -70,7 +70,7 @@ namespace Servicios
             }
         }
 
-        public async Task<bool> EditarProyecto(EntidadProyecto proyecto)
+        public async Task<bool> Editar(EntidadProyecto proyecto)
         {
             return await repositorioProyecto.EditarProyecto(proyecto);      
         }
