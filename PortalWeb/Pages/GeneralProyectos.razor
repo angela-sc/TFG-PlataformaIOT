@@ -26,7 +26,8 @@
                         @foreach (var p in proyectosFiltrados)
                         {
                             var link = $"proyecto/{p.Nombre}";
-                            <a href=@link class="list-group-item list-group-item-action">@p.Nombre</a>                            
+                            @*<a href=@link class="list-group-item list-group-item-action">@p.Nombre</a>*@     
+                            <a class="list-group-item list-group-item-action" @onclick="@(async () => await Mostrar(p.Nombre))">@p.Nombre</a>
                         }
                     </ul>
                 </div>
@@ -46,5 +47,27 @@
 else
 {
     <p><em>Cargando proyectos...</em></p>
+
+}
+
+@if (mostrar)
+{
+    <div class="row">
+        @foreach(var estacion in estacionesBase)
+        {
+            var link = $"estacionbase/{estacion.Id}";
+
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-header"> @nombreProyecto</div>
+                    <div class="card-body">
+                        <h4>Estación @estacion.Nombre</h4>
+                        <p>Sensores: 5 </p>                     
+                        <a class="btn btn-outline-primary" style="float:right;" href=@link>Ir a la estación base</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 
 }

@@ -14,11 +14,14 @@ namespace PortalWeb.ViewModel
     public class GeneralProyectoViewModel : ComponentBase
     {       
         protected IEnumerable<EntidadProyecto> proyectos;
-        protected IServicioProyecto servicioProyecto = FactoriaServicios.GetServicioProyecto();
+        
         public string SearchTerm { get; set; } = "";  // Initialize SearchTerm to "" to prevent null's
 
         // > -- ATRIBUTOS PRIVADOS
         private int usuario = InformacionUsuario.IdUsuario;
+        
+        private IServicioProyecto servicioProyecto = FactoriaServicios.GetServicioProyecto();
+        private IServicioEstacionBase servicioEstacionBase = FactoriaServicios.GetServicioEstacionBase();
 
         protected override async Task OnInitializedAsync()
         {
@@ -30,7 +33,21 @@ namespace PortalWeb.ViewModel
 
         //Metodos para la búsqueda de proyectos+
         public List<EntidadProyecto> proyectosFiltrados => proyectos.Where(i => i.Nombre.ToLower().Contains(SearchTerm.ToLower())).ToList();
-        
+
+
+        // Metodos para mostrar las tarjetas de estaciones base
+        protected bool mostrar = false;
+        protected string nombreProyecto;
+        protected IEnumerable<EntidadEstacionBase> estacionesBase;
+        public async Task Mostrar(string proyecto)
+        {
+            this.mostrar = true;
+
+            nombreProyecto = proyecto;
+
+            estacionesBase = new List<EntidadEstacionBase>();
+            estacionesBase = await servicioEstacionBase.ListaEstacionesBase(proyecto);            
+        }
 
     }
 }

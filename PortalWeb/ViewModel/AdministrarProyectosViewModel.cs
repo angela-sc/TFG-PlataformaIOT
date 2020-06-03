@@ -116,13 +116,13 @@ namespace PortalWeb.ViewModel
 
         protected async Task Crear()
         {
-            Console.WriteLine("Función crear activada.");
+            //Console.WriteLine("Función crear activada.");
             Proyecto = new ModeloProyecto();
             this.crear = true;
         }
         public async Task CrearProyecto()
         {
-            Console.WriteLine("Función crear proyecto activada.");
+            //Console.WriteLine("Función crear proyecto activada.");
             //servicioProyecto = new ServicioProyecto(cadenaConexion, null);
 
            await servicioProyecto.Crear(new EntidadProyecto()
@@ -137,7 +137,7 @@ namespace PortalWeb.ViewModel
 
         protected async Task CrearEB(int proyecto)
         {
-            Console.WriteLine("Función crear estacion base activada.");
+            //Console.WriteLine("Función crear estacion base activada.");
             EstacionBase = new ModeloEstacionBase();
             EstacionBase.FK_IdProyecto = proyecto;
            
@@ -147,7 +147,7 @@ namespace PortalWeb.ViewModel
         public async Task CrearEstacionBase()
         {
 
-            Console.WriteLine("Función crear estación base activada.");
+            //Console.WriteLine("Función crear estación base activada.");
            // servicioEstacionBase = new ServicioEstacionBase(cadenaConexion, null);
 
             await servicioEstacionBase.Crear(new EntidadEstacionBase()
@@ -164,7 +164,7 @@ namespace PortalWeb.ViewModel
 
         protected async Task CrearSE(int idEstacionBase)
         {
-            Console.WriteLine("Función activar sensor activada.");
+            //Console.WriteLine("Función activar sensor activada.");
             Sensor = new ModeloSensor();
             Sensor.FK_IdEstacionBase = idEstacionBase;
             
