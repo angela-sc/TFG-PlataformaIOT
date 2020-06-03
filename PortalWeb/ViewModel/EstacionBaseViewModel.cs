@@ -17,7 +17,7 @@ namespace PortalWeb.ViewModel
 {
     public class EstacionBaseViewModel : ComponentBase
     {
-        [Parameter]
+        //[Parameter]
         public string nombreEstacionBase { get; set; }
 
         [Parameter]
@@ -39,7 +39,7 @@ namespace PortalWeb.ViewModel
         {
             Int32.TryParse(idEstacionBase, out int id);
             nombreEstacionBase = await servicioEstacionBase.Nombre(id);
-            listaSensores = await servicioEstacionBase.ObtenerSensores(nombreEstacionBase);
+            listaSensores = await servicioEstacionBase.ObtenerSensores(id);
 
             //que pasa si la estacion base no tiene sensores -> devuelve una lista null
 

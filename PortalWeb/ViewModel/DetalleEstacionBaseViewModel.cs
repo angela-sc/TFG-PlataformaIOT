@@ -16,7 +16,7 @@ namespace PortalWeb.ViewModel
         // > -- PARAMETROS
         #region PARAMETROS
         [Parameter]
-        public string nombreEstacionBase { get; set; }
+        public string idEstacionBase { get; set; }
 
         [Parameter]
         public List<Tuple<string, List<double>>> listaDatosTemp { get; set; }
@@ -26,7 +26,7 @@ namespace PortalWeb.ViewModel
         #endregion
 
         // > -- ATRIBUTOS PRIVADOS            
-        private IServicioEstacionBase servicioEB = FactoriaServicios.GetServicioEstacionBase();
+        private IServicioEstacionBase servicioEstacionBase = FactoriaServicios.GetServicioEstacionBase();
         private IServicioSensor servicioSE = FactoriaServicios.GetServicioSensor();
                
         // > -- GRAFICAS
@@ -37,10 +37,14 @@ namespace PortalWeb.ViewModel
         protected DateTime? fechaInicio = null;
         protected DateTime? fechaFin=null;
 
+        protected string nombreEstacionBase { get; set; }
+
         //> -- FUNCIONES      
         private async Task CargarDatos(DateTime? fechaInicio=null, DateTime? fechaFin=null)
         {
-            var sensores = await servicioEB.ObtenerSensores(nombreEstacionBase);
+            Int32.TryParse(idEstacionBase, out int id);
+            nombreEstacionBase = await servicioEstacionBase.Nombre(id);
+            var sensores = await servicioEstacionBase.ObtenerSensores(id);
             listaDatosTemp = new List<Tuple<string, List<double>>>();
             listaDatosHum = new List<Tuple<string, List<double>>>();
             List<DateTime> stamps = new List<DateTime>();

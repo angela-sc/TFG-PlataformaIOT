@@ -30,20 +30,20 @@ namespace Servicios
             return nombre;
         }
 
-        public async Task<IEnumerable<EntidadSensorResultado>> ObtenerSensores(string nombreEstacionBase)
+        public async Task<IEnumerable<EntidadSensorResultado>> ObtenerSensores(int idEstacionBase)
         {
             IEnumerable<EntidadSensorResultado> sensores = new List<EntidadSensorResultado>();
-            sensores = await repositorioEstacionBase.ObtenerSensores(nombreEstacionBase);
+            sensores = await repositorioEstacionBase.ObtenerSensores(idEstacionBase);
 
             return sensores;
         }
         
-        public async Task<IEnumerable<EntidadEstacionBase>> ListaEstacionesBase(string nombreProyecto) //Metodo para obtener la lista de estaciones base pertenecientes a un proyecto > ¿pasamos id o nombre del proyeecto?
+        public async Task<IEnumerable<EntidadEstacionBase>> ListaEstacionesBase(int idProyecto) //Metodo para obtener la lista de estaciones base pertenecientes a un proyecto > ¿pasamos id o nombre del proyeecto?
         {
             IEnumerable<EntidadEstacionBase> estacionesBase = new List<EntidadEstacionBase>();
             try
             {
-                estacionesBase = await repositorioEstacionBase.ObtenerEstacionesBase(nombreProyecto);
+                estacionesBase = await repositorioEstacionBase.ObtenerEstacionesBase(idProyecto);
             }
             catch (Exception)
             {

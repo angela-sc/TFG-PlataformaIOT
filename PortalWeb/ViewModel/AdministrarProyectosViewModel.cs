@@ -443,7 +443,7 @@ namespace PortalWeb.ViewModel
             {
                 foreach (var proyecto in proyectos)
                 {
-                    var estacionesProyecto = await servicioEstacionBase.ListaEstacionesBase(proyecto.Nombre);
+                    var estacionesProyecto = await servicioEstacionBase.ListaEstacionesBase(proyecto.Id);
                     foreach (var estacionProyecto in estacionesProyecto)
                     {
                         estaciones.Add(estacionProyecto);
@@ -452,7 +452,7 @@ namespace PortalWeb.ViewModel
                 sensores = new List<EntidadSensorResultado>();
                 foreach (var estacion in estaciones)
                 {
-                    var sensoresEstacion = await servicioEstacionBase.ObtenerSensores(estacion.Nombre);
+                    var sensoresEstacion = await servicioEstacionBase.ObtenerSensores(estacion.Id);
                     foreach (var sensorEstacion in sensoresEstacion)
                     {
                         sensores.Add(sensorEstacion);

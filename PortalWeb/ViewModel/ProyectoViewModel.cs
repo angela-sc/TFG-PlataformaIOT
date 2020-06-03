@@ -26,7 +26,7 @@ namespace PortalWeb.ViewModel
         protected override async Task OnInitializedAsync()
         {           
             estacionesBase = new List<EntidadEstacionBase>();            
-            estacionesBase = await servicioEstacionBase.ListaEstacionesBase(proyecto); //obtenemos las estaciones pertenecientes al proyecto
+            //estacionesBase = await servicioEstacionBase.ListaEstacionesBase(proyecto); //obtenemos las estaciones pertenecientes al proyecto
         }        
     }
 }

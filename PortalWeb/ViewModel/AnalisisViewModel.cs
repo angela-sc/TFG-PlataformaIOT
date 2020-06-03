@@ -40,12 +40,12 @@ namespace PortalWeb.ViewModel
             servicioS = new ServicioSensor(CadenaConexion, null);
 
             estacionesbase = new List<EntidadEstacionBase>();
-            estacionesbase = await servicioEB.ListaEstacionesBase(proyecto);
+            //estacionesbase = await servicioEB.ListaEstacionesBase(proyecto);
 
             sensores = new List<EntidadSensorResultado>();
             foreach(var estacion in estacionesbase)
             {
-                var s = await servicioEB.ObtenerSensores(estacion.Nombre);
+                var s = await servicioEB.ObtenerSensores(estacion.Id);
                 foreach(var sensor in s)
                 {
                     var datos = await servicioS.ObtenerDatos(sensor.IdSensor, 10);

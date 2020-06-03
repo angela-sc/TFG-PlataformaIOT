@@ -77,7 +77,31 @@ namespace Repositorio.SQLServer
             return nombre;
         }
 
-        public async Task<IEnumerable<EntidadSensorResultado>> ObtenerSensores(string nombreEstacionBase)
+        public async Task<IEnumerable<EntidadEstacionBase>> ObtenerEstacionesBase(int idProyecto)
+        {
+            Dictionary<string, object> parametros = new Dictionary<string, object>()
+            {
+                { "@id", idProyecto }
+            };
+
+            string query = @" SELECT eb.* FROM [plataforma_iot].[dbo].[EstacionBase] eb WHERE eb.[fk_idproyecto] = @id";
+
+            IEnumerable<EntidadEstacionBase> estaciones = null;
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(cadenaConexion))
+                {
+                    estaciones = await conn.QueryAsync<EntidadEstacionBase>(query, parametros);
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error($"ERR. REPOSITORIO ESTACION BASE (ObtenerEstacionesBase) - {ex.Message}");
+            }
+            return estaciones;
+        }
+       
+        public async Task<IEnumerable<EntidadSensorResultado>> ObtenerSensores(int idEstacionBase)
         {
             /**
                 OPCION 1
@@ -130,9 +154,9 @@ namespace Repositorio.SQLServer
 
             Dictionary<string, object> parametros = new Dictionary<string, object>()
             {
-                {"@nombre", nombreEstacionBase}
+                {"@id", idEstacionBase}
             };
-            string query = string.Format(@"
+            string query = @"
                 SELECT 
 	                x.[NombreSensor]
 	                ,x.[Latitud]
@@ -149,12 +173,11 @@ namespace Repositorio.SQLServer
 		                ,DENSE_RANK() OVER(PARTITION BY s.[nombre] ORDER BY d.[stamp] DESC) AS [rk]
 	                FROM [plataforma_iot].[dbo].[Datos] d 
 	                RIGHT JOIN [plataforma_iot].[dbo].[Sensor] s ON d.[fk_idsensor] = s.[id] 
-	                JOIN [plataforma_iot].[dbo].[EstacionBase] eb ON s.[fk_idestacionbase] = eb.[id]
-	                WHERE eb.[nombre] = @nombre
+	                WHERE s.[fk_idestacionbase] = @id
                 ) AS x
                 WHERE x.[rk] = 1
                 ORDER BY x.[NombreSensor]
-            ", nombreEstacionBase);
+            ";
 
             IEnumerable<EntidadSensorResultado> resultado = null;
             try
@@ -173,33 +196,33 @@ namespace Repositorio.SQLServer
         }
 
         
-        public async Task<IEnumerable<EntidadEstacionBase>> ObtenerEstacionesBase(string nombreProyecto) //A partir del nombre del proyecto obtiene la estacion base
-        {
-            Dictionary<string, object> parametros = new Dictionary<string, object>() 
-            {
-                {"@proyecto", nombreProyecto} 
-            };
+        //public async Task<IEnumerable<EntidadEstacionBase>> ObtenerEstacionesBase(string nombreProyecto) //A partir del nombre del proyecto obtiene la estacion base
+        //{
+        //    Dictionary<string, object> parametros = new Dictionary<string, object>() 
+        //    {
+        //        {"@proyecto", nombreProyecto} 
+        //    };
 
-            string query = @"
-                             SELECT eb.* FROM [plataforma_iot].[dbo].[EstacionBase] eb
-                             JOIN [plataforma_iot].[dbo].[Proyecto] p ON eb.[fk_idproyecto] = p.[id]
-                             WHERE p.[nombre] = @proyecto
-                            ";
+        //    string query = @"
+        //                     SELECT eb.* FROM [plataforma_iot].[dbo].[EstacionBase] eb
+        //                     JOIN [plataforma_iot].[dbo].[Proyecto] p ON eb.[fk_idproyecto] = p.[id]
+        //                     WHERE p.[nombre] = @proyecto
+        //                    ";
 
-            IEnumerable<EntidadEstacionBase> estaciones = null;
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(cadenaConexion))
-                {
-                    estaciones = await conn.QueryAsync<EntidadEstacionBase>(query, parametros);
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error($"ERR. REPOSITORIO ESTACION BASE (ObtenerEstacionesBase) - {ex.Message}");
-            }
-            return estaciones;
-        }
+        //    IEnumerable<EntidadEstacionBase> estaciones = null;
+        //    try
+        //    {
+        //        using (SqlConnection conn = new SqlConnection(cadenaConexion))
+        //        {
+        //            estaciones = await conn.QueryAsync<EntidadEstacionBase>(query, parametros);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        log.Error($"ERR. REPOSITORIO ESTACION BASE (ObtenerEstacionesBase) - {ex.Message}");
+        //    }
+        //    return estaciones;
+        //}
 
         public async Task<bool> Eliminar(int idEstacionBase)
         {

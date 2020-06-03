@@ -40,14 +40,14 @@ namespace PortalWeb.ViewModel
         protected string nombreProyecto;
         protected IEnumerable<EntidadEstacionBase> estacionesBase;
         
-        public async Task Mostrar(string proyecto)
+        public async Task Mostrar(EntidadProyecto proyecto)
         {
             this.mostrar = true;
 
-            nombreProyecto = proyecto;
+            nombreProyecto = proyecto.Nombre;
 
             estacionesBase = new List<EntidadEstacionBase>();
-            estacionesBase = await servicioEstacionBase.ListaEstacionesBase(proyecto);            
+            estacionesBase = await servicioEstacionBase.ListaEstacionesBase(proyecto.Id);            
         }
 
     }
