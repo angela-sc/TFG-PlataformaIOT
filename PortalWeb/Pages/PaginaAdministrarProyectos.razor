@@ -271,12 +271,12 @@ else
                                         <InputText class="form-control" id="nombre" @bind-Value="ProyectoEditar.Nombre"></InputText>
                                         <ValidationMessage For="@(()=> ProyectoEditar.Nombre)" />
                                     </div>
-                                </div>
-                                <div style="margin-bottom: 5px">
-                                    <label for="descripcion">Descripción</label>
-                                    <InputTextArea class="form-control" id="descripcion" @bind-Value="ProyectoEditar.Descripcion"></InputTextArea>
-                                    <ValidationMessage For="@(()=> ProyectoEditar.Descripcion)" />
-                                </div>
+                                    <div style="margin-bottom: 5px">
+                                        <label for="descripcion">Descripción</label>
+                                        <InputTextArea class="form-control" id="descripcion" @bind-Value="ProyectoEditar.Descripcion"></InputTextArea>
+                                        <ValidationMessage For="@(()=> ProyectoEditar.Descripcion)" />
+                                    </div>
+                                </div>                               
                                 <button class="btn btn-primary" type="submit">Aceptar</button>
                             </EditForm>
                         }
@@ -313,6 +313,9 @@ else
                                         <InputText class="form-control" id="nombre" @bind-Value="EstacionBaseEditar.Nombre"></InputText>
                                         <ValidationMessage For="@(()=> EstacionBaseEditar.Nombre)" />
                                     </div>
+
+
+
                                 </div>
                                 <button class="btn btn-primary" type="submit">Aceptar</button>
                             </EditForm>
@@ -345,9 +348,19 @@ else
 
                                 <div class="form-group">
                                     <div style="margin-bottom: 5px">
-                                        <label for="nombre">Nombre</label>
-                                        <InputText class="form-control" id="nombre" @bind-Value="SensorEditar.Nombre"></InputText>
+                                        <label for="editar-nombre-sensor">Nombre</label>
+                                        <InputText class="form-control" id="editar-nombre-sensor" @bind-Value="SensorEditar.Nombre"></InputText>
                                         <ValidationMessage For="@(()=> SensorEditar.Nombre)" />
+                                    </div>
+                                    <div style="margin-bottom: 5px">
+                                        <label for="latitud">Latitud</label>
+                                        <InputNumber type="double" class="form-control" id="editar-latitud" @bind-Value="SensorEditar.Latitud"></InputNumber>
+                                        <ValidationMessage For="@(()=> SensorEditar.Latitud)" />
+                                    </div>
+                                    <div style="margin-bottom: 5px">
+                                        <label for="longigut">Longitud</label>
+                                        <InputNumber class="form-control" id="editar-longitud" @bind-Value="SensorEditar.Longitud"></InputNumber>
+                                        <ValidationMessage For="@(()=> SensorEditar.Longitud)" />
                                     </div>
                                 </div>
                                 <button class="btn btn-primary" type="submit">Aceptar</button>

@@ -284,11 +284,13 @@ namespace Repositorio.SQLServer
             Dictionary<string, object> parametros = new Dictionary<string, object>
             {
                 { "@id", sensor.Id },
-                { "@nombre", sensor.Nombre}
+                { "@nombre", sensor.Nombre},
+                { "@latitud", sensor.Latitud},
+                { "@longitud", sensor.Longitud}
             };
 
             string query = @"UPDATE [plataforma_iot].[dbo].[Sensor]
-                             SET [nombre] = @nombre
+                             SET [nombre] = @nombre, [latitud] = @latitud, [longitud] = @longitud
                              WHERE [id] = @id ";
 
             try

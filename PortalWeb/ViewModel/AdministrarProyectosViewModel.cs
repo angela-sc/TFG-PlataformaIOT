@@ -153,7 +153,7 @@ namespace PortalWeb.ViewModel
             await servicioEstacionBase.Crear(new EntidadEstacionBase()
             {
                 Nombre = EstacionBase.Nombre,
-                FK_IdProyecto = EstacionBase.FK_IdProyecto
+                FK_IdProyecto = EstacionBase.FK_IdProyecto            
 
             });
 
@@ -190,8 +190,7 @@ namespace PortalWeb.ViewModel
 
             await servicioSensor.Crear(new EntidadSensor()
             {
-                Nombre = Sensor.Nombre,
-                
+                Nombre = Sensor.Nombre,                
                 Longitud = longitud,
                 Latitud = latitud,
                 FK_IdEstacionBase = Sensor.FK_IdEstacionBase
@@ -233,25 +232,44 @@ namespace PortalWeb.ViewModel
 
         protected void ActivarEditar(EntidadSensorResultado s)
         {
+            double longitud, latitud;
+            Double.TryParse(s.Longitud, out longitud);
+            Double.TryParse(s.Latitud, out latitud);
+
             SensorEditar = new ModeloSensor()
             {
                 Id = s.IdSensor,
-                Nombre = s.NombreSensor
+                Nombre = s.NombreSensor,
+                Longitud = longitud,
+                Latitud = latitud
             };
         }
         protected async Task EditarSensor()
         {
-            var sensor = new EntidadSensor()
+            var longitud = SensorEditar.Longitud.ToString();
+            var latitud = SensorEditar.Latitud.ToString();
+            if (longitud.Contains('.'))
             {
+                longitud.Replace('.', ',');
+            }
+            if (latitud.Contains('.'))
+            {
+                latitud.Replace('.', ',');
+            }
+
+            var sensor = new EntidadSensor()
+            {               
                 Id = SensorEditar.Id,
-                Nombre = SensorEditar.Nombre
+                Nombre = SensorEditar.Nombre,
+                Latitud = latitud,
+                Longitud = longitud
             };
 
             bool resultado = await servicioSensor.Editar(sensor);
             
             if (resultado)
             {
-                mensajeEditar = "El nombre del sensor se ha cambiado con éxito.";
+                mensajeEditar = "El sensor se ha modificado con éxito.";
             }
             else
             {
@@ -260,7 +278,6 @@ namespace PortalWeb.ViewModel
 
             this.editado = true;
             this.StateHasChanged();
-
         }
 
         protected void ActivarEditar(EntidadProyecto p)
