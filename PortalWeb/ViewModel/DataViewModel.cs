@@ -140,7 +140,7 @@ namespace PortalWeb.ViewModel
         }
 
 
-        public int RadioValue2;  //cantidad de datos que se muestra en la vista
+        public int RadioValue2 = 10;  //cantidad de datos que se muestra en la vista
 
         public async void RadioSelection2(ChangeEventArgs args)
         {

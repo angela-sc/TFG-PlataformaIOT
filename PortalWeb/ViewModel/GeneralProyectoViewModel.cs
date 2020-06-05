@@ -38,9 +38,7 @@ namespace PortalWeb.ViewModel
 
         // Metodos para mostrar las tarjetas de estaciones base
         protected bool mostrar = false;
-        protected string nombreProyecto;
-        
-        
+        protected string nombreProyecto; 
         public async Task Mostrar(EntidadProyecto proyecto)
         {
             nombreProyecto = proyecto.Nombre;
