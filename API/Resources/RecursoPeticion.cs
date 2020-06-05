@@ -31,13 +31,11 @@ namespace API.Resources
             string payload = exchange.Request.PayloadString;
 
             if(payload != null)
-            {
-                //Deserializamos la peticion en un objeto de tipo json
-                EntidadPeticion entidadPeticion = JsonConvert.DeserializeObject<EntidadPeticion>(payload);
+            {                
+                EntidadPeticion entidadPeticion = JsonConvert.DeserializeObject<EntidadPeticion>(payload);  //Deserializamos la peticion en un objeto de tipo json
 
-                //Lanzamos la peticion para que inserte los datos de forma asincrona
-                var a =  Task.Run(async () => await servicioInsertaInformacion.InsertaPeticion(entidadPeticion));
-                
+                var a =  Task.Run(async () => await servicioInsertaInformacion.InsertaPeticion(entidadPeticion));   //Lanzamos la peticion para que inserte los datos de forma asincrona
+
                 if (a.Result)
                 {
                     exchange.Respond(CoAP.StatusCode.Changed);

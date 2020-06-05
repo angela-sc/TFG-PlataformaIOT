@@ -268,9 +268,7 @@ namespace Repositorio.SQLServer
             }
             catch (Exception ex)
             {
-                log.Error($"ERR. REPOSITORIO SENSOR (Eliminarsensor) - {ex.Message}");
-                //Console.WriteLine($"Error al borrar los datos del sensor {idSensor}: ", ex.Message);
-
+                log.Error($"ERR. REPOSITORIO SENSOR (Eliminarsensor) - {ex.Message}");               
                 eliminado = false;
             }
 

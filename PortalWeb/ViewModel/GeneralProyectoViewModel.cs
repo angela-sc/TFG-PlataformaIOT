@@ -13,7 +13,8 @@ namespace PortalWeb.ViewModel
 {
     public class GeneralProyectoViewModel : ComponentBase
     {       
-        protected IEnumerable<EntidadProyecto> proyectos;      
+        protected IEnumerable<EntidadProyecto> proyectos;
+        public List<Tuple<int, EntidadEstacionBase>> listaEstacionesBase;
         protected string SearchTerm { get; set; } = "";  // Initialize SearchTerm to "" to prevent null's
 
         // > -- ATRIBUTOS PRIVADOS
@@ -38,16 +39,22 @@ namespace PortalWeb.ViewModel
         // Metodos para mostrar las tarjetas de estaciones base
         protected bool mostrar = false;
         protected string nombreProyecto;
-        protected IEnumerable<EntidadEstacionBase> estacionesBase;
+        
         
         public async Task Mostrar(EntidadProyecto proyecto)
         {
-            this.mostrar = true;
-
             nombreProyecto = proyecto.Nombre;
+            var estacionesBase = await servicioEstacionBase.ListaEstacionesBase(proyecto.Id);
 
-            estacionesBase = new List<EntidadEstacionBase>();
-            estacionesBase = await servicioEstacionBase.ListaEstacionesBase(proyecto.Id);            
+            listaEstacionesBase = new List<Tuple<int, EntidadEstacionBase>>();
+            foreach(var estacion in estacionesBase)
+            {
+                var sensores = await servicioEstacionBase.ObtenerSensores(estacion.Id);
+                listaEstacionesBase.Add(new Tuple<int, EntidadEstacionBase>(sensores.Count(), estacion));
+            }
+            
+            this.mostrar = true;
+            this.StateHasChanged();
         }
 
     }

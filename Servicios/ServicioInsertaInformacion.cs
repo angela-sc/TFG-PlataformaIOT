@@ -57,15 +57,13 @@ namespace Servicios
             else
             {
                 if(estacionID == -1)
-                {
-                    //Console.WriteLine($"No existe la estacion '{nombreEstacionBase}' en la base de datos.");
+                {                    
                     //log.Debug("Fallo en ServicioInsertaInformacion en el método InsertaPeticion");
                     log.Error($" No existe la estacion '{nombreEstacionBase}' en la base de datos - ERR. SERVICIO INSERTA INFORMACION");
                 }
                 
                 if(sensorID == -1)
-                {
-                    //Console.WriteLine($"No existe el sensor '{nombreSensor}' en la base de datos.");
+                {                 
                     //log.Debug("Fallo en ServicioInsertaInformacion en el método InsertaPeticion");
                     log.Error($"No existe el sensor '{nombreSensor}' en la base de datos - ERR. SERVICIO INSERTA INFORMACION");
                 }

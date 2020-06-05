@@ -63,7 +63,6 @@ namespace API
             }
             catch (Exception ex)
             {
-                //Console.WriteLine(ex.Message);
                 Log.Fatal(ex.Message);
             }
             Console.WriteLine("Press any key to exit.");
