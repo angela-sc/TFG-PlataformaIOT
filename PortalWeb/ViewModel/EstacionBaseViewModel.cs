@@ -33,10 +33,11 @@ namespace PortalWeb.ViewModel
         private int id;
 
         //> -- SERVICIO
-        private IServicioEstacionBase servicioEstacionBase = FactoriaServicios.GetServicioEstacionBase();
+        private IServicioEstacionBase servicioEstacionBase;
         
         protected override async Task OnInitializedAsync()
         {
+            servicioEstacionBase = FactoriaServicios.GetServicioEstacionBase();
             Int32.TryParse(idEstacionBase, out int id);
             nombreEstacionBase = await servicioEstacionBase.Nombre(id);
             listaSensores = await servicioEstacionBase.ObtenerSensores(id);
