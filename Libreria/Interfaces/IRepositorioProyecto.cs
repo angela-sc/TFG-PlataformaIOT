@@ -20,7 +20,7 @@ namespace Libreria.Interfaces
 
         //Task AsociarUsuarioProyecto(int idProyecto, int idUsuario);
         Task InsertaProyecto(EntidadProyecto proyecto, int idUsuario);
-        //Task<int> ObtenerId(string nombreProyecto);
+        //Task<int> ObtenerId(string Proyecto);
         
     }
 }

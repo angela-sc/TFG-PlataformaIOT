@@ -129,8 +129,9 @@ namespace EstacionBase.WorkerService
 
                     request = JsonConvert.SerializeObject(new EntidadPeticion()
                     {
-                        EstacionBase = splittedFileName.First(),
-                        Sensor = splittedFileName.ElementAt(1),
+                        Proyecto = "", // LEER DEL APPSETTINGS
+                        EstacionBase = splittedFileName.First(), // CAMBIAR PARA QUE COJA EL NOMBRE DEL APPSETTINGS
+                        Sensor = splittedFileName.ElementAt(1), // SERÁ EL NOMBRE DEL ARCHIVO
                         Datos = data
                     });
                 }

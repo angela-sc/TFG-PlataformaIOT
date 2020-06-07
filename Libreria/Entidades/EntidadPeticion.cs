@@ -6,6 +6,7 @@ namespace Libreria.Entidades
 {
     public class EntidadPeticion //representa la info enviada por la EB al Servidor
     {
+        public string Proyecto { get; set; }
         public string EstacionBase { get; set; }
         public string Sensor { get; set; }
         public IEnumerable<EntidadDatoBase> Datos { get; set; }

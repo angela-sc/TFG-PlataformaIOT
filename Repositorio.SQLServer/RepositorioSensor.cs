@@ -76,7 +76,7 @@ namespace Repositorio.SQLServer
 
             //query sql para insertar los datos en la tabla
             string query = @"INSERT INTO [plataforma_iot].[dbo].[Datos] ([stamp],[fk_idsensor],[humedad],[temperatura]) 
-                             VALUES (@stamp, @fk_sensor, @humedad, @temperatura)";
+                             VALUES (@stamp, @fk_idsensor, @humedad, @temperatura)";
 
             try
             {               
@@ -195,12 +195,12 @@ namespace Repositorio.SQLServer
             int id = -1;
 
             Dictionary<string, object> parametros = new Dictionary<string, object>
-            {
-                { "@nombre", nombreSensor },
-                { "@fk_idestacionbase", idEstacionBase }
+            {             
+                { "@fk_idestacionbase", idEstacionBase },
+                { "@nombresensor", nombreSensor }
             };
 
-            string query = @"SELECT [id] FROM [plataforma_iot].[dbo].[Sensor] WHERE [nombre] = @nombre AND [fk_idestacionbase] = @fk_idestacionbase";
+            string query = @"SELECT [id] FROM [plataforma_iot].[dbo].[Sensor] WHERE [fk_idestacionbase] = @fk_idestacionbase AND [nombre] = @nombresensor";
 
             try
             {

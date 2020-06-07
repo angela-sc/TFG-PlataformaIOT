@@ -188,11 +188,11 @@ namespace Repositorio.SQLServer
             }
         }
 
-        //public async Task<int> ObtenerId(string nombreProyecto)
+        //public async Task<int> ObtenerId(string Proyecto)
         //{
         //    Dictionary<string, object> parametros = new Dictionary<string, object>
         //    {
-        //        { "@nombre", nombreProyecto }
+        //        { "@nombre", Proyecto }
         //    };
 
         //    string query = @"SELECT [id] FROM [plataforma_iot].[dbo].[Proyecto] WHERE [nombre]=@nombre";

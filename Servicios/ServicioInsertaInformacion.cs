@@ -14,7 +14,6 @@ namespace Servicios
 {
     public class ServicioInsertaInformacion : IServicioInsertaInformacion
     {
-
         private ILogger log;
 
         private IRepositorioSensor repositorioSensor;
@@ -28,12 +27,13 @@ namespace Servicios
         }
 
         public async Task<bool> InsertaPeticion(EntidadPeticion entidadPeticion)
-        {           
+        {
+            string nombreProyecto = entidadPeticion.Proyecto;
             string nombreEstacionBase = entidadPeticion.EstacionBase;
             string nombreSensor = entidadPeticion.Sensor;
 
             //obtenemos los datos: id de la estacion e id del sensor
-            int estacionID = await repositorioEstacion.ObtenerId(nombreEstacionBase);
+            int estacionID = await repositorioEstacion.ObtenerId(nombreProyecto, nombreEstacionBase);
             int sensorID = await repositorioSensor.ObtenerId(nombreSensor, estacionID);
 
             bool result = true; //booleano para saber si ha ocurrido un error durante la insercion de datos
@@ -59,13 +59,13 @@ namespace Servicios
                 if(estacionID == -1)
                 {                    
                     //log.Debug("Fallo en ServicioInsertaInformacion en el método InsertaPeticion");
-                    log.Error($" No existe la estacion '{nombreEstacionBase}' en la base de datos - ERR. SERVICIO INSERTA INFORMACION");
+                    log.Warning($"ERR. SERVICIO INSERTA INFORMACION (InsertaPeticion) -  No existe la estacion '{nombreEstacionBase}' en la base de datos");
                 }
                 
                 if(sensorID == -1)
-                {                 
+                {                   
                     //log.Debug("Fallo en ServicioInsertaInformacion en el método InsertaPeticion");
-                    log.Error($"No existe el sensor '{nombreSensor}' en la base de datos - ERR. SERVICIO INSERTA INFORMACION");
+                    log.Warning($"ERR. SERVICIO INSERTA INFORMACION (InsertaPeticion) - No existe el sensor {sensorID} en la base de datos");
                 }
                 return false;
             }
