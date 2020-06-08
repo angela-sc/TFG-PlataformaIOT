@@ -41,6 +41,8 @@ namespace PortalWeb.ViewModel
         public IEnumerable<EntidadDatoBase> datos; //Datos que se representan en la página web
         public LineChart<double> lineChartTemperature, lineChartHumity; //graficas        
 
+        protected string nombreSensor = null;
+
         //Etiquetas del eje X
         string[] Labels = { }; 
 
@@ -53,12 +55,12 @@ namespace PortalWeb.ViewModel
         List<string> borderColorsHumedad = new List<string> { ChartColor.FromRgba(0, 180, 175, 1f)};
 
         // > -- SERVICIO
-        private IServicioSensor servicio = FactoriaServicios.GetServicioSensor();
+        private IServicioSensor servicioSensor;
 
         private async Task CargaDatos()
         {
             datos = new List<EntidadDatoBase>();
-            datos = await servicio.ObtenerDatos(idSensor, RadioValue2);
+            datos = await servicioSensor.ObtenerDatos(idSensor, RadioValue2);
             datosTemperatura = new List<double>();
             datosHumedad = new List<double>();
 
@@ -79,6 +81,9 @@ namespace PortalWeb.ViewModel
         {
             Int32.TryParse(estacionbase, out idEstacionBase);
             Int32.TryParse(sensor, out idSensor);
+
+            servicioSensor = FactoriaServicios.GetServicioSensor();
+            nombreSensor = await servicioSensor.ObtenerNombre(idSensor, idEstacionBase);
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
