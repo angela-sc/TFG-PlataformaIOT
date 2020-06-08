@@ -17,7 +17,7 @@ namespace EstacionBase.WorkerService
         public static void Main(string[] args)
         {
             var config = GetConfiguration();
-            var logPath = config["LogPath"];
+            var logPath = config["DirectorioLog"];
 
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
@@ -27,14 +27,14 @@ namespace EstacionBase.WorkerService
 
             try
             {
-                Log.Information("Starting up the service");
+                Log.Information("PROGRAM (Main) - Iniciando el servicio");
                 CreateHostBuilder(args).Build().Run();
                 //return;
             }
             catch(Exception ex)
             {
                 //Console.WriteLine(ex.Message);
-                Log.Fatal(ex, "There was a problem starting the service");
+                Log.Fatal($"ERR PROGRAM (Main) - {ex.Message}");
                 //return;
             }
             finally

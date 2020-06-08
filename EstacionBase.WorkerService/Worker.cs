@@ -17,19 +17,18 @@ namespace EstacionBase.WorkerService
     public class Worker : BackgroundService
     {
         private readonly ILogger<Worker> _logger;
-
-
-        private CoapClient client;
         private readonly Uri uri; //URL donde montamos el servidor 
         private readonly string path; //Directorio donde estan los .txt
 
+        private CoapClient client;
+        
         public Worker(ILogger<Worker> logger)
         {
             _logger = logger;
-
+           
             var config = Program.GetConfiguration();
-            uri = new Uri(config["CoapUri"]);
-            path = config["SensorFilesDirectory"];
+            uri = new Uri(config["UriCoap"]); //uri = new Uri(Program.GetConfiguration().GetValue<string>("CoapUri"));
+            path = config["DirectorioFicherosSensores"];
         }
 
         //Inicializo el cliente cuando arranca el servicio
@@ -52,7 +51,7 @@ namespace EstacionBase.WorkerService
                     var files = Directory.EnumerateFiles(path, "*.txt");
                     //_logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
 
-                    //acción que queremos ejecutar, post > PostPetition();
+                    //accion que queremos ejecutar, post > PostPetition();
                     foreach (string file in files)
                     {
                         var fileName = new FileInfo(file).Name;
@@ -62,16 +61,14 @@ namespace EstacionBase.WorkerService
                         {
                             var result = client.Post(payload);
 
-                            //Console.WriteLine(result.StatusCode);
                             if (result.StatusCode.ToString() == "Changed")
-                            {
-                                //_logger.LogInformation($"Sensor data ({fileName}) has been inserted correctly. Status code {result.StatusCode}", fileName, result.StatusCode);
+                            {                              
                                 _logger.LogInformation($"WORKER (ExecuteAsync) - La informacion del fichero {fileName} se ha insertado correctamente");
+                                
                                 File.Delete(file); //elimina el fichero
                             }
                             else
-                            {
-                                //_logger.LogError($"An error occurred while inserting data from the {fileName} file. Status code {result.StatusCode}", fileName, result.StatusCode);
+                            {                                
                                 _logger.LogError($"ERR. WORKER (ExecuteAsync) - No se ha podido insertar la información del fichero {fileName}");
                                 File.Delete(file); //elimina el fichero
                             }
@@ -80,8 +77,8 @@ namespace EstacionBase.WorkerService
                     }
                 }
                 catch(Exception ex)
-                {
-                    _logger.LogError("Error al leer el fichero: " + ex.Message);
+                {                    
+                    _logger.LogError($"ERR WORKER (ExecuteAsync) - {ex.Message}");
                 }
                 
                 await Task.Delay(60 * 1000, stoppingToken);
@@ -106,10 +103,9 @@ namespace EstacionBase.WorkerService
         private string GetData(string fileName)
         {
             string request = null;
-
-            //formato utilizado al componer el json en el campo stamp
-            var dateFormat = "yyyy-MM-dd HH:mm:ss";
-            //var dateFormat = "dd-MM-yyy HH:mm:ss";
+            
+            var dateFormat = "yyyy-MM-dd HH:mm:ss"; //formato utilizado al componer el json en el campo stamp
+            //var dateFormat = "dd-MM-yyyy HH:mm:ss";
             var dateTimeConverter = new IsoDateTimeConverter { DateTimeFormat = dateFormat };
 
             List<EntidadDatoBase> data = new List<EntidadDatoBase>();
@@ -132,19 +128,15 @@ namespace EstacionBase.WorkerService
 
                     request = JsonConvert.SerializeObject(new EntidadPeticion()
                     {
-                        Proyecto = Program.GetConfiguration().GetValue<string>("Proyecto"), // LEER DEL APPSETTINGS
-                        //EstacionBase = splittedFileName.First(), // CAMBIAR PARA QUE COJA EL NOMBRE DEL APPSETTINGS
+                        Proyecto = Program.GetConfiguration().GetValue<string>("Proyecto"),
                         EstacionBase = Program.GetConfiguration().GetValue<string>("EstacionBase"),
                         Sensor = splittedFileName.ElementAt(0),
-                        //Sensor = splittedFileName.ElementAt(1), // SERÁ EL NOMBRE DEL ARCHIVO
                         Datos = data
                     });
                 }
             }catch(Exception ex)
             {
-                //Console.WriteLine(ex.Message);
-                //_logger.LogError("An error ocurred when getting data: ", ex.Message);
-                _logger.LogError(ex.Message, "An error ocurred when getting data: ");
+                _logger.LogError($"ERR WORKER (GetData) - {ex.Message}");
             }
             return request;
         }
