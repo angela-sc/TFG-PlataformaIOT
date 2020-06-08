@@ -21,7 +21,7 @@ namespace API.Resources
         {
             this.log = logger;
             
-            Attributes.Title = "Servidor CoAP";
+            Attributes.Title = "Servidor COAP";
             var connectionString = Program.GetConfiguration()["ConnectionString"];
             servicioInsertaInformacion = new ServicioInsertaInformacion(log, connectionString);
         }
@@ -42,14 +42,14 @@ namespace API.Resources
                 }
                 else
                 {
-                    log.Error("Error al insertar la información en la base de datos.");
+                    log.Error("ERR RECURSOPETICION (DoPost) - No se ha podido insertar la información en la base de datos.");
                     exchange.Respond(CoAP.StatusCode.NotAcceptable);
                 }
             }
             else
             {
                 //TODO: IMPLEMENTAR EN CASO DE ERROR > registrar en el log de la api
-                log.Error("Petición vacía");             
+                log.Error("ERR RECURSOPETICION (DoPost) - La petición está vacía.");             
             }
         }
     }

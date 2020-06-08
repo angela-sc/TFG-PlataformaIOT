@@ -43,15 +43,15 @@ namespace API
                 .WriteTo.File(logPath)
                 .CreateLogger();
 
-            CoapServer server = new CoapServer(port);           
+            CoapServer server = new CoapServer(port);    
             server.Add(new RecursoPeticion(Log.Logger));
 
             try
             {
                 server.Start();
 
-                Console.Write("CoAP server [{0}] is listening on", server.Config.Version);
-                Log.Debug($"CoAP server {server.Config.Version} is listening on ");
+                Console.Write("COAP server [{0}] is listening on", server.Config.Version);
+                Log.Debug($"COAP server {server.Config.Version} is listening on ");
 
                 foreach (var item in server.EndPoints)
                 {
