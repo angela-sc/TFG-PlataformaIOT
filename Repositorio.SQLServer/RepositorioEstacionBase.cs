@@ -165,7 +165,7 @@ namespace Repositorio.SQLServer
             };
             string query = @"
                 SELECT 
-	                x.[Sensor]
+	                x.[NombreSensor]
 	                ,x.[Latitud]
 	                ,x.[Longitud]
 	                ,x.[Fecha]
@@ -176,14 +176,14 @@ namespace Repositorio.SQLServer
                 FROM
                 (
 	                SELECT 
-		                RTRIM(s.[nombre]) as [Sensor], s.[fk_idestacionbase], s.[id] [IdSensor], [latitud] [Latitud],[longitud] [Longitud],d.[stamp] [Fecha], d.[humedad] [Humedad], d.[temperatura] [Temperatura]
+		                RTRIM(s.[nombre]) as [NombreSensor], s.[fk_idestacionbase], s.[id] [IdSensor], [latitud] [Latitud],[longitud] [Longitud],d.[stamp] [Fecha], d.[humedad] [Humedad], d.[temperatura] [Temperatura]
 		                ,DENSE_RANK() OVER(PARTITION BY s.[nombre] ORDER BY d.[stamp] DESC) AS [rk]
 	                FROM [plataforma_iot].[dbo].[Datos] d 
 	                RIGHT JOIN [plataforma_iot].[dbo].[Sensor] s ON d.[fk_idsensor] = s.[id] 
 	                WHERE s.[fk_idestacionbase] = @id
                 ) AS x
                 WHERE x.[rk] = 1
-                ORDER BY x.[Sensor]
+                ORDER BY x.[NombreSensor]
             ";
 
             IEnumerable<EntidadSensorResultado> resultado = null;

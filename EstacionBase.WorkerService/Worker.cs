@@ -65,13 +65,15 @@ namespace EstacionBase.WorkerService
                             //Console.WriteLine(result.StatusCode);
                             if (result.StatusCode.ToString() == "Changed")
                             {
-                                _logger.LogInformation($"Sensor data ({fileName}) has been inserted correctly. Status code {result.StatusCode}", fileName, result.StatusCode);
+                                //_logger.LogInformation($"Sensor data ({fileName}) has been inserted correctly. Status code {result.StatusCode}", fileName, result.StatusCode);
+                                _logger.LogInformation($"WORKER (ExecuteAsync) - La informacion del fichero {fileName} se ha insertado correctamente");
                                 File.Delete(file); //elimina el fichero
                             }
                             else
                             {
-                                _logger.LogError($"An error occurred while inserting data from the {fileName} file. Status code {result.StatusCode}", fileName, result.StatusCode);
-                                //File.Delete(file); //elimina el fichero
+                                //_logger.LogError($"An error occurred while inserting data from the {fileName} file. Status code {result.StatusCode}", fileName, result.StatusCode);
+                                _logger.LogError($"ERR. WORKER (ExecuteAsync) - No se ha podido insertar la información del fichero {fileName}");
+                                File.Delete(file); //elimina el fichero
                             }
                         }
                         //con _logger.LogInformation("...",result.StatusCode); 
@@ -107,6 +109,7 @@ namespace EstacionBase.WorkerService
 
             //formato utilizado al componer el json en el campo stamp
             var dateFormat = "yyyy-MM-dd HH:mm:ss";
+            //var dateFormat = "dd-MM-yyy HH:mm:ss";
             var dateTimeConverter = new IsoDateTimeConverter { DateTimeFormat = dateFormat };
 
             List<EntidadDatoBase> data = new List<EntidadDatoBase>();
@@ -129,9 +132,11 @@ namespace EstacionBase.WorkerService
 
                     request = JsonConvert.SerializeObject(new EntidadPeticion()
                     {
-                        Proyecto = "", // LEER DEL APPSETTINGS
-                        EstacionBase = splittedFileName.First(), // CAMBIAR PARA QUE COJA EL NOMBRE DEL APPSETTINGS
-                        Sensor = splittedFileName.ElementAt(1), // SERÁ EL NOMBRE DEL ARCHIVO
+                        Proyecto = Program.GetConfiguration().GetValue<string>("Proyecto"), // LEER DEL APPSETTINGS
+                        //EstacionBase = splittedFileName.First(), // CAMBIAR PARA QUE COJA EL NOMBRE DEL APPSETTINGS
+                        EstacionBase = Program.GetConfiguration().GetValue<string>("EstacionBase"),
+                        Sensor = splittedFileName.ElementAt(0),
+                        //Sensor = splittedFileName.ElementAt(1), // SERÁ EL NOMBRE DEL ARCHIVO
                         Datos = data
                     });
                 }

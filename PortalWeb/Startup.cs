@@ -46,7 +46,7 @@ namespace PortalWeb
             /**
              * DE MOMENTO SE HARDCODEARÁ AQUÍ HASTA QUE SE IMPLEMENTE EL LOGIN DE USUARIO
              */
-            InformacionUsuario.IdUsuario = 1;
+            InformacionUsuario.IdUsuario = 0;
         }
 
         public IConfiguration Configuration { get; }

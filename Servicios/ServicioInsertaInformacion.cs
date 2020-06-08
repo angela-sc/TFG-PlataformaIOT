@@ -32,13 +32,15 @@ namespace Servicios
             string nombreEstacionBase = entidadPeticion.EstacionBase;
             string nombreSensor = entidadPeticion.Sensor;
 
+            int estacionId = -1, sensorId = -1;
+            
             //obtenemos los datos: id de la estacion e id del sensor
-            int estacionID = await repositorioEstacion.ObtenerId(nombreProyecto, nombreEstacionBase);
-            int sensorID = await repositorioSensor.ObtenerId(nombreSensor, estacionID);
+            estacionId = await repositorioEstacion.ObtenerId(nombreProyecto, nombreEstacionBase);
+            sensorId = await repositorioSensor.ObtenerId(nombreSensor, estacionId);
 
             bool result = true; //booleano para saber si ha ocurrido un error durante la insercion de datos
 
-            if(estacionID != -1 && sensorID != -1)
+            if(estacionId != -1 && sensorId != -1)
             {
                 foreach (EntidadDatoBase datoBase in entidadPeticion.Datos)
                 {
@@ -47,7 +49,7 @@ namespace Servicios
                     dato.Stamp = datoBase.Stamp;
                     dato.Humedad = datoBase.Humedad;
                     dato.Temperatura = datoBase.Temperatura;
-                    dato.FK_IdSensor = sensorID;
+                    dato.FK_IdSensor = sensorId;
 
                     result = (result && await repositorioSensor.InsertaDato(dato)); //si falla alguna da false
                 }
@@ -56,16 +58,16 @@ namespace Servicios
             }
             else
             {
-                if(estacionID == -1)
+                if(estacionId == -1)
                 {                    
                     //log.Debug("Fallo en ServicioInsertaInformacion en el método InsertaPeticion");
                     log.Warning($"ERR. SERVICIO INSERTA INFORMACION (InsertaPeticion) -  No existe la estacion '{nombreEstacionBase}' en la base de datos");
                 }
                 
-                if(sensorID == -1)
+                if(sensorId == -1)
                 {                   
                     //log.Debug("Fallo en ServicioInsertaInformacion en el método InsertaPeticion");
-                    log.Warning($"ERR. SERVICIO INSERTA INFORMACION (InsertaPeticion) - No existe el sensor {sensorID} en la base de datos");
+                    log.Warning($"ERR. SERVICIO INSERTA INFORMACION (InsertaPeticion) - No existe el sensor {sensorId} en la base de datos");
                 }
                 return false;
             }
