@@ -81,6 +81,11 @@ namespace Servicios
             return resultado;
         }
 
+        public async Task<string> ObtenerNombre(int idSensor, int idEstacionBase)
+        {
+            return await repositorioSensor.ObtenerNombre(idSensor, idEstacionBase);
+        }
+
         public async Task<bool> EliminarDatos(int fk_SensorId)
         {
             return await repositorioSensor.EliminarDatos(fk_SensorId);

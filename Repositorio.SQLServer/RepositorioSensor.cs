@@ -218,6 +218,35 @@ namespace Repositorio.SQLServer
             return id;
         }
 
+        public async Task<string> ObtenerNombre(int idSensor, int idEstacionBase)
+        {
+            string nombre = null;
+
+            Dictionary<string, object> parametros = new Dictionary<string, object>
+            {
+                { "@idSensor", idSensor },
+                { "@fk_idestacionbase", idEstacionBase }                
+            };
+
+            string query = @"SELECT [nombre] FROM [plataforma_iot].[dbo].[Sensor] WHERE [id] = @idSensor AND [fk_idestacionbase] = @fk_idestacionbase";
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(cadenaConexion))
+                {
+                    var resultado = await conn.QueryAsync<string>(query, parametros);
+                    nombre = resultado.FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error($"ERR. REPOSITORIO SENSOR (ObtenerNombre) - {ex.Message}");
+                nombre = null;
+            }
+            return nombre;
+        }
+        
+
         public async Task<bool> EliminarDatos(int fk_idsensor)
         {
             bool eliminado = false;
