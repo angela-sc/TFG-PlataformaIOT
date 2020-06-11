@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using CoAP;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Servicios;
 
 namespace EstacionBase.WorkerService
 {
@@ -21,6 +23,8 @@ namespace EstacionBase.WorkerService
         private readonly string path; //Directorio donde estan los .txt
 
         private CoapClient client;
+
+        private ServicioSeguridad seguridad;
         
         public Worker(ILogger<Worker> logger)
         {
@@ -29,6 +33,8 @@ namespace EstacionBase.WorkerService
             var config = Program.GetConfiguration();
             uri = new Uri(config["UriCoap"]); //uri = new Uri(Program.GetConfiguration().GetValue<string>("CoapUri"));
             path = config["DirectorioFicherosSensores"];
+
+            
         }
 
         //Inicializo el cliente cuando arranca el servicio
@@ -38,6 +44,8 @@ namespace EstacionBase.WorkerService
             client.Uri = uri;
 
             _logger.LogInformation("COAP uri: " + uri.ToString());
+
+            seguridad = new ServicioSeguridad("C:\\tfg\\claves\\clave_publica.key", null);
 
             return base.StartAsync(cancellationToken);
         }
@@ -57,8 +65,11 @@ namespace EstacionBase.WorkerService
                         var fileName = new FileInfo(file).Name;
 
                         string payload = GetData(fileName);
+                        //var size = Encoding.ASCII.GetBytes(payload);
                         if (!string.IsNullOrEmpty(payload))
                         {
+                            //var cifrado = seguridad.CifrarRSA(payload);
+                            
                             var result = client.Post(payload);
 
                             if (result.StatusCode.ToString() == "Changed")
@@ -102,7 +113,7 @@ namespace EstacionBase.WorkerService
 
         private string GetData(string fileName)
         {
-            string request = null;
+            string request;
             
             var dateFormat = "yyyy-MM-dd HH:mm:ss"; //formato utilizado al componer el json en el campo stamp
             //var dateFormat = "dd-MM-yyyy HH:mm:ss";
@@ -136,6 +147,7 @@ namespace EstacionBase.WorkerService
                 }
             }catch(Exception ex)
             {
+                request = null;
                 _logger.LogError($"ERR WORKER (GetData) - {ex.Message}");
             }
             return request;
