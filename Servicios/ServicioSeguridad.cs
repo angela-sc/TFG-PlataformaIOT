@@ -26,18 +26,14 @@ namespace Servicios
 
         public static void LimpiaClaveRSA() => claveRSA = new RSAParameters();
 
-        private string CifrarRSA(string textoPlano)
+        private byte[] CifrarRSA(byte[] bytesPlanos)
         {
-            string textoCifrado = string.Empty;
+            byte[] bytesCifrados = null;
             
             try
             {
                 using (var rsa = GetProveedorRSA())
-                {
-                    var textoPlanoBytes = Convert.FromBase64String(textoPlano);
-                    var textoCifradoBytes = rsa.Encrypt(textoPlanoBytes, RSAEncryptionPadding.Pkcs1);
-                    textoCifrado = Convert.ToBase64String(textoCifradoBytes);
-                }
+                    bytesCifrados = rsa.Encrypt(bytesPlanos, RSAEncryptionPadding.Pkcs1);
             }
             catch(Exception ex)
             {
@@ -45,29 +41,24 @@ namespace Servicios
                 Console.WriteLine($"ERR SERVICIOSEGURIDAD (CifrarRSA) - {ex.Message}");
             }
 
-            return textoCifrado;
+            return bytesCifrados;
         }
 
-        private string DescifrarRSA(string textoCifrado)
+        private byte[] DescifrarRSA(byte[] bytesCifrados)
         {
-            var textoPlano = string.Empty;
+            byte[] bytesDescifrados = null;
 
             try
             {
                 using (var rsa = GetProveedorRSA())
-                {
-                    var cipherTextBytes = Convert.FromBase64String(textoCifrado);
-                    var textoPlanoBytes = rsa.Decrypt(cipherTextBytes, RSAEncryptionPadding.Pkcs1);
-                    textoPlano = Convert.ToBase64String(textoPlanoBytes);
-
-                }
+                    bytesDescifrados = rsa.Decrypt(bytesCifrados, RSAEncryptionPadding.Pkcs1);
             }
             catch(Exception ex)
             {
                 log.Error($"ERR SERVICIOSEGURIDAD (DescifrarRSA) - {ex.Message}");
             }
 
-            return textoPlano;
+            return bytesDescifrados;
         }
         
         private RSA GetProveedorRSA()
@@ -220,10 +211,10 @@ namespace Servicios
 
             try
             {
-                string clave = DescifrarRSA(peticionSegura.Clave);
-                string IV = DescifrarRSA(peticionSegura.IV);
+                byte[] clave = DescifrarRSA(peticionSegura.Clave);
+                byte[] IV = DescifrarRSA(peticionSegura.IV);
 
-                string peticion = DescifrarAES(peticionSegura.Peticion, Convert.FromBase64String(clave), Convert.FromBase64String(IV));
+                string peticion = DescifrarAES(peticionSegura.Peticion, clave, IV);
                 
                 entidadPeticion = JsonConvert.DeserializeObject<EntidadPeticion>(peticion);
             }
@@ -249,8 +240,8 @@ namespace Servicios
 
                 entidadPeticionSegura = new EntidadPeticionSegura()
                 {
-                    Clave = CifrarRSA(Convert.ToBase64String(aes.Key)),
-                    IV = CifrarRSA(Convert.ToBase64String(aes.IV)),
+                    Clave = CifrarRSA(aes.Key),
+                    IV = CifrarRSA(aes.IV),
                     Peticion = peticionSegura 
                 };
             }
