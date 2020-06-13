@@ -1,5 +1,6 @@
 ﻿
 using Libreria.Entidades;
+using Libreria.Interfaces;
 using Newtonsoft.Json;
 using PemUtils;
 using Serilog;
@@ -11,10 +12,11 @@ using System.Text;
 
 namespace Servicios
 {
-    public class ServicioSeguridad
+    public class ServicioSeguridad : IServicioSeguridad
     {
         private ILogger log;
         private string fichero;
+        private static RSAParameters claveRSA = new RSAParameters();
 
         public ServicioSeguridad(string fichero, ILogger log)
         {
@@ -22,7 +24,9 @@ namespace Servicios
             this.log = log;
         }
 
-        public string CifrarRSA(string textoPlano)
+        public static void LimpiaClaveRSA() => claveRSA = new RSAParameters();
+
+        private string CifrarRSA(string textoPlano)
         {
             string textoCifrado = string.Empty;
             
@@ -30,7 +34,7 @@ namespace Servicios
             {
                 using (var rsa = GetProveedorRSA())
                 {
-                    var textoPlanoBytes = Encoding.Unicode.GetBytes(textoPlano);
+                    var textoPlanoBytes = Convert.FromBase64String(textoPlano);
                     var textoCifradoBytes = rsa.Encrypt(textoPlanoBytes, RSAEncryptionPadding.Pkcs1);
                     textoCifrado = Convert.ToBase64String(textoCifradoBytes);
                 }
@@ -44,7 +48,7 @@ namespace Servicios
             return textoCifrado;
         }
 
-        public string DescifrarRSA(string textoCifrado)
+        private string DescifrarRSA(string textoCifrado)
         {
             var textoPlano = string.Empty;
 
@@ -54,7 +58,7 @@ namespace Servicios
                 {
                     var cipherTextBytes = Convert.FromBase64String(textoCifrado);
                     var textoPlanoBytes = rsa.Decrypt(cipherTextBytes, RSAEncryptionPadding.Pkcs1);
-                    textoPlano = Encoding.Unicode.GetString(textoPlanoBytes);
+                    textoPlano = Convert.ToBase64String(textoPlanoBytes);
 
                 }
             }
@@ -69,23 +73,26 @@ namespace Servicios
         private RSA GetProveedorRSA()
         {
             var rsa = RSA.Create();
-            
-            try
+
+            if (claveRSA.Equals(new RSAParameters()))
             {
-                using (var ficheroClave = File.OpenRead(fichero))
+                try
                 {
-                    using (var pem = new PemReader(ficheroClave))
+                    using (var ficheroClave = File.OpenRead(fichero))
                     {
-                        var rsaParameters = pem.ReadRsaKey();
-                        rsa.ImportParameters(rsaParameters);
+                        using (var pem = new PemReader(ficheroClave))
+                        {
+                            claveRSA = pem.ReadRsaKey();
+                        }
                     }
-                }    
-            }
-            catch(Exception ex)
-            {
-                log.Error($"ERR SERVICIOSEGURIDAD (GetProveedorRSA) - {ex.Message}");
+                }
+                catch (Exception ex)
+                {
+                    log.Error($"ERR SERVICIOSEGURIDAD (GetProveedorRSA) - {ex.Message}");
+                }
             }
 
+            rsa.ImportParameters(claveRSA);
             return rsa;
         }
 
@@ -120,14 +127,14 @@ namespace Servicios
         }
 
         // > ----------- AES
-        public static Aes GenerarClaveAES()
+        private static Aes GenerarClaveAES()
         {
             Aes clave = Aes.Create();
 
             return clave;
         }
 
-        public static byte[] CifrarAES(string textoPlano, byte[] clave, byte[] IV)
+        private static byte[] CifrarAES(string textoPlano, byte[] clave, byte[] IV)
         {
             byte[] cifrado;
 
@@ -171,7 +178,7 @@ namespace Servicios
             return cifrado;
         }
 
-        public static string DescifrarAES(byte[] textoCifrado, byte[] clave, byte[] IV)
+        private static string DescifrarAES(byte[] textoCifrado, byte[] clave, byte[] IV)
         {
             if(textoCifrado == null || textoCifrado.Length <= 0)
                 throw new ArgumentNullException("textoCifrado");
@@ -230,14 +237,15 @@ namespace Servicios
             return entidadPeticion;
         }
 
-        public EntidadPeticionSegura ToEntidadPeticionSegura(string peticion)
+        public EntidadPeticionSegura ToEntidadPeticionSegura(EntidadPeticion peticion)
         {
             EntidadPeticionSegura entidadPeticionSegura;
+            string peticionSerializada = JsonConvert.SerializeObject(peticion);
 
             try
             {
                 Aes aes = GenerarClaveAES();
-                byte[] peticionSegura = CifrarAES(peticion, aes.Key, aes.IV);
+                byte[] peticionSegura = CifrarAES(peticionSerializada, aes.Key, aes.IV);
 
                 entidadPeticionSegura = new EntidadPeticionSegura()
                 {

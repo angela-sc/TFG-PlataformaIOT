@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using CoAP;
 using Libreria.Entidades;
+using Libreria.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -14,27 +15,32 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Servicios;
 
+using Serilog;
+
 namespace EstacionBase.WorkerService
 {
     public class Worker : BackgroundService
     {
-        private readonly ILogger<Worker> _logger;
+        private readonly Serilog.ILogger _logger;
         private readonly Uri uri; //URL donde montamos el servidor 
-        private readonly string path; //Directorio donde estan los .txt
+        private readonly string directorioSensores; //Directorio donde estan los .txt
 
         private CoapClient client;
 
-        private ServicioSeguridad seguridad;
+        private IServicioSeguridad servicioSeguridad;
         
         public Worker(ILogger<Worker> logger)
         {
-            _logger = logger;
-           
-            var config = Program.GetConfiguration();
-            uri = new Uri(config["UriCoap"]); //uri = new Uri(Program.GetConfiguration().GetValue<string>("CoapUri"));
-            path = config["DirectorioFicherosSensores"];
+            if (FactoriaServicios.Log == null)
+                throw new ArgumentNullException("Log vacío.");
+            if(FactoriaServicios.UriCOAP == null)
+                throw new ArgumentNullException("URI COAP vacía.");
+            if(string.IsNullOrEmpty(FactoriaServicios.DirectorioSensores))
+                throw new ArgumentNullException("cadena de directorios de sensores vacía.");
 
-            
+            _logger = FactoriaServicios.Log;
+            uri = FactoriaServicios.UriCOAP;
+            directorioSensores = FactoriaServicios.DirectorioSensores;
         }
 
         //Inicializo el cliente cuando arranca el servicio
@@ -43,9 +49,9 @@ namespace EstacionBase.WorkerService
             client = new CoapClient();
             client.Uri = uri;
 
-            _logger.LogInformation("COAP uri: " + uri.ToString());
+            _logger.Information("COAP uri: " + uri.ToString());
 
-            seguridad = new ServicioSeguridad("C:\\tfg\\claves\\clave_publica.key", null);
+            servicioSeguridad = FactoriaServicios.GetServicioSeguridad();
 
             return base.StartAsync(cancellationToken);
         }
@@ -56,8 +62,8 @@ namespace EstacionBase.WorkerService
             {
                 try
                 {
-                    var files = Directory.EnumerateFiles(path, "*.txt");
-                    //_logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+                    var files = Directory.EnumerateFiles(directorioSensores, "*.txt");
+                    //_logger.Information("Worker running at: {time}", DateTimeOffset.Now);
 
                     //accion que queremos ejecutar, post > PostPetition();
                     foreach (string file in files)
@@ -68,28 +74,28 @@ namespace EstacionBase.WorkerService
                         //var size = Encoding.ASCII.GetBytes(payload);
                         if (!string.IsNullOrEmpty(payload))
                         {
-                            //var cifrado = seguridad.CifrarRSA(payload);
+                            //var cifrado = servicioSeguridad.CifrarRSA(payload);
                             
                             var result = client.Post(payload);
 
                             if (result.StatusCode.ToString() == "Changed")
                             {                              
-                                _logger.LogInformation($"WORKER (ExecuteAsync) - La informacion del fichero {fileName} se ha insertado correctamente");
+                                _logger.Information($"WORKER (ExecuteAsync) - La informacion del fichero {fileName} se ha insertado correctamente");
                                 
                                 File.Delete(file); //elimina el fichero
                             }
                             else
                             {                                
-                                _logger.LogError($"ERR. WORKER (ExecuteAsync) - No se ha podido insertar la información del fichero {fileName}");
+                                _logger.Error($"ERR. WORKER (ExecuteAsync) - No se ha podido insertar la información del fichero {fileName}");
                                 File.Delete(file); //elimina el fichero
                             }
                         }
-                        //con _logger.LogInformation("...",result.StatusCode); 
+                        //con _logger.Information("...",result.StatusCode); 
                     }
                 }
                 catch(Exception ex)
                 {                    
-                    _logger.LogError($"ERR WORKER (ExecuteAsync) - {ex.Message}");
+                    _logger.Error($"ERR WORKER (ExecuteAsync) - {ex.Message}");
                 }
                 
                 await Task.Delay(60 * 1000, stoppingToken);
@@ -99,7 +105,7 @@ namespace EstacionBase.WorkerService
 
         /*private async Task PostPetition()
         {
-            var files = Directory.EnumerateFiles(path, "*.txt");
+            var files = Directory.EnumerateFiles(directorioSensores, "*.txt");
 
             foreach(string file in files)
             {
@@ -125,7 +131,7 @@ namespace EstacionBase.WorkerService
 
             try
             {
-                using (var sr = new StreamReader($@"{path}{fileName}"))
+                using (var sr = new StreamReader($@"{directorioSensores}{fileName}"))
                 {
                     while (sr.Peek() > -1)
                     {
@@ -137,18 +143,21 @@ namespace EstacionBase.WorkerService
                         }
                     }
 
-                    request = JsonConvert.SerializeObject(new EntidadPeticion()
+                    EntidadPeticion peticion = new EntidadPeticion()
                     {
-                        Proyecto = Program.GetConfiguration().GetValue<string>("Proyecto"),
-                        EstacionBase = Program.GetConfiguration().GetValue<string>("EstacionBase"),
+                        Proyecto = FactoriaServicios.Proyecto,
+                        EstacionBase = FactoriaServicios.EstacionBase,
                         Sensor = splittedFileName.ElementAt(0),
                         Datos = data
-                    });
+                    };
+
+                    EntidadPeticionSegura peticionSegura = servicioSeguridad.ToEntidadPeticionSegura(peticion);
+                    request = JsonConvert.SerializeObject(peticionSegura);
                 }
             }catch(Exception ex)
             {
                 request = null;
-                _logger.LogError($"ERR WORKER (GetData) - {ex.Message}");
+                _logger.Error($"ERR WORKER (GetData) - {ex.Message}");
             }
             return request;
         }

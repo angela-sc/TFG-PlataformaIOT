@@ -32,19 +32,11 @@ namespace API
         //Servidor COAP que recibe las peticiones de la EB
         public static void Main(string[] args)
         {
-            var config = GetConfiguration();
+            var config = CargaConfiguracion();
+            int puerto = config.GetValue<int>("Puerto");
 
-            var logPath = config["LogPath"];
-            int port = config.GetValue<int>("Port");
-
-            Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Debug()
-                .Enrich.FromLogContext()
-                .WriteTo.File(logPath)
-                .CreateLogger();
-
-            CoapServer server = new CoapServer(port);    
-            server.Add(new RecursoPeticion(Log.Logger));
+            CoapServer server = new CoapServer(puerto);    
+            server.Add(new RecursoPeticion());
 
             try
             {
@@ -71,13 +63,33 @@ namespace API
             Log.CloseAndFlush();
         }
 
-        //Metodo que devuelve un objeto IConfiguration para poder acceder a la informacion del fichero settings.json        
-        public static IConfigurationRoot GetConfiguration()
+        private static IConfigurationRoot CargaConfiguracion()
         {
-            return new ConfigurationBuilder()
+            var config = new ConfigurationBuilder()
               .SetBasePath(Directory.GetCurrentDirectory())
               .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
               .Build();
+
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .Enrich.FromLogContext()
+                .WriteTo.File(config["DirectorioLog"])
+                .CreateLogger();
+
+            FactoriaServicios.Log = Log.Logger;
+            FactoriaServicios.FicheroClaveRSA = config["FicheroClaveRSA"];
+            FactoriaServicios.CadenaConexion = config["CadenaConexion"];
+
+            return config;
         }
+
+        ////Metodo que devuelve un objeto IConfiguration para poder acceder a la informacion del fichero settings.json        
+        //public static IConfigurationRoot GetConfiguration()
+        //{
+        //    return new ConfigurationBuilder()
+        //      .SetBasePath(Directory.GetCurrentDirectory())
+        //      .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+        //      .Build();
+        //}
     } 
 }

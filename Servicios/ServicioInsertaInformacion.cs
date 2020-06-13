@@ -19,7 +19,7 @@ namespace Servicios
         private IRepositorioSensor repositorioSensor;
         private IRepositorioEstacionBase repositorioEstacion;
 
-        public ServicioInsertaInformacion(ILogger logger, string cadenaConexion)
+        public ServicioInsertaInformacion(string cadenaConexion, ILogger logger)
         {
             this.log = logger;
             this.repositorioSensor = new RepositorioSensor(cadenaConexion, log);

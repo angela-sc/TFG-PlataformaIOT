@@ -15,15 +15,16 @@ namespace API.Resources
     public class RecursoPeticion : Resource
     {
         private IServicioInsertaInformacion servicioInsertaInformacion;
+        private IServicioSeguridad servicioSeguridad;
         private ILogger log;
 
-        public RecursoPeticion(ILogger logger) : base("COAPServer")
+        public RecursoPeticion() : base("COAPServer")
         {
-            this.log = logger;
-            
             Attributes.Title = "Servidor COAP";
-            var connectionString = Program.GetConfiguration()["ConnectionString"];
-            servicioInsertaInformacion = new ServicioInsertaInformacion(log, connectionString);
+
+            this.log = FactoriaServicios.Log;                       
+            servicioInsertaInformacion = FactoriaServicios.GetServicioInsertaInformacion();
+            servicioSeguridad = FactoriaServicios.GetServicioSeguridad();
         }
 
         protected override void DoPost(CoapExchange exchange)
@@ -32,11 +33,12 @@ namespace API.Resources
 
             if(payload != null)
             {                
-                EntidadPeticion entidadPeticion = JsonConvert.DeserializeObject<EntidadPeticion>(payload);  //Deserializamos la peticion en un objeto de tipo json
+                EntidadPeticionSegura peticionSegura = JsonConvert.DeserializeObject<EntidadPeticionSegura>(payload);  //Deserializamos la peticion en un objeto de tipo json
+                EntidadPeticion peticion = servicioSeguridad.ToEntidadPeticion(peticionSegura);
 
-                var a =  Task.Run(async () => await servicioInsertaInformacion.InsertaPeticion(entidadPeticion));   //Lanzamos la peticion para que inserte los datos de forma asincrona
+                var insercion =  Task.Run(async () => await servicioInsertaInformacion.InsertaPeticion(peticion));   //Lanzamos la peticion para que inserte los datos de forma asincrona
 
-                if (a.Result)
+                if (insercion.Result)
                 {
                     exchange.Respond(CoAP.StatusCode.Changed);
                 }
@@ -48,7 +50,6 @@ namespace API.Resources
             }
             else
             {
-                //TODO: IMPLEMENTAR EN CASO DE ERROR > registrar en el log de la api
                 log.Error("ERR RECURSOPETICION (DoPost) - La petición está vacía.");             
             }
         }

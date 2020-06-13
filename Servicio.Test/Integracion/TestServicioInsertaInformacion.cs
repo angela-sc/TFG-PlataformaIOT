@@ -31,7 +31,7 @@ namespace Servicio.Test.Integracion
         public static async Task InitTestSuite(TestContext testContext)
         {
             repositorioSensor = new RepositorioSensor(cadenaConexion, null);
-            servicioInsertaInformacion = new ServicioInsertaInformacion(null, cadenaConexion);
+            servicioInsertaInformacion = new ServicioInsertaInformacion(cadenaConexion, null);
             baseDatosTest = new BaseDatosTest(cadenaConexion);
 
             await baseDatosTest.Reinicia();
