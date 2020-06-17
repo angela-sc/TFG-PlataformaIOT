@@ -187,30 +187,30 @@ else
 
                     <div class="modal-body">
                         @if (!creado)
-                        {
+                        {                           
                             <EditForm Model="Sensor" OnSubmit="@(async () => await CrearSensor())">
-                                <DataAnnotationsValidator />
-                                <ValidationSummary />
-                                <div class="form-group">
-                                    <div style="margin-bottom: 5px">
-                                        <label for="nombre">Nombre</label>
-                                        <InputText class="form-control" id="name" @bind-Value="Sensor.Nombre"></InputText>
-                                        <ValidationMessage For="@(()=> Sensor.Nombre)" />
-                                    </div>
-                                    <div style="margin-bottom: 5px">
-                                        <label for="latitud">Latitud</label>
-                                        <InputNumber type="double" class="form-control" id="latitud" @bind-Value="Sensor.Latitud"></InputNumber>
-                                        <ValidationMessage For="@(()=> Sensor.Latitud)" />
-                                    </div>
-                                    <div style="margin-bottom: 5px">
-                                        <label for="longigut">Longitud</label>
-                                        <InputNumber class="form-control" id="longitud" @bind-Value="Sensor.Longitud"></InputNumber>
-                                        <ValidationMessage For="@(()=> Sensor.Longitud)" />
-                                    </div>
-
+                            <DataAnnotationsValidator />
+                            <ValidationSummary />
+                            <div class="form-group">
+                                <div style="margin-bottom: 5px">
+                                    <label for="nombre">Nombre</label>
+                                    <InputText class="form-control" id="name" @bind-Value="Sensor.Nombre"></InputText>
+                                    <ValidationMessage For="@(()=> Sensor.Nombre)" />
                                 </div>
-                                <button class="btn btn-primary" type="submit">Aceptar</button>
-                            </EditForm>
+                                <div style="margin-bottom: 5px">
+                                    <label for="latitud">Latitud</label>
+                                    <InputNumber type="double" class="form-control" id="latitud" @bind-Value="Sensor.Latitud"></InputNumber>
+                                    <ValidationMessage For="@(()=> Sensor.Latitud)" />
+                                </div>
+                                <div style="margin-bottom: 5px">
+                                    <label for="longigut">Longitud</label>
+                                    <InputNumber class="form-control" id="longitud" @bind-Value="Sensor.Longitud"></InputNumber>
+                                    <ValidationMessage For="@(()=> Sensor.Longitud)" />
+                                </div>
+
+                            </div>
+                            <button class="btn btn-primary" type="submit">Aceptar</button>
+                        </EditForm>
                         }
                         else
                         {

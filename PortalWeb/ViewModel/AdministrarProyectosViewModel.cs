@@ -107,7 +107,7 @@ namespace PortalWeb.ViewModel
 
         protected override async Task OnInitializedAsync()
         {           
-            idUsuario = InformacionUsuario.IdUsuario; //ide del usuario -> BORRAR
+            idUsuario = InformacionUsuario.IdUsuario; //ide del usuario -> BORRAR            
 
             await CargarDatos();
             
