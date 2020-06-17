@@ -1,10 +1,10 @@
-﻿@*@page "/generalproyectos"*@
+﻿@page "/generalproyectos"
 @*@inject NavigationManager NavigationManager*@
 
 @using Libreria.Entidades
 @using Servicios
 
-@using PortalWeb.ViewModel
+@using PortalWebLogin.ViewModel
 
 @inherits GeneralProyectoViewModel
 
@@ -58,12 +58,12 @@ else
             var link = $"estacionbase/{estacion.Item2.Id}";
 
             <div class="col-lg-3 col-md-6 mb-4">
-                <div class="card h-100">
-                    <div class="card-header">@nombreProyecto</div>
+                <div class="card h-100 shadow">
+                    <div class="card-header card-header-eb">@nombreProyecto</div>
                     <div class="card-body">
                         <h4>🗼 Estación @estacion.Item2.Nombre</h4>
                         <p>Total sensores: @estacion.Item1</p>
-                        <a class="btn btn-outline-primary" style="float:right;" href=@link>Ir a la estación base</a>
+                        <a class="btn btn-outline-eb" style="float:right;" href=@link>Ir a la estación base</a>
                     </div>
                 </div>
             </div>

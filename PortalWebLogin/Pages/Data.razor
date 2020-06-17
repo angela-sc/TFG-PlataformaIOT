@@ -1,10 +1,10 @@
 ﻿
-@*@page "/data/{estacionbase}/{sensor}"*@
+@page "/data/{estacionbase}/{sensor}"
 
 @using Libreria.Entidades
 @using Servicios
 @using Blazorise.Charts
-@using PortalWeb.ViewModel
+@using PortalWebLogin.ViewModel
 
 @inherits DataViewModel
 
@@ -63,7 +63,7 @@
             </div>
         </div>
         <div class="card mb-4">
-            <div class="card-header"><span class="oi oi-spreadsheet mr-1"></span>DataTable Example</div>
+            <div class="card-header"><span class="oi oi-spreadsheet mr-1"></span>Tabla resumen</div>
             <div class="card-body">
                 @if (datos == null)
                 {

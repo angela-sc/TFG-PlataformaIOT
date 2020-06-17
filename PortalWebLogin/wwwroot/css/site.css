@@ -181,3 +181,25 @@ app {
         display: block;
     }
 }
+
+
+/*-- Vista: ESTACION BASE --*/
+.card-header-eb {
+    background-color: #131e5e;
+    color: white;
+}
+
+.btn-outline-eb {
+    color: #131e5e;
+}
+
+.btn-outline-eb,
+.btn-outline-eb:hover {
+    border-color: #131e5e;    
+    border-radius: 3px;
+}
+
+.btn-outline-eb:hover {
+    color: #fff;
+    background-color: #131e5e;
+}
