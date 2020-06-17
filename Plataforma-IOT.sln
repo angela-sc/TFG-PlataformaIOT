@@ -35,7 +35,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Servicios", "Servicios\Serv
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EstacionBase.WorkerService", "EstacionBase.WorkerService\EstacionBase.WorkerService.csproj", "{D313F392-E4BC-4F07-B982-F7146FAC9602}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Servicio.Test", "Servicio.Test\Servicio.Test.csproj", "{24DB3173-86E0-4008-B2EF-778D45BD2CCB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Servicio.Test", "Servicio.Test\Servicio.Test.csproj", "{24DB3173-86E0-4008-B2EF-778D45BD2CCB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

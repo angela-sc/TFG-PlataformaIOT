@@ -1,7 +1,7 @@
 @import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
 html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;        
 }
 
 a, .btn-link {
@@ -312,4 +312,52 @@ app {
 
 #buscarproyecto :focus {
     box-shadow: none;
+}
+
+/* >> LOGIN << */
+.login-body {
+
+    background-image: url('http://getwallpapers.com/wallpaper/full/a/5/d/544750.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100%;
+}
+
+.login-container {
+    height: 100%;
+    align-content: center;
+}
+
+.login-card {
+    height: 370px;
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 400px;
+    background-color: rgba(0,0,0,0.5) !important;
+    border-radius: .25rem;
+}
+
+.input-group-prepend span {
+    width: 50px;
+    background-color: #FFC312;
+    color: black;
+    border: 0 !important;
+}
+
+.login-btn {
+    color: black;
+    background-color: #FFC312;
+    width: 100px;
+}
+.login-btn:hover {
+    color: black;
+    background-color: white;
+}
+
+.login-links {
+    color: white;
+}
+
+.login-links a {
+    margin-left: 4px;
 }
