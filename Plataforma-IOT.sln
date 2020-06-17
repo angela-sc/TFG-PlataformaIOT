@@ -39,6 +39,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Servicio.Test", "Servicio.T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pruebas.PortalWebLogin", "Pruebas.PortalWebLogin\Pruebas.PortalWebLogin.csproj", "{C362E0BC-22A9-4FAA-8EE5-76AD128BEE6F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortalWebLogin", "PortalWebLogin\PortalWebLogin.csproj", "{EC4FDA1A-EF0E-48A0-A7A5-A258DE302F9B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,6 +99,10 @@ Global
 		{C362E0BC-22A9-4FAA-8EE5-76AD128BEE6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C362E0BC-22A9-4FAA-8EE5-76AD128BEE6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C362E0BC-22A9-4FAA-8EE5-76AD128BEE6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC4FDA1A-EF0E-48A0-A7A5-A258DE302F9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC4FDA1A-EF0E-48A0-A7A5-A258DE302F9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC4FDA1A-EF0E-48A0-A7A5-A258DE302F9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC4FDA1A-EF0E-48A0-A7A5-A258DE302F9B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -115,6 +121,7 @@ Global
 		{D313F392-E4BC-4F07-B982-F7146FAC9602} = {52AC400C-DBCE-48B4-8E38-E339D0192F18}
 		{24DB3173-86E0-4008-B2EF-778D45BD2CCB} = {A059E96F-201A-4399-B80F-3ED10DFA90D3}
 		{C362E0BC-22A9-4FAA-8EE5-76AD128BEE6F} = {1C5D5251-E50B-43C1-AE3C-751C5304862D}
+		{EC4FDA1A-EF0E-48A0-A7A5-A258DE302F9B} = {3931ABC1-3085-481D-9405-BF66382AB7B1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6BA24B8D-7A60-4E2D-842D-4856D9AB6881}
