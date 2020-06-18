@@ -2,6 +2,7 @@
 using Libreria.Entidades;
 using Libreria.Interfaces;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
@@ -56,6 +57,21 @@ namespace PortalWebLogin.ViewModel
 
         // > -- SERVICIO
         private IServicioSensor servicioSensor;
+
+        [CascadingParameter]
+        protected Task<AuthenticationState> authenticationStateTask { get; set; }
+        [Inject]
+        protected NavigationManager NavigationManager { get; set; }
+
+        protected override async Task OnParametersSetAsync()
+        {
+            var usuario = (await authenticationStateTask).User;
+
+            if (!usuario.Identity.IsAuthenticated)
+            {
+                NavigationManager.NavigateTo("Identity/Account/Login");
+            }
+        }
 
         private async Task CargaDatos()
         {

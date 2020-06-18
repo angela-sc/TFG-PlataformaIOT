@@ -2,6 +2,7 @@
 using Libreria.Entidades;
 using Libreria.Interfaces;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using PortalWebLogin.Data;
 using Servicios;
 using System;
@@ -70,7 +71,23 @@ namespace PortalWebLogin.ViewModel
             Labels = stamps.OrderBy(_ => _.Ticks).Distinct().Select(_ => _.ToString()).ToArray();
             StateHasChanged();
         }
-        
+
+
+        [CascadingParameter]
+        protected Task<AuthenticationState> authenticationStateTask { get; set; }
+        [Inject]
+        protected NavigationManager NavigationManager { get; set; }
+
+        protected override async Task OnParametersSetAsync()
+        {
+            var usuario = (await authenticationStateTask).User;
+
+            if (!usuario.Identity.IsAuthenticated)
+            {
+                NavigationManager.NavigateTo("Identity/Account/Login");
+            }
+        }
+
         protected override async Task OnInitializedAsync()
         {
             //await HandleRedraw();

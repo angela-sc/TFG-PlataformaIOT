@@ -1,6 +1,7 @@
 ﻿using Libreria.Entidades;
 using Libreria.Interfaces;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
@@ -18,7 +19,22 @@ using System.Threading.Tasks;
 namespace PortalWebLogin.ViewModel
 {
     public class AdministrarProyectosViewModel : ComponentBase
-    {       
+    {
+        [CascadingParameter]
+        protected Task<AuthenticationState> authenticationStateTask { get; set; }
+        [Inject]
+        protected NavigationManager NavigationManager { get; set; }
+
+        protected override async Task OnParametersSetAsync()
+        {
+            var usuario = (await authenticationStateTask).User;
+
+            if (!usuario.Identity.IsAuthenticated)
+            {
+                NavigationManager.NavigateTo("Identity/Account/Login");
+            }
+        }
+
         private ModeloEstacionBase estacionbase = null;        
         protected ModeloEstacionBase EstacionBaseEditar  //Atributo que nos sirve para editar
         { 
