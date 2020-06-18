@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
-using PortalWebLogin.Pages;
+//using PortalWebLogin.Pages;
 using PortalWebLogin.Data;
 using PortalWebLogin.Model;
 using Servicios;

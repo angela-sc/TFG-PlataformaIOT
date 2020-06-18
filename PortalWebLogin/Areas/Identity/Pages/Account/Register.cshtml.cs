@@ -45,7 +45,7 @@ namespace PortalWebLogin.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage = "El campo 'Email' no puede estar vacío.")]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
@@ -57,15 +57,18 @@ namespace PortalWebLogin.Areas.Identity.Pages.Account
             //[Display(Name = "Nickname")]
             //public string UserName { get; set; }
 
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [Required(ErrorMessage = "El campo 'Contraseña' no puede estar vacío.")]
+            //[StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]           
             [DataType(DataType.Password)]
-            [Display(Name = "Password")]
+            //[Display(Name = "Password")]
+            [Display(Name = "Contraseña")]
             public string Password { get; set; }
 
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Display(Name = "Repita la contraseña")]
+            [Compare("Password", ErrorMessage = "Las contraseñas no coinciden.")]
+            //[Display(Name = "Confirm password")]
+            //[Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
         }
 

@@ -42,11 +42,11 @@ namespace PortalWebLogin.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
-            [EmailAddress]
+            [Required(ErrorMessage = "El campo 'Email' no puede estar vacío.")]
+            [EmailAddress(ErrorMessage = "Formato del campo 'Email' incorrecto.")]
             public string Email { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "El campo 'Contraseña' no puede estar vacío.")]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
@@ -96,7 +96,8 @@ namespace PortalWebLogin.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    //ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "El usuario ingresado no existe. Comprueba el usuario y vuelve a intentarlo.");
                     return Page();
                 }
             }
