@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace PortalWebLogin.ViewModel
 {
-    public class EstacionBaseViewModel : ComponentBase
+    public class EstacionBaseViewModel : UsuarioAutenticadoViewModel
     {
         //[Parameter]
         public string nombreEstacionBase { get; set; }
@@ -37,20 +37,20 @@ namespace PortalWebLogin.ViewModel
         private IServicioEstacionBase servicioEstacionBase;
 
 
-        [CascadingParameter]
-        protected Task<AuthenticationState> authenticationStateTask { get; set; }
-        [Inject]
-        protected NavigationManager NavigationManager { get; set; }
+        //[CascadingParameter]
+        //protected Task<AuthenticationState> authenticationStateTask { get; set; }
+        //[Inject]
+        //protected NavigationManager NavigationManager { get; set; }
 
-        protected override async Task OnParametersSetAsync()
-        {
-            var usuario = (await authenticationStateTask).User;
+        //protected override async Task OnParametersSetAsync()
+        //{
+        //    var usuario = (await authenticationStateTask).User;
 
-            if (!usuario.Identity.IsAuthenticated)
-            {
-                NavigationManager.NavigateTo("Identity/Account/Login");
-            }
-        }
+        //    if (!usuario.Identity.IsAuthenticated)
+        //    {
+        //        NavigationManager.NavigateTo("Identity/Account/Login");
+        //    }
+        //}
 
         protected override async Task OnInitializedAsync()
         {

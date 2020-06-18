@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace PortalWebLogin.ViewModel
 {
-    public class GeneralProyectoViewModel : ComponentBase
+    public class GeneralProyectoViewModel : UsuarioAutenticadoViewModel
     {       
         protected IEnumerable<EntidadProyecto> proyectos;
         public List<Tuple<int, EntidadEstacionBase>> listaEstacionesBase;
@@ -20,29 +20,43 @@ namespace PortalWebLogin.ViewModel
 
         // > -- ATRIBUTOS PRIVADOS
         private int usuario = InformacionUsuario.IdUsuario;
-        
-        private IServicioProyecto servicioProyecto = FactoriaServicios.GetServicioProyecto();
-        private IServicioEstacionBase servicioEstacionBase = FactoriaServicios.GetServicioEstacionBase();
-        private IServicioSensor servicioSensor = FactoriaServicios.GetServicioSensor(); // -- añadido hoy
 
-        [CascadingParameter]
-        protected Task<AuthenticationState> authenticationStateTask { get; set; }
-        [Inject]
-        protected NavigationManager NavigationManager { get; set; }
+        private IServicioProyecto servicioProyecto;// = FactoriaServicios.GetServicioProyecto();
+        private IServicioEstacionBase servicioEstacionBase; // = FactoriaServicios.GetServicioEstacionBase();
+        private IServicioSensor servicioSensor; // = FactoriaServicios.GetServicioSensor(); // -- añadido hoy
 
-        protected override async Task OnParametersSetAsync()
-        {
-            var usuario = (await authenticationStateTask).User;
+        //[CascadingParameter]
+        //protected Task<AuthenticationState> authenticationStateTask { get; set; }
+        //[Inject]
+        //protected NavigationManager NavigationManager { get; set; }
 
-            if (!usuario.Identity.IsAuthenticated)
-            {
-                NavigationManager.NavigateTo("Identity/Account/Login");
-            }
-        }
+        //protected override async Task OnParametersSetAsync()
+        //{
+        //    var usuario = (await authenticationStateTask).User;
 
+        //    if (!usuario.Identity.IsAuthenticated)
+        //    {
+        //        NavigationManager.NavigateTo("Identity/Account/Login");
+        //    }
+        //    //else
+        //    //{
+        //    //    if (iduseruio == null)
+        //    //    {
+
+        //    //    }
+        //    //}
+
+            
+        //}
+
+         
 
         protected override async Task OnInitializedAsync()
         {
+            servicioProyecto = FactoriaServicios.GetServicioProyecto();
+            servicioEstacionBase = FactoriaServicios.GetServicioEstacionBase();
+            servicioSensor = FactoriaServicios.GetServicioSensor();
+
             proyectos = new List<EntidadProyecto>();          
             proyectos = await servicioProyecto.ObtenerProyectos(usuario);
 

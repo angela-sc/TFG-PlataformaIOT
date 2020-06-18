@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace PortalWebLogin.ViewModel
 {
-    public class DetalleEstacionBaseViewModel : ComponentBase
+    public class DetalleEstacionBaseViewModel : UsuarioAutenticadoViewModel
     {
         // > -- PARAMETROS
         #region PARAMETROS
@@ -73,20 +73,20 @@ namespace PortalWebLogin.ViewModel
         }
 
 
-        [CascadingParameter]
-        protected Task<AuthenticationState> authenticationStateTask { get; set; }
-        [Inject]
-        protected NavigationManager NavigationManager { get; set; }
+        //[CascadingParameter]
+        //protected Task<AuthenticationState> authenticationStateTask { get; set; }
+        //[Inject]
+        //protected NavigationManager NavigationManager { get; set; }
 
-        protected override async Task OnParametersSetAsync()
-        {
-            var usuario = (await authenticationStateTask).User;
+        //protected override async Task OnParametersSetAsync()
+        //{
+        //    var usuario = (await authenticationStateTask).User;
 
-            if (!usuario.Identity.IsAuthenticated)
-            {
-                NavigationManager.NavigateTo("Identity/Account/Login");
-            }
-        }
+        //    if (!usuario.Identity.IsAuthenticated)
+        //    {
+        //        NavigationManager.NavigateTo("Identity/Account/Login");
+        //    }
+        //}
 
         protected override async Task OnInitializedAsync()
         {

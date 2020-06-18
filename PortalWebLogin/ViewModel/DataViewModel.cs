@@ -20,7 +20,7 @@ using System.Threading.Tasks;
 
 namespace PortalWebLogin.ViewModel
 {
-    public class DataViewModel : ComponentBase
+    public class DataViewModel :UsuarioAutenticadoViewModel
     {       
         //[Inject]
         //protected IJSRuntime JSRuntime { get; set; }
@@ -58,20 +58,20 @@ namespace PortalWebLogin.ViewModel
         // > -- SERVICIO
         private IServicioSensor servicioSensor;
 
-        [CascadingParameter]
-        protected Task<AuthenticationState> authenticationStateTask { get; set; }
-        [Inject]
-        protected NavigationManager NavigationManager { get; set; }
+        //[CascadingParameter]
+        //protected Task<AuthenticationState> authenticationStateTask { get; set; }
+        //[Inject]
+        //protected NavigationManager NavigationManager { get; set; }
 
-        protected override async Task OnParametersSetAsync()
-        {
-            var usuario = (await authenticationStateTask).User;
+        //protected override async Task OnParametersSetAsync()
+        //{
+        //    var usuario = (await authenticationStateTask).User;
 
-            if (!usuario.Identity.IsAuthenticated)
-            {
-                NavigationManager.NavigateTo("Identity/Account/Login");
-            }
-        }
+        //    if (!usuario.Identity.IsAuthenticated)
+        //    {
+        //        NavigationManager.NavigateTo("Identity/Account/Login");
+        //    }
+        //}
 
         private async Task CargaDatos()
         {
