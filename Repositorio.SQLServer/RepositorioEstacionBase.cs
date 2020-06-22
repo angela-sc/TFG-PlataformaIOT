@@ -316,5 +316,33 @@ namespace Repositorio.SQLServer
                 //Console.WriteLine(ex.Message, "Error en crear de repositorio estacion base:");
             }           
         }
+
+        public async Task<IEnumerable<EntidadEstacionBase>> ObtenerEstacionesBase(string idUsuario)
+        {
+            Dictionary<string, object> parametros = new Dictionary<string, object>()
+            {
+                { "@id", idUsuario }
+            };
+
+            string query = @"   
+                SELECT eb.[id], eb.[nombre], eb.[fk_idproyecto] 
+                FROM [dbo].[EstacionBase] eb 
+                INNER JOIN [dbo].[Usuario_en_Proyecto] uep ON eb.[fk_idproyecto] = uep.[id_proyecto]
+                WHERE uep.[id_usuario] = @id";
+
+            IEnumerable<EntidadEstacionBase> estaciones = null;
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(cadenaConexion))
+                {
+                    estaciones = await conn.QueryAsync<EntidadEstacionBase>(query, parametros);
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error($"ERR. REPOSITORIO ESTACION BASE (ObtenerEstacionesBase) - {ex.Message}");
+            }
+            return estaciones;
+        }
     }
 }

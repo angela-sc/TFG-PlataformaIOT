@@ -156,13 +156,13 @@ ON DELETE CASCADE
 
 ALTER TABLE [dbo].[AspNetUserTokens] CHECK CONSTRAINT [FK_AspNetUserTokens_AspNetUsers_UserId]
 
-CREATE TABLE [plataforma_iot]..[Usuario](
-	[id]			INT IDENTITY(1,1)	PRIMARY KEY,
-	[email]			VARCHAR(48)			UNIQUE	NOT NULL,
-	[contrasenya]	VARBINARY(128)				NOT NULL,
-	[nombre]		VARCHAR(30)					NOT NULL,
-	[apellidos]		VARCHAR(30)					NOT NULL
-);
+--CREATE TABLE [plataforma_iot]..[Usuario](
+--	[id]			INT IDENTITY(1,1)	PRIMARY KEY,
+--	[email]			VARCHAR(48)			UNIQUE	NOT NULL,
+--	[contrasenya]	VARBINARY(128)				NOT NULL,
+--	[nombre]		VARCHAR(30)					NOT NULL,
+--	[apellidos]		VARCHAR(30)					NOT NULL
+--);
 
 CREATE TABLE [plataforma_iot]..[Proyecto](
 	[id]			INT	IDENTITY(1,1)	PRIMARY KEY,
@@ -219,14 +219,14 @@ BEGIN
 	INSERT [dbo].[AspNetUsers] ([Id], [UserName], [NormalizedUserName], [Email], [NormalizedEmail], [EmailConfirmed], [PasswordHash], [SecurityStamp], [ConcurrencyStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnd], [LockoutEnabled], [AccessFailedCount]) 
 	VALUES (N'016ba22d-3dbd-4af6-a6d1-578c9b4af427', N'prueba@mail.com', N'PRUEBA@MAIL.COM', N'prueba@mail.com', N'PRUEBA@MAIL.COM', 0, N'AQAAAAEAACcQAAAAECmTKX3x+H5d3Js1kHb6Bo2Kfglm5/PWsOd0w1Kce7eimN/MoToBI10/gEi0X8bbSg==', N'RWVAUEBDGWDYZ6ZXVHIIXQORW3M4NJ2S', N'c326f6db-e2da-401c-a928-4ef80193a1b4', NULL, 0, 0, NULL, 1, 0)
 
-	SET IDENTITY_INSERT [plataforma_iot]..[Usuario] ON;
+	--SET IDENTITY_INSERT [plataforma_iot]..[Usuario] ON;
 
-	INSERT INTO [plataforma_iot]..[Usuario]
-			   ([id], [email], [contrasenya], [nombre], [apellidos])
-		 VALUES (0,'kensington@mail.com',CAST('contrasenya' AS VARBINARY(128)),'ken','sington'),
-				(1, 'roccat@mail.com', CAST('contrasenya' AS VARBINARY(128)),'roccat','kanga');
+	--INSERT INTO [plataforma_iot]..[Usuario]
+	--		   ([id], [email], [contrasenya], [nombre], [apellidos])
+	--	 VALUES (0,'kensington@mail.com',CAST('contrasenya' AS VARBINARY(128)),'ken','sington'),
+	--			(1, 'roccat@mail.com', CAST('contrasenya' AS VARBINARY(128)),'roccat','kanga');
 
-	SET IDENTITY_INSERT [plataforma_iot]..[Usuario] OFF;
+	--SET IDENTITY_INSERT [plataforma_iot]..[Usuario] OFF;
 
 	---- proyectos
 	SET IDENTITY_INSERT [plataforma_iot]..[Proyecto] ON;

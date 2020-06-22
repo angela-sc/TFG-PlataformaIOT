@@ -17,9 +17,6 @@ namespace PortalWebLogin.ViewModel
         // > -- PARAMETROS
         #region PARAMETROS
         [Parameter]
-        public string idEstacionBase { get; set; }
-
-        [Parameter]
         public List<Tuple<string, List<double>>> listaDatosTemp { get; set; }
 
         [Parameter]
@@ -39,14 +36,6 @@ namespace PortalWebLogin.ViewModel
         protected DateTime? fechaFin=null;
 
         protected string nombreEstacionBase { get; set; }
-
-        protected override async Task OnParametersSetAsync()
-        {
-            await base.OnParametersSetAsync();
-
-            Int32.TryParse(idEstacionBase, out int idEb);
-            autorizado = await servicioEstacionBase.Autorizado(idUsuario, idEb);
-        }
 
         //> -- FUNCIONES      
         private async Task CargarDatos(DateTime? fechaInicio=null, DateTime? fechaFin=null)
@@ -78,28 +67,6 @@ namespace PortalWebLogin.ViewModel
 
             Labels = stamps.OrderBy(_ => _.Ticks).Distinct().Select(_ => _.ToString()).ToArray();
             StateHasChanged();
-        }
-
-
-        //[CascadingParameter]
-        //protected Task<AuthenticationState> authenticationStateTask { get; set; }
-        //[Inject]
-        //protected NavigationManager NavigationManager { get; set; }
-
-        //protected override async Task OnParametersSetAsync()
-        //{
-        //    var usuario = (await authenticationStateTask).User;
-
-        //    if (!usuario.Identity.IsAuthenticated)
-        //    {
-        //        NavigationManager.NavigateTo("Identity/Account/Login");
-        //    }
-        //}
-
-        protected override async Task OnInitializedAsync()
-        {
-            //await HandleRedraw();
-            //this.StateHasChanged();
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)

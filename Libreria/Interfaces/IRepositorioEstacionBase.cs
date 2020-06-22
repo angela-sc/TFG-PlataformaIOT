@@ -13,10 +13,9 @@ namespace Libreria.Interfaces
         Task<string> ObtenerNombre(int idEstacionBase);
         Task<IEnumerable<EntidadSensorResultado>> ObtenerSensores(int idEstacionBase); // -- todos los sensores y su ultimo dato
         Task<IEnumerable<EntidadEstacionBase>> ObtenerEstacionesBase(int idProyecto);
-        //Task<IEnumerable<EntidadEstacionBase>> ObtenerEstacionesBase(string Proyecto);
+        Task<IEnumerable<EntidadEstacionBase>> ObtenerEstacionesBase(string idUsuario);
 
         Task<bool> Eliminar(int idEstacionBase);
         Task<bool> Editar(EntidadEstacionBase estacionBase);
-
     }
 }

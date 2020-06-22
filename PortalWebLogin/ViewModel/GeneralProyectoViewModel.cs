@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace PortalWebLogin.ViewModel
 {
     public class GeneralProyectoViewModel : UsuarioAutenticadoViewModel
-    {       
+    {
         protected IEnumerable<EntidadProyecto> proyectos;
         public List<Tuple<int, EntidadEstacionBase>> listaEstacionesBase;
         protected string SearchTerm { get; set; } = "";  // Initialize SearchTerm to "" to prevent null's
@@ -28,10 +28,12 @@ namespace PortalWebLogin.ViewModel
             servicioProyecto = FactoriaServicios.GetServicioProyecto();
             servicioEstacionBase = FactoriaServicios.GetServicioEstacionBase();
             servicioSensor = FactoriaServicios.GetServicioSensor();
+        }
 
-            proyectos = new List<EntidadProyecto>();          
+        protected override async Task OnSecureParameterSetAsync()
+        {
+            proyectos = new List<EntidadProyecto>();
             proyectos = await servicioProyecto.ObtenerProyectos(idUsuario);
-
             this.StateHasChanged();
         }
 

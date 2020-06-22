@@ -19,10 +19,7 @@ namespace PortalWebLogin.ViewModel
     public class EstacionBaseViewModel : UsuarioAutenticadoViewModel
     {
         //[Parameter]
-        public string nombreEstacionBase { get; set; }
-
-        [Parameter]
-        public string idEstacionBase { get; set; }        
+        public string nombreEstacionBase { get; set; }      
 
         public IEnumerable<EntidadSensorResultado> listaSensores = new List<EntidadSensorResultado>(); //lista de sensores de dicha estacion base
         
@@ -34,41 +31,36 @@ namespace PortalWebLogin.ViewModel
         //> -- SERVICIO
         private IServicioEstacionBase servicioEstacionBase = FactoriaServicios.GetServicioEstacionBase();
 
-        protected override async Task OnParametersSetAsync()
+        protected override async Task OnSecureParameterSetAsync()
         {
-            await base.OnParametersSetAsync();
-
-            Int32.TryParse(idEstacionBase, out int idEb);
-            autorizado = await servicioEstacionBase.Autorizado(idUsuario, idEb);
-        }
-
-        protected override async Task OnInitializedAsync()
-        {
-            Int32.TryParse(idEstacionBase, out int id);
-            nombreEstacionBase = await servicioEstacionBase.Nombre(id);
-            listaSensores = await servicioEstacionBase.ObtenerSensores(id);
-
-            //que pasa si la estacion base no tiene sensores -> devuelve una lista null
-
-            foreach (EntidadSensorResultado sensor in listaSensores)
+            if (autorizado)
             {
-                if (sensor.Fecha == default(DateTime))
-                {
-                    MarkerDataSource.Add(new MapMarkerDataSource { latitude = Convert.ToDouble(sensor.Latitud), longitude = Convert.ToDouble(sensor.Longitud), name = sensor.NombreSensor, color = "red" });
-                }
-                else
-                {
-                    MarkerDataSource.Add(new MapMarkerDataSource { latitude = Convert.ToDouble(sensor.Latitud), longitude = Convert.ToDouble(sensor.Longitud), name = sensor.NombreSensor, color = "green" });
-                }
-            }
-            if (listaSensores.Count() > 0)
-            {
-                latitudInicial = MarkerDataSource.ElementAt(0).latitude;
-                longitudInicial = MarkerDataSource.ElementAt(0).longitude;
-            }
+                Int32.TryParse(idEstacionBase, out int idEb);
+                nombreEstacionBase = await servicioEstacionBase.Nombre(idEb);
+                listaSensores = await servicioEstacionBase.ObtenerSensores(idEb);
 
-            mapa.Refresh(); // Refrescar mapa
-        }      
+                //que pasa si la estacion base no tiene sensores -> devuelve una lista null
+
+                foreach (EntidadSensorResultado sensor in listaSensores)
+                {
+                    if (sensor.Fecha == default(DateTime))
+                    {
+                        MarkerDataSource.Add(new MapMarkerDataSource { latitude = Convert.ToDouble(sensor.Latitud), longitude = Convert.ToDouble(sensor.Longitud), name = sensor.NombreSensor, color = "red" });
+                    }
+                    else
+                    {
+                        MarkerDataSource.Add(new MapMarkerDataSource { latitude = Convert.ToDouble(sensor.Latitud), longitude = Convert.ToDouble(sensor.Longitud), name = sensor.NombreSensor, color = "green" });
+                    }
+                }
+                if (listaSensores.Count() > 0)
+                {
+                    latitudInicial = MarkerDataSource.ElementAt(0).latitude;
+                    longitudInicial = MarkerDataSource.ElementAt(0).longitude;
+                }
+
+                mapa.Refresh(); // Refrescar mapa
+            }
+        }   
     }
 
     //Clase "intermedia" utilizada para añadir marcadores al mapa

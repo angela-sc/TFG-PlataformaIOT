@@ -20,18 +20,15 @@ using System.Threading.Tasks;
 
 namespace PortalWebLogin.ViewModel
 {
-    public class DataViewModel :UsuarioAutenticadoViewModel
+    public class DataViewModel : UsuarioAutenticadoViewModel
     {       
         //[Inject]
         //protected IJSRuntime JSRuntime { get; set; }
 
         [Parameter]
-        public string sensor { get; set; }
-        
-        [Parameter]
-        public string estacionbase { get; set; }   //id de la estacion base en formato string       
+        public string sensor { get; set; }   
        
-        private int idSensor, idEstacionBase; // = 2; //para obtener el id del sensor debemos tener el nombre y la estación base
+        private int idSensor; // = 2; //para obtener el id del sensor debemos tener el nombre y la estación base
         
         private List<double> datosTemperatura;
         private List<double> datosHumedad;
@@ -54,21 +51,7 @@ namespace PortalWebLogin.ViewModel
 
         // > -- SERVICIO
         private IServicioSensor servicioSensor;
-
-        //[CascadingParameter]
-        //protected Task<AuthenticationState> authenticationStateTask { get; set; }
-        //[Inject]
-        //protected NavigationManager NavigationManager { get; set; }
-
-        //protected override async Task OnParametersSetAsync()
-        //{
-        //    var usuario = (await authenticationStateTask).User;
-
-        //    if (!usuario.Identity.IsAuthenticated)
-        //    {
-        //        NavigationManager.NavigateTo("Identity/Account/Login");
-        //    }
-        //}
+        private IServicioEstacionBase servicioEstacionBase = FactoriaServicios.GetServicioEstacionBase();
 
         private async Task CargaDatos()
         {
@@ -90,13 +73,13 @@ namespace PortalWebLogin.ViewModel
             //StateHasChanged();
         }
 
-        protected override async Task OnInitializedAsync()
+        protected override async Task OnSecureParameterSetAsync()
         {
-            Int32.TryParse(estacionbase, out idEstacionBase);
+            Int32.TryParse(idEstacionBase, out int idEb);
             Int32.TryParse(sensor, out idSensor);
 
             servicioSensor = FactoriaServicios.GetServicioSensor();
-            nombreSensor = await servicioSensor.ObtenerNombre(idSensor, idEstacionBase);
+            nombreSensor = await servicioSensor.ObtenerNombre(idSensor, idEb);
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)

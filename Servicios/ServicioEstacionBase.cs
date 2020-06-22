@@ -5,6 +5,7 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -77,9 +78,15 @@ namespace Servicios
             await repositorioEstacionBase.Crear(estacionBase);            
         }
 
-        public Task<bool> Autorizado(string idUsuario, int idEstacionBase)
+        public async Task<bool> Autorizado(string idUsuario, int idEstacionBase)
         {
-            throw new NotImplementedException();
+            bool autorizado = false;
+
+            var estacionesBaseUsuario = await repositorioEstacionBase.ObtenerEstacionesBase(idUsuario);
+            if(estacionesBaseUsuario != null && estacionesBaseUsuario.Count() > 0)
+                autorizado = estacionesBaseUsuario.Select(_ => _.Id).Contains(idEstacionBase);
+
+            return autorizado;
         }
     }
 }
