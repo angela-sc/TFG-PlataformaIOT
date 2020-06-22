@@ -125,11 +125,11 @@ namespace PortalWeb.ViewModel
             //Console.WriteLine("Función crear proyecto activada.");
             //servicioProyecto = new ServicioProyecto(cadenaConexion, null);
 
-           await servicioProyecto.Crear(new EntidadProyecto()
-            {
-                Nombre = Proyecto.Nombre,
-                Descripcion = Proyecto.Descripcion,
-            }, idUsuario);
+           //await servicioProyecto.Crear(new EntidadProyecto()
+           // {
+           //     Nombre = Proyecto.Nombre,
+           //     Descripcion = Proyecto.Descripcion,
+           // }, idUsuario);
 
             creado = true;
             this.StateHasChanged();
@@ -453,7 +453,7 @@ namespace PortalWeb.ViewModel
 
         protected async Task CargarDatos()
         {          
-            proyectos = await servicioProyecto.ObtenerProyectos(idUsuario);
+            //proyectos = await servicioProyecto.ObtenerProyectos(idUsuario);
             estaciones = new List<EntidadEstacionBase>();
 
             if (proyectos != null)

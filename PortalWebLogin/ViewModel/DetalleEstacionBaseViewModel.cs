@@ -40,6 +40,14 @@ namespace PortalWebLogin.ViewModel
 
         protected string nombreEstacionBase { get; set; }
 
+        protected override async Task OnParametersSetAsync()
+        {
+            await base.OnParametersSetAsync();
+
+            Int32.TryParse(idEstacionBase, out int idEb);
+            autorizado = await servicioEstacionBase.Autorizado(idUsuario, idEb);
+        }
+
         //> -- FUNCIONES      
         private async Task CargarDatos(DateTime? fechaInicio=null, DateTime? fechaFin=null)
         {

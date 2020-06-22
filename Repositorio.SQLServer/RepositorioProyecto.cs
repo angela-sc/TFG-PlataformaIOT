@@ -46,7 +46,7 @@ namespace Repositorio.SQLServer
         //    }
         //}
 
-        public async Task<IEnumerable<EntidadProyecto>> ObtenerProyectos(int idUsuario)
+        public async Task<IEnumerable<EntidadProyecto>> ObtenerProyectos(string idUsuario)
         {
             Dictionary<string, object> parametros = new Dictionary<string, object>
             {
@@ -159,7 +159,7 @@ namespace Repositorio.SQLServer
 
         //}
 
-        public async Task InsertaProyecto(EntidadProyecto proyecto, int idUsuario)
+        public async Task InsertaProyecto(EntidadProyecto proyecto, string idUsuario)
         {
             Dictionary<string, object> parametros = new Dictionary<string, object>
             {

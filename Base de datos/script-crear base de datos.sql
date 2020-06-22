@@ -4,6 +4,13 @@ GO
 DECLARE @DatosDePrueba BIT = 1 --> 1 = Sí, 0 = No
 
 --ELIMINAR TABLAS DE LA BASE DE DATOS
+DROP TABLE IF EXISTS [plataforma_iot]..[Datos];
+DROP TABLE IF EXISTS [plataforma_iot]..[Sensor];
+DROP TABLE IF EXISTS [plataforma_iot]..[EstacionBase];
+DROP TABLE IF EXISTS [plataforma_iot]..[Usuario_en_Proyecto];
+DROP TABLE IF EXISTS [plataforma_iot]..[Proyecto];
+DROP TABLE IF EXISTS [plataforma_iot]..[Usuario];
+
 DROP TABLE IF EXISTS [dbo].[AspNetRoleClaims]
 DROP TABLE IF EXISTS [dbo].[AspNetUserClaims]
 DROP TABLE IF EXISTS [dbo].[AspNetUserLogins]
@@ -12,13 +19,6 @@ DROP TABLE IF EXISTS [dbo].[AspNetUserTokens]
 DROP TABLE IF EXISTS [dbo].[AspNetRoles]
 DROP TABLE IF EXISTS [dbo].[AspNetUsers]
 DROP TABLE IF EXISTS [dbo].[__EFMigrationsHistory]
-
-DROP TABLE IF EXISTS [plataforma_iot]..[Datos];
-DROP TABLE IF EXISTS [plataforma_iot]..[Sensor];
-DROP TABLE IF EXISTS [plataforma_iot]..[EstacionBase];
-DROP TABLE IF EXISTS [plataforma_iot]..[Usuario_en_Proyecto];
-DROP TABLE IF EXISTS [plataforma_iot]..[Proyecto];
-DROP TABLE IF EXISTS [plataforma_iot]..[Usuario];
 
 --CREAR TABLAS DE LA BASE DE DATOS
 CREATE TABLE [dbo].[__EFMigrationsHistory](
@@ -171,10 +171,10 @@ CREATE TABLE [plataforma_iot]..[Proyecto](
 );
 
 CREATE TABLE [plataforma_iot]..[Usuario_en_Proyecto](
-	[id_usuario]	INT,
+	[id_usuario]	NVARCHAR(450),
 	[id_proyecto]	INT,
 	CONSTRAINT [pk_usuarioenproyecto]			PRIMARY KEY ([id_usuario],[id_proyecto]),
-	CONSTRAINT [fk_usuarioenproyecto_usuario]	FOREIGN KEY ([id_usuario])	REFERENCES [plataforma_iot]..[Usuario]([id])	ON DELETE CASCADE,
+	CONSTRAINT [fk_usuarioenproyecto_usuario]	FOREIGN KEY ([id_usuario])	REFERENCES [plataforma_iot]..[AspNetUsers]([Id])	ON DELETE CASCADE,
 	CONSTRAINT [fk_usuarioenproyecto_proyecto]	FOREIGN KEY ([id_proyecto]) REFERENCES [plataforma_iot]..[Proyecto]([id])	ON DELETE CASCADE
 );
 
@@ -214,6 +214,11 @@ VALUES ('00000000000000_CreateIdentitySchema','3.1.4')
 IF(@DatosDePrueba = 1)
 BEGIN
 	---- usuarios
+	--prueba@mail.com
+	--Pa$$w0rd
+	INSERT [dbo].[AspNetUsers] ([Id], [UserName], [NormalizedUserName], [Email], [NormalizedEmail], [EmailConfirmed], [PasswordHash], [SecurityStamp], [ConcurrencyStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnd], [LockoutEnabled], [AccessFailedCount]) 
+	VALUES (N'016ba22d-3dbd-4af6-a6d1-578c9b4af427', N'prueba@mail.com', N'PRUEBA@MAIL.COM', N'prueba@mail.com', N'PRUEBA@MAIL.COM', 0, N'AQAAAAEAACcQAAAAECmTKX3x+H5d3Js1kHb6Bo2Kfglm5/PWsOd0w1Kce7eimN/MoToBI10/gEi0X8bbSg==', N'RWVAUEBDGWDYZ6ZXVHIIXQORW3M4NJ2S', N'c326f6db-e2da-401c-a928-4ef80193a1b4', NULL, 0, 0, NULL, 1, 0)
+
 	SET IDENTITY_INSERT [plataforma_iot]..[Usuario] ON;
 
 	INSERT INTO [plataforma_iot]..[Usuario]
@@ -238,10 +243,10 @@ BEGIN
 	---- usuario en proyecto
 	INSERT INTO [plataforma_iot]..[Usuario_en_Proyecto]
 			   ([id_usuario],[id_proyecto])
-		 VALUES	(0,1),
-				(1,0),
-				(1,2),
-				(1,3);
+		 VALUES	(N'016ba22d-3dbd-4af6-a6d1-578c9b4af427',1),
+				(N'016ba22d-3dbd-4af6-a6d1-578c9b4af427',0),
+				(N'016ba22d-3dbd-4af6-a6d1-578c9b4af427',2),
+				(N'016ba22d-3dbd-4af6-a6d1-578c9b4af427',3);
 
 
 

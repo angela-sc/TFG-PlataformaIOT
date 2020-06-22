@@ -11,6 +11,8 @@ namespace PortalWebLogin.ViewModel
     public class UsuarioAutenticadoViewModel : ComponentBase
     {
         protected string idUsuario { get; private set; }
+        protected bool autorizado { get; set; }
+
         [CascadingParameter]
         protected Task<AuthenticationState> authenticationStateTask { get; set; }
 
@@ -23,14 +25,13 @@ namespace PortalWebLogin.ViewModel
 
             if (!usuario.Identity.IsAuthenticated)
             {
+                autorizado = false;
                 NavigationManager.NavigateTo("Identity/Account/Login");
             }
-            else
+            else if (string.IsNullOrEmpty(idUsuario))
             {
-                if (string.IsNullOrEmpty(idUsuario))
-                {
-                    idUsuario = usuario.FindFirst(ClaimTypes.NameIdentifier).Value;
-                }
+                idUsuario = usuario.FindFirst(ClaimTypes.NameIdentifier).Value;
+                autorizado = true;
             }
         }
     }

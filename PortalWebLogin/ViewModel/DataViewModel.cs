@@ -29,10 +29,7 @@ namespace PortalWebLogin.ViewModel
         public string sensor { get; set; }
         
         [Parameter]
-        public string estacionbase { get; set; }   //id de la estacion base en formato string   
-
-        [Parameter]
-        public int selectedValue { get; set; }        
+        public string estacionbase { get; set; }   //id de la estacion base en formato string       
        
         private int idSensor, idEstacionBase; // = 2; //para obtener el id del sensor debemos tener el nombre y la estación base
         

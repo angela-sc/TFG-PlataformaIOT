@@ -14,5 +14,6 @@ namespace Libreria.Interfaces
         Task<bool> Eliminar(int idEstacionBase);
         Task<bool> Editar(EntidadEstacionBase estacionBase);
         Task Crear(EntidadEstacionBase estacionBase);
+        Task<bool> Autorizado(string idUsuario, int idEstacionBase);
     }
 }

@@ -76,5 +76,10 @@ namespace Servicios
         {
             await repositorioEstacionBase.Crear(estacionBase);            
         }
+
+        public Task<bool> Autorizado(string idUsuario, int idEstacionBase)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

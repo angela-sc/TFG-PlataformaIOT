@@ -31,30 +31,19 @@ namespace PortalWebLogin.ViewModel
 
         public double latitudInicial, longitudInicial;
 
-        private int id;
-
         //> -- SERVICIO
-        private IServicioEstacionBase servicioEstacionBase;
+        private IServicioEstacionBase servicioEstacionBase = FactoriaServicios.GetServicioEstacionBase();
 
+        protected override async Task OnParametersSetAsync()
+        {
+            await base.OnParametersSetAsync();
 
-        //[CascadingParameter]
-        //protected Task<AuthenticationState> authenticationStateTask { get; set; }
-        //[Inject]
-        //protected NavigationManager NavigationManager { get; set; }
-
-        //protected override async Task OnParametersSetAsync()
-        //{
-        //    var usuario = (await authenticationStateTask).User;
-
-        //    if (!usuario.Identity.IsAuthenticated)
-        //    {
-        //        NavigationManager.NavigateTo("Identity/Account/Login");
-        //    }
-        //}
+            Int32.TryParse(idEstacionBase, out int idEb);
+            autorizado = await servicioEstacionBase.Autorizado(idUsuario, idEb);
+        }
 
         protected override async Task OnInitializedAsync()
         {
-            servicioEstacionBase = FactoriaServicios.GetServicioEstacionBase();
             Int32.TryParse(idEstacionBase, out int id);
             nombreEstacionBase = await servicioEstacionBase.Nombre(id);
             listaSensores = await servicioEstacionBase.ObtenerSensores(id);

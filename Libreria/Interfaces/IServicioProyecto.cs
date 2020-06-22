@@ -8,8 +8,8 @@ namespace Libreria.Interfaces
 {
     public interface IServicioProyecto
     {
-        Task<IEnumerable<EntidadProyecto>> ObtenerProyectos(int idUsuario); //metodo para obtener los proyectos propios de un usuario
-        Task Crear(EntidadProyecto proyecto, int idUsuario);        
+        Task<IEnumerable<EntidadProyecto>> ObtenerProyectos(string idUsuario); //metodo para obtener los proyectos propios de un usuario
+        Task Crear(EntidadProyecto proyecto, string idUsuario);        
         Task<bool> Eliminar(int idProyecto);
         Task<bool> Editar(EntidadProyecto proyecto);       
     }

@@ -4,99 +4,107 @@
 @using Libreria.Entidades
 @using Syncfusion.Blazor.Maps
 @using PortalWebLogin.ViewModel
+@using PortalWebLogin.Data
 
 @inherits EstacionBaseViewModel
 
 <!-- Page Content -->
-@if (listaSensores.Count() > 0)
+@if (autorizado)
 {
-    var link = $"estacionbase/detalle/{idEstacionBase}";
+    @if (listaSensores.Count() > 0)
+    {
+        var link = $"estacionbase/detalle/{idEstacionBase}";
 
-    <div class="mb-4 row">
-        <h1>🗼 Estación base @nombreEstacionBase</h1>
-        <a href=@link> 👁️‍🗨️ vista detallada</a>
-    </div>
+        <div class="mb-4 row">
+            <h1>🗼 Estación base @nombreEstacionBase</h1>
+            <a href=@link> 👁️‍🗨️ vista detallada</a>
+        </div>
 
-    <!-- Mapa que muestra la ubicación de los sensores -->
-    <div class="row" style="height: 500px;">
-        <SfMaps @ref="mapa">
-            @* To zoom and pan *@
-            <MapsZoomSettings Enable="true"
-                              Toolbars='new string[]{"ZoomIn", "ZoomOut", "Reset" }'
-                              ZoomFactor="13" MaxZoom="20"
-                              MouseWheelZoom="true">
-            </MapsZoomSettings>
-            <MapsCenterPosition Latitude=latitudInicial Longitude=longitudInicial></MapsCenterPosition>
+        <!-- Mapa que muestra la ubicación de los sensores -->
+        <div class="row" style="height: 500px;">
+            <SfMaps @ref="mapa">
+                @* To zoom and pan *@
+                <MapsZoomSettings Enable="true"
+                                  Toolbars='new string[] { "ZoomIn", "ZoomOut", "Reset" }'
+                                  ZoomFactor="13" MaxZoom="20"
+                                  MouseWheelZoom="true">
+                </MapsZoomSettings>
+                <MapsCenterPosition Latitude=latitudInicial Longitude=longitudInicial></MapsCenterPosition>
 
-            <MapsLayers>
-                <MapsLayer LayerType="ShapeLayerType.OSM">
-                    @* Add marker *@
-                    <MapsMarkerSettings>
-                        <MapsMarker Visible="true"
-                                    Height="25"
-                                    Width="25"
-                                    DataSource="MarkerDataSource"
-                                    ColorValuePath="color">
-                            <MapsMarkerTooltipSettings ValuePath="name" Visible="true"></MapsMarkerTooltipSettings>
-                            @*para dar formato y añadir más valores Format="<b>${name}</b><br>Finalist: <b>${Winner}</b><br>Win: <b>${Finalist} en MapsMarkerTooltipSettings*@
-                        </MapsMarker>
-                    </MapsMarkerSettings>
-                </MapsLayer>
-            </MapsLayers>
-        </SfMaps>
-    </div>
+                <MapsLayers>
+                    <MapsLayer LayerType="ShapeLayerType.OSM">
+                        @* Add marker *@
+                        <MapsMarkerSettings>
+                            <MapsMarker Visible="true"
+                                        Height="25"
+                                        Width="25"
+                                        DataSource="MarkerDataSource"
+                                        ColorValuePath="color">
+                                <MapsMarkerTooltipSettings ValuePath="name" Visible="true"></MapsMarkerTooltipSettings>
+                                @*para dar formato y añadir más valores Format="<b>${name}</b><br>Finalist: <b>${Winner}</b><br>Win: <b>${Finalist} en MapsMarkerTooltipSettings*@
+                            </MapsMarker>
+                        </MapsMarkerSettings>
+                    </MapsLayer>
+                </MapsLayers>
+            </SfMaps>
+        </div>
 
-    <!-- Lista de los sensores que contiene la estacion base -->
-    <div class="row ">
-        @foreach (EntidadSensorResultado sensor in listaSensores)
-        {
-            <div class="col-lg-4 col-md-7 mb-5">
-                <div class="card h-100 shadow">                   
-                    <div class="card-body">
-                        @if (sensor.Fecha == default(DateTime))
-                        {
-                            <!-- si el sensor no tiene datos muestra el nombre en naranja-->
-                            <h4 class="card-title" style="color:#F34D1E"><span class="oi oi-rss" aria-hidden="true"></span>   @sensor.NombreSensor</h4>
-                            <p>No se han encontrado datos del sensor</p>
-                        }
-                        else
-                        {
-                            <!-- si el sensor  tiene datos muestra el nombre en verde-->
-                            <h4 class="card-title" style="color:#149E00"><span class="oi oi-rss" aria-hidden="true"></span>   @sensor.NombreSensor</h4>
-                            <p>Última actualización: @sensor.Fecha</p>
-                            <p>Temperatura: @sensor.Temperatura ºC</p>
-                            <p>Humedad: @sensor.Humedad %</p>
-                        }
-                        <a href="/data/@idEstacionBase/@sensor.IdSensor" class="btn btn-primary" style="float:right;">Ver más detalles</a>
+        <!-- Lista de los sensores que contiene la estacion base -->
+        <div class="row ">
+            @foreach (EntidadSensorResultado sensor in listaSensores)
+            {
+                <div class="col-lg-4 col-md-7 mb-5">
+                    <div class="card h-100 shadow">                   
+                        <div class="card-body">
+                            @if (sensor.Fecha == default(DateTime))
+                            {
+                                <!-- si el sensor no tiene datos muestra el nombre en naranja-->
+                                <h4 class="card-title" style="color:#F34D1E"><span class="oi oi-rss" aria-hidden="true"></span>   @sensor.NombreSensor</h4>
+                                <p>No se han encontrado datos del sensor</p>
+                            }
+                            else
+                            {
+                                <!-- si el sensor  tiene datos muestra el nombre en verde-->
+                                <h4 class="card-title" style="color:#149E00"><span class="oi oi-rss" aria-hidden="true"></span>   @sensor.NombreSensor</h4>
+                                <p>Última actualización: @sensor.Fecha</p>
+                                <p>Temperatura: @sensor.Temperatura ºC</p>
+                                <p>Humedad: @sensor.Humedad %</p>
+                            }
+                            <a href="/data/@idEstacionBase/@sensor.IdSensor" class="btn btn-primary" style="float:right;">Ver más detalles</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        }
-    </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <h3>Estación base @nombreEstacionBase   |  </h3>
+            <h5><span class="oi oi-warning">  </span> Esta estación base no tiene sensores asociados.</h5>
+        </div>
+
+        <!-- Mapa vacio -->
+        <div class="row map">
+            <SfMaps @ref="mapa">
+                <!--<MapsTitleSettings Text="Sensores"></MapsTitleSettings>-->
+                @* To zoom and pan *@
+                <MapsZoomSettings Enable="false"
+                                  Toolbars='new string[] { "ZoomIn", "ZoomOut", "Reset" }'
+                                  ZoomFactor="5" MaxZoom="20">
+                </MapsZoomSettings>
+                <MapsCenterPosition Latitude=39.009 Longitude=-2.550></MapsCenterPosition>
+
+                <MapsLayers>
+                    <MapsLayer LayerType="ShapeLayerType.OSM"></MapsLayer>
+                </MapsLayers>
+            </SfMaps>
+        </div>
+    }
 }
 else
 {
-    <div class="row">
-        <h3>Estación base @nombreEstacionBase   |  </h3>
-        <h5><span class="oi oi-warning">  </span> Esta estación base no tiene sensores asociados.</h5>
-    </div>
-
-    <!-- Mapa vacio -->
-    <div class="row map">
-        <SfMaps @ref="mapa">
-            <!--<MapsTitleSettings Text="Sensores"></MapsTitleSettings>-->
-            @* To zoom and pan *@
-            <MapsZoomSettings Enable="false"
-                              Toolbars='new string[]{"ZoomIn", "ZoomOut", "Reset" }'
-                              ZoomFactor="5" MaxZoom="20">
-            </MapsZoomSettings>
-            <MapsCenterPosition Latitude=39.009 Longitude=-2.550></MapsCenterPosition>
-
-            <MapsLayers>
-                <MapsLayer LayerType="ShapeLayerType.OSM"></MapsLayer>
-            </MapsLayers>
-        </SfMaps>
-    </div>
+    <h2>@Constantes.ErrorNoAutorizado</h2>
 }
 
 

@@ -18,23 +18,8 @@ using System.Threading.Tasks;
 
 namespace PortalWebLogin.ViewModel
 {
-    public class AdministrarProyectosViewModel : ComponentBase
+    public class AdministrarProyectosViewModel : UsuarioAutenticadoViewModel
     {
-        [CascadingParameter]
-        protected Task<AuthenticationState> authenticationStateTask { get; set; }
-        [Inject]
-        protected NavigationManager NavigationManager { get; set; }
-
-        protected override async Task OnParametersSetAsync()
-        {
-            var usuario = (await authenticationStateTask).User;
-
-            if (!usuario.Identity.IsAuthenticated)
-            {
-                NavigationManager.NavigateTo("Identity/Account/Login");
-            }
-        }
-
         private ModeloEstacionBase estacionbase = null;        
         protected ModeloEstacionBase EstacionBaseEditar  //Atributo que nos sirve para editar
         { 
@@ -115,18 +100,16 @@ namespace PortalWebLogin.ViewModel
         protected bool editarProyecto, editarEstacionBase, editarSensor = false;
 
         // > -- SERVICIOS
-        private IServicioProyecto servicioProyecto = FactoriaServicios.GetServicioProyecto();
-        private IServicioEstacionBase servicioEstacionBase = FactoriaServicios.GetServicioEstacionBase();
-        private IServicioSensor servicioSensor = FactoriaServicios.GetServicioSensor();
-
-        private int idUsuario; // usuario logado
+        private IServicioProyecto servicioProyecto;
+        private IServicioEstacionBase servicioEstacionBase;
+        private IServicioSensor servicioSensor;
 
         protected override async Task OnInitializedAsync()
-        {           
-            idUsuario = InformacionUsuario.IdUsuario; //ide del usuario -> BORRAR            
-
+        {
+            servicioProyecto = FactoriaServicios.GetServicioProyecto();
+            servicioEstacionBase = FactoriaServicios.GetServicioEstacionBase();
+            servicioSensor = FactoriaServicios.GetServicioSensor();
             await CargarDatos();
-            
             this.StateHasChanged();
         }
 
@@ -170,7 +153,6 @@ namespace PortalWebLogin.ViewModel
             {
                 Nombre = EstacionBase.Nombre,
                 FK_IdProyecto = EstacionBase.FK_IdProyecto            
-
             });
 
 

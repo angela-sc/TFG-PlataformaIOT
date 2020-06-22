@@ -19,37 +19,9 @@ namespace PortalWebLogin.ViewModel
         protected string SearchTerm { get; set; } = "";  // Initialize SearchTerm to "" to prevent null's
 
         // > -- ATRIBUTOS PRIVADOS
-        private int usuario = InformacionUsuario.IdUsuario;
-
         private IServicioProyecto servicioProyecto;// = FactoriaServicios.GetServicioProyecto();
         private IServicioEstacionBase servicioEstacionBase; // = FactoriaServicios.GetServicioEstacionBase();
-        private IServicioSensor servicioSensor; // = FactoriaServicios.GetServicioSensor(); // -- añadido hoy
-
-        //[CascadingParameter]
-        //protected Task<AuthenticationState> authenticationStateTask { get; set; }
-        //[Inject]
-        //protected NavigationManager NavigationManager { get; set; }
-
-        //protected override async Task OnParametersSetAsync()
-        //{
-        //    var usuario = (await authenticationStateTask).User;
-
-        //    if (!usuario.Identity.IsAuthenticated)
-        //    {
-        //        NavigationManager.NavigateTo("Identity/Account/Login");
-        //    }
-        //    //else
-        //    //{
-        //    //    if (iduseruio == null)
-        //    //    {
-
-        //    //    }
-        //    //}
-
-            
-        //}
-
-         
+        private IServicioSensor servicioSensor; // = FactoriaServicios.GetServicioSensor(); // -- añadido hoy       
 
         protected override async Task OnInitializedAsync()
         {
@@ -58,7 +30,7 @@ namespace PortalWebLogin.ViewModel
             servicioSensor = FactoriaServicios.GetServicioSensor();
 
             proyectos = new List<EntidadProyecto>();          
-            proyectos = await servicioProyecto.ObtenerProyectos(usuario);
+            proyectos = await servicioProyecto.ObtenerProyectos(idUsuario);
 
             this.StateHasChanged();
         }

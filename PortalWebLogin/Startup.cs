@@ -51,7 +51,7 @@ namespace PortalWebLogin
             /**
              * DE MOMENTO SE HARDCODEARÁ AQUÍ HASTA QUE SE IMPLEMENTE EL LOGIN DE USUARIO
              */
-            InformacionUsuario.IdUsuario = 0;
+            //InformacionUsuario.IdUsuario = "016ba22d-3dbd-4af6-a6d1-578c9b4af427";
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.

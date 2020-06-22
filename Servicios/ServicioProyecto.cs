@@ -26,7 +26,7 @@ namespace Servicios
             this.repositorioSensor = new RepositorioSensor(cadenaConexion, log);
         }
 
-        public async Task<IEnumerable<EntidadProyecto>> ObtenerProyectos(int idUsuario)
+        public async Task<IEnumerable<EntidadProyecto>> ObtenerProyectos(string idUsuario)
         {
             IEnumerable<EntidadProyecto> proyectos = null;
 
@@ -42,7 +42,7 @@ namespace Servicios
             return proyectos; //devuelve null o un IEnumerable<EntidadDatoBase>
         }
 
-        public async Task Crear(EntidadProyecto proyecto, int idUsuario)
+        public async Task Crear(EntidadProyecto proyecto, string idUsuario)
         {
             try
             {

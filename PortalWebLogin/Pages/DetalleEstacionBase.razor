@@ -3,67 +3,74 @@
 @using Blazorise
 @using Blazorise.Charts
 @using PortalWebLogin.ViewModel
+@using PortalWebLogin.Data
 
 @inherits DetalleEstacionBaseViewModel
 
+@if (autorizado)
+{
+    <h3>Detalle estación base @nombreEstacionBase</h3>
+    <br />
 
-<h3>Detalle estación base @nombreEstacionBase</h3>
-<br />
+    <!-- Selector fecha -->
+    @*<div class="row mb-1">
+            <div class="col-md-1">Inicio:</div>
+            <div class="col-md-3">
+                <DateEdit TValue="DateTime?" @bind-Date="@fechaInicio"/>
+            </div>
+            <div class="col-md-1">Fin:</div>
+            <div class="col-md-3">
+                <DateEdit TValue="DateTime?" @bind-Date="@fechaFin" />
+            </div>
+            <div class="col-md-1">
+                <a @onclick="@(async () => { await HandleRedraw(); })" class="btn btn-primary" style="color:white;">Redraw</a>
+                <a @onclick="@(async () => { await FiltrarPorFecha(); })" class="btn btn-primary" style="color:white;">Refrescar</a>
+            </div>
+        </div>*@
 
-<!-- Selector fecha -->
-@*<div class="row mb-1">
-        <div class="col-md-1">Inicio:</div>
-        <div class="col-md-3">
-            <DateEdit TValue="DateTime?" @bind-Date="@fechaInicio"/>
-        </div>
-        <div class="col-md-1">Fin:</div>
-        <div class="col-md-3">
-            <DateEdit TValue="DateTime?" @bind-Date="@fechaFin" />
-        </div>
-        <div class="col-md-1">
-            <a @onclick="@(async () => { await HandleRedraw(); })" class="btn btn-primary" style="color:white;">Redraw</a>
-            <a @onclick="@(async () => { await FiltrarPorFecha(); })" class="btn btn-primary" style="color:white;">Refrescar</a>
-        </div>
-    </div>*@
+    <!-- SELECTOR DE FECHAS -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel">
+                <div class="panel-body">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <div class="col mb-2"> <label>Inicio:</label></div>
+                            <div class="col mb-2"><DateEdit TValue="DateTime?" @bind-Date="@fechaInicio" id="fechaInicio" /></div>
 
-<!-- SELECTOR DE FECHAS -->
-<div class="row">
-    <div class="col-lg-12">
-        <div class="panel">
-            <div class="panel-body">
-                <div class="form-inline">
-                    <div class="form-group">
-                        <div class="col mb-2"> <label>Inicio:</label></div>
-                        <div class="col mb-2"><DateEdit TValue="DateTime?" @bind-Date="@fechaInicio" id="fechaInicio" /></div>
-
-                        <div class="col mb-2"> <label> Fin:</label></div>
-                        <div class="col mb-2"><DateEdit TValue="DateTime?" @bind-Date="@fechaFin" id="fechaFin" /></div>
+                            <div class="col mb-2"> <label> Fin:</label></div>
+                            <div class="col mb-2"><DateEdit TValue="DateTime?" @bind-Date="@fechaFin" id="fechaFin" /></div>
+                        </div>
+                        <div class="ml-3 mb-2"> <button type="submit" class="btn btn-primary" @onclick="@(async () => { await FiltrarPorFecha(); })"> Refrescar datos</button></div>
                     </div>
-                    <div class="ml-3 mb-2"> <button type="submit" class="btn btn-primary" @onclick="@(async () => { await FiltrarPorFecha(); })"> Refrescar datos</button></div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- grafica TEMPERATURA-->
-<div class="row">
-    <div class="col-xl-9">
-        <div class="card mb-4">
-            <div class="card-header"> Temperatura</div>
-            <div class="card-body"><LineChart @ref="graficaTemperatura" TItem="double" /></div>
-        </div>
-    </div>
-</div>
-
-<!-- grafica HUMEDAD-->
-<div class="row">
-    <div class="col-xl-9">
-        <div class="card mb-4">
-            <div class="card-header"> Humedad</div>
-            <div class="card-body">
-                <LineChart @ref="graficaHumedad" TItem="double" />
+    <!-- grafica TEMPERATURA-->
+    <div class="row">
+        <div class="col-xl-9">
+            <div class="card mb-4">
+                <div class="card-header"> Temperatura</div>
+                <div class="card-body"><LineChart @ref="graficaTemperatura" TItem="double" /></div>
             </div>
         </div>
     </div>
-</div>
+
+    <!-- grafica HUMEDAD-->
+    <div class="row">
+        <div class="col-xl-9">
+            <div class="card mb-4">
+                <div class="card-header"> Humedad</div>
+                <div class="card-body">
+                    <LineChart @ref="graficaHumedad" TItem="double" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <h2>@Constantes.ErrorNoAutorizado</h2>
+}

@@ -27,7 +27,7 @@ namespace PortalWeb.ViewModel
         protected override async Task OnInitializedAsync()
         {
             proyectos = new List<EntidadProyecto>();          
-            proyectos = await servicioProyecto.ObtenerProyectos(usuario);
+            //proyectos = await servicioProyecto.ObtenerProyectos(usuario);
 
             this.StateHasChanged();
         }
