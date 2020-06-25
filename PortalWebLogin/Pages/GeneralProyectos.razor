@@ -14,8 +14,8 @@
 {
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
+            <div class="panel-general-proyectos panel-gp">
+                <div class="panel-heading-general-proyectos">
                     <div class="row">
                         <div class="col-md-5"><span class="oi oi-list"></span> Proyectos disponibles</div>
                         <div class="col-md-3"></div>
@@ -23,7 +23,7 @@
                     </div>
                 </div>
 
-                <div class="panel-body">
+                <div class="panel-body-general-proyectos">
                     <ul class="list-group">
                         @foreach (var proyecto in proyectosFiltrados)
                         {
@@ -34,10 +34,10 @@
                     </ul>
                 </div>
 
-                <div class="panel-footer">
+                <div class="panel-footer-general-proyectos">
                     <div class="row">
                         <div class="col-md-12">
-                            <h6 style="float:right;">Total <span class="label label-info">@proyectos.Count()</span></h6>
+                            <h6 style="float:right;">Total <span class="label-general-proyectos label-gp">@proyectos.Count()</span></h6>
                         </div>
                     </div>
                 </div>
@@ -54,7 +54,9 @@ else
 
 @if (mostrar)
 {
-    <div class="row">
+<div class="row">
+    @if (listaEstacionesBase.Count() > 0)
+    {
         @foreach (var estacion in listaEstacionesBase)
         {
             var link = $"estacionbase/{estacion.Item2.Id}";
@@ -70,6 +72,11 @@ else
                 </div>
             </div>
         }
-    </div>
+    }
+    else
+    {
+        <div class="col alert alert-warning ml-3 mr-3" role="alert"> Este proyecto no tiene estaciones base asociadas. Puedes agregar una en <a href="/admin" class="alert-link">administrar proyectos</a>.</div>
+    }
 
+</div>
 }

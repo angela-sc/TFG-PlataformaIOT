@@ -203,3 +203,87 @@ app {
     color: #fff;
     background-color: #131e5e;
 }
+
+
+.container-mapa {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.container-mapa .sf-license-warning {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    color: #e9ecef;
+    text-decoration: none;
+    font-size: 1px;
+    visibility: hidden;
+}
+
+
+/*-- Vista: GENERAL PROYECTOS --*/
+.panel-general-proyectos {
+    margin-bottom: 20px;
+    background-color: #fff;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    box-shadow: 0 1px 1px rgba(0,0,0,.05);
+}
+
+.panel-gp {
+    border-color: #131e5e;
+}
+
+.panel-heading-general-proyectos {
+    padding: 10px 15px;
+    border-bottom: 1px solid transparent;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+.panel-gp > .panel-heading-general-proyectos {
+    color: #fff;
+    background-color: #131e5e;
+    border-color: #131e5e;
+}
+
+.panel-body-general-proyectos  {
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.label-general-proyectos {
+    display: inline;
+    padding: .2em .6em .3em;
+    font-size: 75%;
+    font-weight: bold;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+    background-color: #131e5e;
+}
+
+.label-gp {
+    background-color: #131e5e;
+}
+
+.panel-footer-general-proyectos {
+    padding: 10px 15px;
+    background-color: #ffffff;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+#buscarproyecto {
+    border: 1px solid #ffffff7a !important;
+    background-color: #ffffff7a !important;    
+}
+
+#buscarproyecto :focus {
+    box-shadow: none;
+}

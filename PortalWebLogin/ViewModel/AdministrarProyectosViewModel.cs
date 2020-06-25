@@ -100,15 +100,12 @@ namespace PortalWebLogin.ViewModel
         protected bool editarProyecto, editarEstacionBase, editarSensor = false;
 
         // > -- SERVICIOS
-        private IServicioProyecto servicioProyecto;
-        private IServicioEstacionBase servicioEstacionBase;
-        private IServicioSensor servicioSensor;
+        private IServicioProyecto servicioProyecto = FactoriaServicios.GetServicioProyecto();
+        private IServicioEstacionBase servicioEstacionBase = FactoriaServicios.GetServicioEstacionBase();
+        private IServicioSensor servicioSensor = FactoriaServicios.GetServicioSensor();
 
-        protected override async Task OnInitializedAsync()
+        protected override async Task OnSecureParameterSetAsync()
         {
-            servicioProyecto = FactoriaServicios.GetServicioProyecto();
-            servicioEstacionBase = FactoriaServicios.GetServicioEstacionBase();
-            servicioSensor = FactoriaServicios.GetServicioSensor();
             await CargarDatos();
             this.StateHasChanged();
         }
