@@ -45,7 +45,7 @@ namespace API.Resources
                 else
                 {
                     log.Error("ERR RECURSOPETICION (DoPost) - No se ha podido insertar la información en la base de datos.");
-                    exchange.Respond(CoAP.StatusCode.NotAcceptable);
+                    exchange.Respond(CoAP.StatusCode.BadRequest);
                 }
             }
             else
