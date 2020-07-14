@@ -65,7 +65,8 @@ namespace PortalWebLogin.Areas.Identity.Pages.Account
             public string Password { get; set; }
 
             [DataType(DataType.Password)]
-            [Display(Name = "Repita la contraseña")]
+            //[Display(Name = "Repita la contraseña")]
+            [Display(Name = "Repite la contraseña")]
             [Compare("Password", ErrorMessage = "Las contraseñas no coinciden.")]
             //[Display(Name = "Confirm password")]
             //[Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]

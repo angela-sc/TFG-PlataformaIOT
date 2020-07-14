@@ -34,9 +34,15 @@ else
         {
             var estacionesProyecto = estaciones.Where(eb => eb.FK_IdProyecto == proyecto.Id);
 
-            <div class="card border-dark mb-3 mr-3" style="width:22rem;">
-                <div class="card-header" style="        background-color: rgba(0,0,0,.03);
-">
+            @*<div class="col-xl-4 col-md-6 mb-4 mr-4">
+                <div class="card shadow">
+                    <div class="card-header">@proyecto.Nombre</div>
+                    <div class="card-body"><p class="card-text">@proyecto.Descripcion</p></div>
+                </div>
+            </div>*@
+
+            <div class="card shadow mb-3 mr-3" style="width:22rem;">
+                <div class="card-header" style="background-color: rgba(0,0,0,.03);">
                     @proyecto.Nombre
                     <div style="cursor:pointer; float:right;">
                         <span class="oi oi-pencil" style="color:green; padding-left:4px;" @onclick="@(() => ActivarEditar(proyecto))"></span>
