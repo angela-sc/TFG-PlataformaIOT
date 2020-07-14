@@ -164,6 +164,8 @@ app {
 
     .main .top-row {
         position: sticky;
+        /*solucion superposicion*/
+        z-index: 9999;
         top: 0;
     }
 
