@@ -82,7 +82,8 @@ namespace PortalWebLogin.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User logged in.");
+                    //_logger.LogInformation("User logged in.");
+                    _logger.LogInformation("Usuario logueado.");
                     return LocalRedirect(returnUrl);
                 }
                 //if (result.RequiresTwoFactor)
@@ -91,7 +92,8 @@ namespace PortalWebLogin.Areas.Identity.Pages.Account
                 //}
                 if (result.IsLockedOut)
                 {
-                    _logger.LogWarning("User account locked out.");
+                    //_logger.LogWarning("User account locked out.");
+                    _logger.LogWarning("Se ha cerrado la sesión.");
                     return RedirectToPage("./Lockout");
                 }
                 else

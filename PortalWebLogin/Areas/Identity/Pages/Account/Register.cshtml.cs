@@ -46,8 +46,9 @@ namespace PortalWebLogin.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required(ErrorMessage = "El campo 'Email' no puede estar vacío.")]
-            [EmailAddress]
+            //[EmailAddress]
             [Display(Name = "Email")]
+            [EmailAddress(ErrorMessage = "El email introducido no es válido.")]
             public string Email { get; set; }
 
             //[Required]
@@ -58,7 +59,10 @@ namespace PortalWebLogin.Areas.Identity.Pages.Account
             //public string UserName { get; set; }
 
             [Required(ErrorMessage = "El campo 'Contraseña' no puede estar vacío.")]
-            //[StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]           
+            [StringLength(20, ErrorMessage ="La contraseña debe tener al menos 6 caracteres.", MinimumLength = 6)]
+            //[StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]              
+            [RegularExpression(@"^(?=.{6,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$", 
+                ErrorMessage ="La contraseña debe contener al menos un número, una miníscula, una mayúscula y un carácter especial.")]
             [DataType(DataType.Password)]
             //[Display(Name = "Password")]
             [Display(Name = "Contraseña")]
@@ -89,7 +93,8 @@ namespace PortalWebLogin.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User created a new account with password.");
+                    //_logger.LogInformation("User created a new account with password.");
+                    _logger.LogInformation("Creada nueva cuenta de usuario con contraseña.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
@@ -99,8 +104,10 @@ namespace PortalWebLogin.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    //await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                    //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    await _emailSender.SendEmailAsync(Input.Email, "Confirma tu email",
+                        $"Por favor confirma tu cuenta haciendo <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>click aquí</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
