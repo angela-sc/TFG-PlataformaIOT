@@ -48,6 +48,7 @@ namespace PortalWebLogin.Areas.Identity.Pages.Account
 
             [Required(ErrorMessage = "El campo 'Contraseña' no puede estar vacío.")]
             [DataType(DataType.Password)]
+            [Display(Name = "Constraseña")]
             public string Password { get; set; }
 
             [Display(Name = "Remember me?")]

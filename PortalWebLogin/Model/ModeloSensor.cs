@@ -11,6 +11,7 @@ namespace PortalWebLogin.Model
         public int Id { get; set; }
         
         [Required(ErrorMessage = "El nombre no puede estar vacío.")]
+        [MaxLength(11, ErrorMessage ="El nombre debe tener como máximo {0} caracteres")]
         public string Nombre { get; set; }
         
         [Required]
