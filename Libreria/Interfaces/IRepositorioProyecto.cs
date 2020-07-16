@@ -19,7 +19,7 @@ namespace Libreria.Interfaces
         Task<bool> EliminarProyecto(int idProyecto);
 
         //Task AsociarUsuarioProyecto(int idProyecto, int idUsuario);
-        Task InsertaProyecto(EntidadProyecto proyecto, string idUsuario);
+        Task<bool> InsertaProyecto(EntidadProyecto proyecto, string idUsuario);
         //Task<int> ObtenerId(string Proyecto);
         
     }

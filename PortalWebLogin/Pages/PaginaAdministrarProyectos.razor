@@ -136,7 +136,15 @@ else
                         }
                         else
                         {
-                            <div class="alert alert-success" role="alert"><strong>¡PROYECTO CREADO!</strong></div>
+                            if (proyecto_creado)
+                            {
+                                <div class="alert alert-success" role="alert"><strong>¡PROYECTO CREADO!</strong></div>
+
+                            }
+                            else
+                            {
+                                <div class="alert alert-danger" role="alert"><strong><span class="oi oi-warning"></span>ERROR: </strong> NO SE HA PODIDO CREAR EL PROYECTO. Es posible que ya exista otro proyecto con el mismo nombre en la base de datos.</div>
+                            }
                         }
                     </div>
                 </div>

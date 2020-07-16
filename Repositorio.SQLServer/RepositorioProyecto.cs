@@ -69,7 +69,6 @@ namespace Repositorio.SQLServer
             catch (Exception ex)
             {
                 log.Error($"ERR. REPOSITORIO PROYECTO (ObtenerProyectos) - {ex.Message}");
-                //Console.WriteLine(ex.Message, "Error: ");
             }
             return resultado;
         }
@@ -96,7 +95,6 @@ namespace Repositorio.SQLServer
             catch (Exception ex)
             {
                 log.Error($"ERR. REPOSITORIO PROYECTO (EliminarProyecto) - {ex.Message}");
-                //Console.WriteLine(ex.Message, "Error: ");
                 eliminado = false;
             }
             return eliminado;
@@ -127,7 +125,6 @@ namespace Repositorio.SQLServer
             catch (Exception ex)
             {
                 log.Error($"ERR. REPOSITORIO PROYECTO (EditarProyecto) - {ex.Message}");
-                //Console.WriteLine(ex.Message, "Error: ");
                 editado = false;
             }
             return editado;
@@ -159,8 +156,9 @@ namespace Repositorio.SQLServer
 
         //}
 
-        public async Task InsertaProyecto(EntidadProyecto proyecto, string idUsuario)
+        public async Task<bool> InsertaProyecto(EntidadProyecto proyecto, string idUsuario)
         {
+            bool insertado;
             Dictionary<string, object> parametros = new Dictionary<string, object>
             {
                 { "@nombre", proyecto.Nombre },
@@ -179,13 +177,16 @@ namespace Repositorio.SQLServer
                 using (SqlConnection conn = new SqlConnection(cadenaConexion))
                 {
                     await conn.ExecuteAsync(query, parametros);
+                    insertado = true;
                 }
             }
             catch (Exception ex)
             {
                 log.Error($"ERR. REPOSITORIO PROYECTO (InsertaProyecto) - {ex.Message}");
+                insertado = false;
                 //Console.WriteLine("Error en el método InsertaProyecto " + ex.Message); // --ELIMINAR CUANDO SE PASE EL LOG   
             }
+            return insertado;
         }
 
         //public async Task<int> ObtenerId(string Proyecto)

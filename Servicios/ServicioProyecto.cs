@@ -42,16 +42,20 @@ namespace Servicios
             return proyectos; //devuelve null o un IEnumerable<EntidadDatoBase>
         }
 
-        public async Task Crear(EntidadProyecto proyecto, string idUsuario)
+        public async Task<bool> Crear(EntidadProyecto proyecto, string idUsuario)
         {
+            bool creado;
             try
             {
-                await repositorioProyecto.InsertaProyecto(proyecto, idUsuario);
+                creado = await repositorioProyecto.InsertaProyecto(proyecto, idUsuario);
             }
             catch (Exception)
             {
                 //log.Warning($"Problema al obtener los proyectos del usuario {idUsuario}. No tiene ningún proyecto asociado.");
+                creado = false;
             }
+
+            return creado;
         }
 
         public async Task<bool> Eliminar(int idProyecto)

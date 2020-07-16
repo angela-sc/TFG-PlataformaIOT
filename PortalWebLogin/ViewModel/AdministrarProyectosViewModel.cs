@@ -88,6 +88,7 @@ namespace PortalWebLogin.ViewModel
         protected List<EntidadSensorResultado> sensores;
 
         public bool creado = false; //indica si se ha creado o no el proyecto
+        public bool proyecto_creado = false;
         public bool crear, crear_estacionbase, crear_sensor = false;  //indica si se va a crear un proyecto o no
 
         public bool editar, editado = false; //indican si se va a editar un proyecto y si se ha editado
@@ -121,7 +122,7 @@ namespace PortalWebLogin.ViewModel
             //Console.WriteLine("Función crear proyecto activada.");
             //servicioProyecto = new ServicioProyecto(cadenaConexion, null);
 
-           await servicioProyecto.Crear(new EntidadProyecto()
+           proyecto_creado = await servicioProyecto.Crear(new EntidadProyecto()
             {
                 Nombre = Proyecto.Nombre,
                 Descripcion = Proyecto.Descripcion,
