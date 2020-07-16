@@ -56,7 +56,7 @@
         <div class="row ">
             @foreach (EntidadSensorResultado sensor in listaSensores)
             {
-                <div class="col-lg-3 col-md-6 col-sm-12 mb-5">
+                <div class="col-xl-4 col-lg-5 col-md-6 col-sm-6 mb-5">
                     <div class="card h-100 shadow">
                         <div class="card-body">
                             @if (sensor.Fecha == default(DateTime))
@@ -103,14 +103,15 @@
         </div>
         <div class="row mr-3 ml-3">
             <div class="col alert alert-warning" role="alert">
-                Esta estación base no tiene sensores asociados.               
+                Esta estación base no tiene sensores asociados.
             </div>
         </div>
     }
 }
 else
 {
-    <h2>@Constantes.ErrorNoAutorizado</h2>
+    @*<h5><div class="alert alert-danger" role="alert"><strong><span class="oi oi-ban"></span>ERROR: @Constantes.ErrorNoAutorizado</strong></div></h5>*@
+    <h5 class="alert alert-danger" role="alert"><strong><span class="oi oi-ban"></span> ERROR: @Constantes.ErrorNoAutorizado</strong></h5>
 }
 
 

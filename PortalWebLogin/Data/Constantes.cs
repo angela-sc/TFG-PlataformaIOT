@@ -7,6 +7,6 @@ namespace PortalWebLogin.Data
 {
     public static class Constantes
     {
-        public static readonly string ErrorNoAutorizado = "No estás autorizado para consultar esta información";
+        public static readonly string ErrorNoAutorizado = "No estás autorizado para consultar esta información.";
     }
 }
