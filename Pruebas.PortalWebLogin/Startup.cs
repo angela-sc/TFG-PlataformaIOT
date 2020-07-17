@@ -15,6 +15,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Pruebas.PortalWebLogin.Areas.Identity;
 using Pruebas.PortalWebLogin.Data;
+using Blazorise;
+using Blazorise.Bootstrap;
+using Blazorise.Icons.FontAwesome;
 
 namespace Pruebas.PortalWebLogin
 {
@@ -40,6 +43,10 @@ namespace Pruebas.PortalWebLogin
             services.AddServerSideBlazor();
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
             services.AddSingleton<WeatherForecastService>();
+            services.AddBlazorise(options =>
+            {
+                options.ChangeTextOnKeyPress = true; // optional
+            }).AddBootstrapProviders().AddFontAwesomeIcons();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -71,6 +78,8 @@ namespace Pruebas.PortalWebLogin
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });
+
+            app.ApplicationServices.UseBootstrapProviders().UseFontAwesomeIcons();
         }
     }
 }
