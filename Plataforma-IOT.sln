@@ -37,9 +37,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EstacionBase.WorkerService"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Servicio.Test", "Servicio.Test\Servicio.Test.csproj", "{24DB3173-86E0-4008-B2EF-778D45BD2CCB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pruebas.PortalWebLogin", "Pruebas.PortalWebLogin\Pruebas.PortalWebLogin.csproj", "{C362E0BC-22A9-4FAA-8EE5-76AD128BEE6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pruebas.PortalWebLogin", "Pruebas.PortalWebLogin\Pruebas.PortalWebLogin.csproj", "{C362E0BC-22A9-4FAA-8EE5-76AD128BEE6F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortalWebLogin", "PortalWebLogin\PortalWebLogin.csproj", "{EC4FDA1A-EF0E-48A0-A7A5-A258DE302F9B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PortalWebLogin", "PortalWebLogin\PortalWebLogin.csproj", "{EC4FDA1A-EF0E-48A0-A7A5-A258DE302F9B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
