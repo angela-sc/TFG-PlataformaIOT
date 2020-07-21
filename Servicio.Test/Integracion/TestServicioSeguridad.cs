@@ -18,7 +18,7 @@ namespace Servicio.Test.Integracion
     {
        
 
-        [TestMethod]
+        //[TestMethod]
         public void TestCambioEntidades()
         {
             string ficheroClavePublica = @"C:\Users\abox\Development\TFG-Angela\Claves\publica.key";
@@ -70,7 +70,7 @@ namespace Servicio.Test.Integracion
         [TestMethod]
         public void TestGenerarClavesRSA()
         {
-            ServicioSeguridad.GenerarClavesRSA(@"C:\Users\abox\Development\TFG-Angela\Claves\publica.key", @"C:\Users\abox\Development\TFG-Angela\Claves\privada.key");
+            ServicioSeguridad.GenerarClavesRSA(@"E:\Descargas\claves\publica.key", @"E:\Descargas\claves\privada.key");
         }
 
 

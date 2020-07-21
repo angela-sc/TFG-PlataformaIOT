@@ -475,6 +475,11 @@ namespace PortalWebLogin.ViewModel
 
         }
 
+        protected async Task GenerarClaves()
+        {
+
+        }
+
         public Task StartAsync(CancellationToken cancellationToken)
         {
             throw new NotImplementedException();

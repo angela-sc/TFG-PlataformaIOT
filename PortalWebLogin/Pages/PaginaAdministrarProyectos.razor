@@ -14,11 +14,15 @@ else
 {
 
 <div class="row" style="margin-bottom: 15px; padding-bottom: 5px; border-bottom: 1px solid #eee;">
-    <div class="col-lg-9">
-        <h1 id="titulo-admin">Proyectos disponibles</h1>
+    <div class="col-lg-6">
+        <h1 id="titulo-admin">PROYECTOS DISPONIBLES</h1>
     </div>
-    <div class="col-lg-3" >
-        <button class="btn btn-primary" @onclick="@(async () => await Crear())" style="float:right;"><span class="oi oi-plus mr-2" ></span>Crear proyecto</button>
+    <div class="col-lg-3">
+        <button class="btn btn-primary" @onclick="@(async () => await Crear())" style="float:right;"><span class="oi oi-plus mr-2"></span>Crear proyecto</button>
+    </div>
+
+    <div class="col-lg-3">
+        <button class="btn btn-info" @onclick="@(async () => await GenerarClaves())" style="float:right;"><span class="oi oi-lock-locked mr-2"></span>Generar claves</button>
     </div>
 </div>
     @*<div class="row" style="margin-top: 15px; margin-bottom: 15px;">

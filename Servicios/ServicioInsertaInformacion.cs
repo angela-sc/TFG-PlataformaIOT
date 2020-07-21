@@ -28,6 +28,9 @@ namespace Servicios
 
         public async Task<bool> InsertaPeticion(EntidadPeticion entidadPeticion)
         {
+            if (entidadPeticion == null)
+                return false;
+
             string nombreProyecto = entidadPeticion.Proyecto;
             string nombreEstacionBase = entidadPeticion.EstacionBase;
             string nombreSensor = entidadPeticion.Sensor;
