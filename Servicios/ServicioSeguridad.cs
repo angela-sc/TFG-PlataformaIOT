@@ -88,8 +88,23 @@ namespace Servicios
             return rsa;
         }
 
-        public static void GenerarClavesRSA(string ficheroClavePublica, string ficheroClavePrivada, int keySize = 2048) 
-        {           
+        // ficheroClavePublica: archivo donde guardara la clave publica
+        // ficheroClavePrivada: archivo donde guardara la clave privada
+        public static Byte[] GenerarClavesRSA(string directorioTemporal, int keySize = 2048) 
+        {
+            if (string.IsNullOrEmpty(directorioTemporal))
+                throw new ArgumentNullException("Directorio temporal no indicado");
+
+            string idOperacion = DateTime.Now.Ticks.ToString();
+            DirectoryInfo dirTemp = new DirectoryInfo(directorioTemporal);
+            DirectoryInfo dirClaves = dirTemp.CreateSubdirectory(idOperacion);
+
+            string ficheroClavePublica = Path.Combine(dirClaves.FullName, "publica.key");
+            string ficheroClavePrivada = Path.Combine(dirClaves.FullName, "privada.key");
+
+            string ficheroZip = "";
+            Byte[] zipClaves = null;
+
             var rsa = RSA.Create();
             rsa.KeySize = keySize;
             
@@ -110,30 +125,44 @@ namespace Servicios
                         pem.WritePrivateKey(rsa);
                     }
                 }
+                
+                ficheroZip = Path.Combine(dirTemp.FullName, $"claves_{idOperacion}.zip");
+                ZipFile.CreateFromDirectory(dirClaves.FullName, ficheroZip);
+                zipClaves = File.ReadAllBytes(ficheroZip);
             }
             catch(Exception ex)
             {
                 //log.Error($"ERR SERVICIOSEGURIDAD (GenerarClaves) - {ex.Message}");
                 Console.WriteLine($"ERR SERVICIOSEGURIDAD (GenerarClaves) - {ex.Message}");
             }
+            finally
+            {
+                if (Directory.Exists(dirClaves.FullName))
+                    dirClaves.Delete(true);
+
+                if (!string.IsNullOrEmpty(ficheroZip) && File.Exists(ficheroZip))
+                    File.Delete(ficheroZip);
+            }
+
+            return zipClaves;
         }
            
         // > -- METODO PARA GENERAR LAS CLAVES EN UN FICHERO TEMPORTAL Y MONTAR EL ZIP
-        public static void DescargarClaves()
-        {
+        //public static void DescargarClaves()
+        //{
             
-            //obtener el directorio para almacenar las claves
-            string directorioTemp = Directory.GetCurrentDirectory()+"\\temp";
+        //    //obtener el directorio para almacenar las claves
+        //    string directorioTemp = Directory.GetCurrentDirectory()+"\\temp";
 
-            //generar las claves
-            GenerarClavesRSA(directorioTemp, directorioTemp);
+        //    //generar las claves
+        //    GenerarClavesRSA(directorioTemp, directorioTemp);
 
-            //comprimir las claves en un zip
-            string zip = directorioTemp + "claves.zip";
-            ZipFile.CreateFromDirectory(directorioTemp, zip);
+        //    //comprimir las claves en un zip
+        //    string zip = directorioTemp + "claves.zip";
+        //    ZipFile.CreateFromDirectory(directorioTemp, zip);
 
-            //https://docs.microsoft.com/es-es/dotnet/api/system.net.webclient.downloadfileasync?view=netcore-3.1
-        }
+        //    //https://docs.microsoft.com/es-es/dotnet/api/system.net.webclient.downloadfileasync?view=netcore-3.1
+        //}
 
         // > ----------- AES
         private static Aes GenerarClaveAES()

@@ -1,9 +1,11 @@
 ﻿@page "/admin"
 
 @using PortalWebLogin.ViewModel
+@using BlazorDownloadFile
 @inherits AdministrarProyectosViewModel
 
 @inject NavigationManager navmanager
+@inject IBlazorDownloadFileService BlazorDownloadFileService
 @*<h3>Página de administración de proyectos</h3>*@
 
 @if (proyectos == null)

@@ -20,6 +20,7 @@ using Syncfusion.Blazor;
 using Blazorise;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
+using BlazorDownloadFile;
 
 namespace PortalWebLogin
 {
@@ -40,7 +41,7 @@ namespace PortalWebLogin
             Configuration = configuration;
 
             FactoriaServicios.CadenaConexion = configuration.GetValue<string>("CadenaConexion");
-            FactoriaServicios.DirectorioClaves = configuration.GetValue<string>("DirectorioClaves");
+            FactoriaServicios.SetDirectorioTemporal(configuration.GetValue<string>("DirectorioTemporal"));
 
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
@@ -65,7 +66,8 @@ namespace PortalWebLogin
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();           
+            services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
+            services.AddBlazorDownloadFile();
 
             // >- Referencias para usar synfusion y blazorise
             services.AddSyncfusionBlazor();

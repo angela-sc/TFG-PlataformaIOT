@@ -1,4 +1,5 @@
-﻿using Libreria.Entidades;
+﻿using BlazorDownloadFile;
+using Libreria.Entidades;
 using Libreria.Interfaces;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -12,6 +13,7 @@ using Servicios;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,6 +22,8 @@ namespace PortalWebLogin.ViewModel
 {
     public class AdministrarProyectosViewModel : UsuarioAutenticadoViewModel
     {
+        [Inject] IBlazorDownloadFileService BlazorDownloadFileService { get; set; }
+
         private ModeloEstacionBase estacionbase = null;        
         protected ModeloEstacionBase EstacionBaseEditar  //Atributo que nos sirve para editar
         { 
@@ -477,7 +481,8 @@ namespace PortalWebLogin.ViewModel
 
         protected async Task GenerarClaves()
         {
-            //ServicioSeguridad.DescargarClaves();           
+            Byte[] ficheroZip = ServicioSeguridad.GenerarClavesRSA(FactoriaServicios.GetDirectorioTemporal());
+            await BlazorDownloadFileService.DownloadFile("claves.zip", Convert.ToBase64String(ficheroZip));         
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
