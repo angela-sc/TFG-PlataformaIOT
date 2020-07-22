@@ -12,41 +12,61 @@
 }
 else
 {
+    @*<div class="row" style="border-bottom: 1px solid #eee;">
+            <div class="col-md-5"><h1>PROYECTOS DISPONIBLES</h1></div>
+            <div class="col-lg-2 col-md-3 ml-auto mt-1">
+                <button class="btn btn-primary" @onclick="@(async () => await Crear())" style="float:right;"><span class="oi oi-plus mr-2"></span>Crear proyecto</button>
+            </div>
+            <div class="col-lg-2 col-md-3 mt-1">
+                <button class="btn btn-info" @onclick="@(async () => await GenerarClaves())" style="float:right;"><span class="oi oi-lock-locked mr-2"></span>Generar claves</button>
+            </div>
+        </div>*@
 
-<div class="row" style="margin-bottom: 15px; padding-bottom: 5px; border-bottom: 1px solid #eee;">
-    <div class="col-lg-6">
-        <h1 id="titulo-admin">PROYECTOS DISPONIBLES</h1>
-    </div>
-    <div class="col-lg-3">
-        <button class="btn btn-primary" @onclick="@(async () => await Crear())" style="float:right;"><span class="oi oi-plus mr-2"></span>Crear proyecto</button>
-    </div>
-
-    <div class="col-lg-3">
-        <button class="btn btn-info" @onclick="@(async () => await GenerarClaves())" style="float:right;"><span class="oi oi-lock-locked mr-2"></span>Generar claves</button>
-    </div>
-</div>
-    @*<div class="row" style="margin-top: 15px; margin-bottom: 15px;">
-        <div class="col-lg-12">
+    <div class="row" style="border-bottom: 1px solid #eee;">
+        <div class="col-xl-6 xol-md-6 col-sm-12"><h2>PROYECTOS DISPONIBLES</h2></div>
+        <div class="col-lg-3 col-md-3 ml-auto mt-1">
             <button class="btn btn-primary" @onclick="@(async () => await Crear())" style="float:right;"><span class="oi oi-plus mr-2"></span>Crear proyecto</button>
-        </div>       
-    </div>*@
-    
+        </div>
+        <div class="col-xl-2 col-lg-3 col-md-3 mt-1">
+            <button class="btn btn-info" @onclick="@(async () => await GenerarClaves())" style="float:right;"><span class="oi oi-lock-locked mr-2"></span>Generar claves</button>
+        </div>
+    </div>
+
+
+    @*<div class="row" style="margin-bottom: 15px; padding-bottom: 5px; border-bottom: 1px solid #eee;">
+            <div class="col-lg-6">
+                <h1 id="titulo-admin">PROYECTOS DISPONIBLES</h1>
+            </div>
+            <div class="col-lg-3">
+                <button class="btn btn-primary" @onclick="@(async () => await Crear())" style="float:right;"><span class="oi oi-plus mr-2"></span>Crear proyecto</button>
+            </div>
+
+            <div class="col-lg-3">
+                <button class="btn btn-info" @onclick="@(async () => await GenerarClaves())" style="float:right;"><span class="oi oi-lock-locked mr-2"></span>Generar claves</button>
+            </div>
+        </div>*@
+    @*<div class="row" style="margin-top: 15px; margin-bottom: 15px;">
+            <div class="col-lg-12">
+                <button class="btn btn-primary" @onclick="@(async () => await Crear())" style="float:right;"><span class="oi oi-plus mr-2"></span>Crear proyecto</button>
+            </div>
+        </div>*@
+
     @*<h5> Proyectos disponibles</h5>*@
-    <div class="row">
+    <div class="row mt-4">
         <!-- bucle que muestra los proyectos -->
         @foreach (var proyecto in proyectos)
         {
             var estacionesProyecto = estaciones.Where(eb => eb.FK_IdProyecto == proyecto.Id);
 
             @*<div class="col-xl-4 col-md-6 mb-4 mr-4">
-                <div class="card shadow">
-                    <div class="card-header">@proyecto.Nombre</div>
-                    <div class="card-body"><p class="card-text">@proyecto.Descripcion</p></div>
-                </div>
-            </div>*@
+                    <div class="card shadow">
+                        <div class="card-header">@proyecto.Nombre</div>
+                        <div class="card-body"><p class="card-text">@proyecto.Descripcion</p></div>
+                    </div>
+                </div>*@
 
             <div class="card shadow mb-3 mr-3" style="width:22rem;">
-                <div class="card-header" style="background-color: rgba(0,0,0,.03);">
+                <div class="card-header" style="background-color: rgba(0,0,0,.03); font-weight:bold;">
                     @proyecto.Nombre
                     <div style="cursor:pointer; float:right;">
                         <span class="oi oi-pencil" style="color:green; padding-left:4px;" @onclick="@(() => ActivarEditar(proyecto))"></span>
@@ -101,7 +121,7 @@ else
             </div>
         }
     </div>
-   
+
     <!-- si se hace clic en 'crear proyecto' se abre el modal -->
     @if (crear)
     {
@@ -205,30 +225,30 @@ else
 
                     <div class="modal-body">
                         @if (!creado)
-                        {                           
+                        {
                             <EditForm Model="Sensor" OnSubmit="@(async () => await CrearSensor())">
-                            <DataAnnotationsValidator />
-                            <ValidationSummary />
-                            <div class="form-group">
-                                <div style="margin-bottom: 5px">
-                                    <label for="nombre">Nombre</label>
-                                    <InputText class="form-control" id="name" @bind-Value="Sensor.Nombre"></InputText>
-                                    <ValidationMessage For="@(()=> Sensor.Nombre)" />
-                                </div>
-                                <div style="margin-bottom: 5px">
-                                    <label for="latitud">Latitud</label>
-                                    <InputNumber type="double" class="form-control" id="latitud" @bind-Value="Sensor.Latitud"></InputNumber>
-                                    <ValidationMessage For="@(()=> Sensor.Latitud)" />
-                                </div>
-                                <div style="margin-bottom: 5px">
-                                    <label for="longigut">Longitud</label>
-                                    <InputNumber class="form-control" id="longitud" @bind-Value="Sensor.Longitud"></InputNumber>
-                                    <ValidationMessage For="@(()=> Sensor.Longitud)" />
-                                </div>
+                                <DataAnnotationsValidator />
+                                <ValidationSummary />
+                                <div class="form-group">
+                                    <div style="margin-bottom: 5px">
+                                        <label for="nombre">Nombre</label>
+                                        <InputText class="form-control" id="name" @bind-Value="Sensor.Nombre"></InputText>
+                                        <ValidationMessage For="@(()=> Sensor.Nombre)" />
+                                    </div>
+                                    <div style="margin-bottom: 5px">
+                                        <label for="latitud">Latitud</label>
+                                        <InputNumber type="double" class="form-control" id="latitud" @bind-Value="Sensor.Latitud"></InputNumber>
+                                        <ValidationMessage For="@(()=> Sensor.Latitud)" />
+                                    </div>
+                                    <div style="margin-bottom: 5px">
+                                        <label for="longigut">Longitud</label>
+                                        <InputNumber class="form-control" id="longitud" @bind-Value="Sensor.Longitud"></InputNumber>
+                                        <ValidationMessage For="@(()=> Sensor.Longitud)" />
+                                    </div>
 
-                            </div>
-                            <button class="btn btn-primary" type="submit">Aceptar</button>
-                        </EditForm>
+                                </div>
+                                <button class="btn btn-primary" type="submit">Aceptar</button>
+                            </EditForm>
                         }
                         else
                         {
@@ -294,7 +314,7 @@ else
                                         <InputTextArea class="form-control" id="descripcion" @bind-Value="ProyectoEditar.Descripcion"></InputTextArea>
                                         <ValidationMessage For="@(()=> ProyectoEditar.Descripcion)" />
                                     </div>
-                                </div>                               
+                                </div>
                                 <button class="btn btn-primary" type="submit">Aceptar</button>
                             </EditForm>
                         }
