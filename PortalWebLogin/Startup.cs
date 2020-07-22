@@ -40,6 +40,7 @@ namespace PortalWebLogin
             Configuration = configuration;
 
             FactoriaServicios.CadenaConexion = configuration.GetValue<string>("CadenaConexion");
+            FactoriaServicios.DirectorioClaves = configuration.GetValue<string>("DirectorioClaves");
 
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
@@ -66,7 +67,7 @@ namespace PortalWebLogin
             services.AddServerSideBlazor();
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();           
 
-            // >- Añadimos las referencias para usar synfusion y blazorise
+            // >- Referencias para usar synfusion y blazorise
             services.AddSyncfusionBlazor();
 
             services.AddBlazorise(options => { options.ChangeTextOnKeyPress = true; })

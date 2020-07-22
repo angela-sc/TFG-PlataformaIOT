@@ -15,6 +15,8 @@ namespace PortalWebLogin.Data
         private static IServicioProyecto servicioProyecto = null;
         private static IServicioEstacionBase servicioEstacionBase = null;
         private static IServicioSensor servicioSensor = null;
+        
+        public static string DirectorioClaves { get; set; } // >- Directorios donde se guardan  las claves rsa
 
         public static void SetLogger(ILogger logger)
         {

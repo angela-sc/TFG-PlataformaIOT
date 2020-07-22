@@ -121,6 +121,7 @@ namespace Servicios
         // > -- METODO PARA GENERAR LAS CLAVES EN UN FICHERO TEMPORTAL Y MONTAR EL ZIP
         public static void DescargarClaves()
         {
+            
             //obtener el directorio para almacenar las claves
             string directorioTemp = Directory.GetCurrentDirectory()+"\\temp";
 
