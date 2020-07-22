@@ -7,6 +7,7 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -116,6 +117,22 @@ namespace Servicios
                 Console.WriteLine($"ERR SERVICIOSEGURIDAD (GenerarClaves) - {ex.Message}");
             }
         }
+           
+        // > -- METODO PARA GENERAR LAS CLAVES EN UN FICHERO TEMPORTAL Y MONTAR EL ZIP
+        public static void DescargarClaves()
+        {
+            //obtener el directorio para almacenar las claves
+            string directorioTemp = Directory.GetCurrentDirectory()+"\\temp";
+
+            //generar las claves
+            GenerarClavesRSA(directorioTemp, directorioTemp);
+
+            //comprimir las claves en un zip
+            string zip = directorioTemp + "claves.zip";
+            ZipFile.CreateFromDirectory(directorioTemp, zip);
+
+            //https://docs.microsoft.com/es-es/dotnet/api/system.net.webclient.downloadfileasync?view=netcore-3.1
+        }
 
         // > ----------- AES
         private static Aes GenerarClaveAES()
@@ -221,8 +238,8 @@ namespace Servicios
             catch(Exception ex)
             {
                 entidadPeticion = null;
-                //log.Error($"SERVICIOSEGURIDAD (ToEntidadPeticion) - {ex.Message}");
-                Console.WriteLine($"SERVICIOSEGURIDAD (ToEntidadPeticion) - {ex.Message}");                
+                log.Error($"SERVICIOSEGURIDAD (ToEntidadPeticion) - {ex.Message}");
+                //Console.WriteLine($"SERVICIOSEGURIDAD (ToEntidadPeticion) - {ex.Message}");                
             }
 
             return entidadPeticion;
@@ -248,8 +265,8 @@ namespace Servicios
             catch(Exception ex)
             {
                 entidadPeticionSegura = null;
-                //log.Error($"SERVICIOSEGURIDAD (ToEntidadPeticionSegura) - {ex.Message}");
-                Console.WriteLine($"SERVICIOSEGURIDAD (ToEntidadPeticionSegura) - {ex.Message}");
+                log.Error($"SERVICIOSEGURIDAD (ToEntidadPeticionSegura) - {ex.Message}");
+                //Console.WriteLine($"SERVICIOSEGURIDAD (ToEntidadPeticionSegura) - {ex.Message}");
             }
 
             return entidadPeticionSegura;

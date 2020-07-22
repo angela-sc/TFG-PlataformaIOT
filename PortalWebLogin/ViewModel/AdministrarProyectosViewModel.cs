@@ -477,7 +477,7 @@ namespace PortalWebLogin.ViewModel
 
         protected async Task GenerarClaves()
         {
-
+            //ServicioSeguridad.DescargarClaves();           
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
