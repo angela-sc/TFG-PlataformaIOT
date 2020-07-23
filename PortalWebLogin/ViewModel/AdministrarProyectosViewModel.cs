@@ -137,7 +137,6 @@ namespace PortalWebLogin.ViewModel
 
         protected async Task CrearEB(int proyecto)
         {
-            //Console.WriteLine("Función crear estacion base activada.");
             EstacionBase = new ModeloEstacionBase();
             EstacionBase.FK_IdProyecto = proyecto;
            
@@ -146,10 +145,6 @@ namespace PortalWebLogin.ViewModel
 
         public async Task CrearEstacionBase()
         {
-
-            //Console.WriteLine("Función crear estación base activada.");
-           // servicioEstacionBase = new ServicioEstacionBase(cadenaConexion, null);
-
             await servicioEstacionBase.Crear(new EntidadEstacionBase()
             {
                 Nombre = EstacionBase.Nombre,
@@ -163,16 +158,13 @@ namespace PortalWebLogin.ViewModel
 
         protected async Task CrearSE(int idEstacionBase)
         {
-            //Console.WriteLine("Función activar sensor activada.");
             Sensor = new ModeloSensor();
             Sensor.FK_IdEstacionBase = idEstacionBase;
-            
 
             this.crear_sensor = true;
         }
         public async Task CrearSensor()
         {
-            //Console.WriteLine("Función crear sensor activada.");
 
             // -- comprobamos si se ha introducido alguna coordenada con punto y lo cambiamos por una coma para que se represente bien
             // -- IMPORTANTE > las coordenadas se representan con ,
@@ -395,37 +387,7 @@ namespace PortalWebLogin.ViewModel
             this.eliminado = true;
             this.StateHasChanged(); //el componente debe refrescarse para mostrar la vista sin el proyecto           
         }
-
-        //protected async Task Eliminar(int idProyecto)
-        //{
-        //    Console.WriteLine("Función 'eliminar proyecto' activada.");
-
-        //    var resultadoBorrado = await servicioProyecto.Eliminar(idProyecto);
-        //    this.eliminado = true;
-
-        //    if (resultadoBorrado)
-        //        mensajeEliminar = "¡¡ PROYECTO ELIMINADO !!";
-        //    else
-        //        mensajeEliminar = " ERROR AL ELIMINAR EL PROYECTO";
-
-        //    this.StateHasChanged(); //el componente debe refrescarse para mostrar la vista sin el proyecto
-        //}
-        //protected async Task Eliminar(int idEstacionBase)
-        //{
-        //    Console.WriteLine("Función 'Eliminar' activada.");
-
-        //    var resultadoBorrado = await servicioEstacionBase.Eliminar(idEstacionBase);
-        //    this.eliminado = true;
-
-        //    if (resultadoBorrado)
-        //        mensajeEliminar = "¡¡ ESTACIÓN ELIMINADA !!";
-        //    else
-        //        mensajeEliminar = " ERROR AL ELIMINAR LA ESTACIÓN BASE";
-
-        //    this.StateHasChanged(); //el componente debe refrescarse para mostrar la vista sin el proyecto
-        //    await CargarDatos();
-        //}
-
+       
         protected async Task Close()
         {
             this.crear = false;
