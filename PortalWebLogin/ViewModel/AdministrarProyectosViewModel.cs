@@ -481,8 +481,8 @@ namespace PortalWebLogin.ViewModel
 
         protected async Task GenerarClaves()
         {
-            Byte[] ficheroZip = ServicioSeguridad.GenerarClavesRSA(FactoriaServicios.GetDirectorioTemporal());
-            await BlazorDownloadFileService.DownloadFile("claves.zip", Convert.ToBase64String(ficheroZip));         
+            Byte[] ficheroZip = ServicioSeguridad.GenerarClavesRSA();
+            await BlazorDownloadFileService.DownloadFile("claves_rsa.zip", Convert.ToBase64String(ficheroZip));         
         }
 
         public Task StartAsync(CancellationToken cancellationToken)

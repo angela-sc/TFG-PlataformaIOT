@@ -15,7 +15,7 @@ namespace PortalWebLogin.Data
         private static IServicioProyecto servicioProyecto = null;
         private static IServicioEstacionBase servicioEstacionBase = null;
         private static IServicioSensor servicioSensor = null;
-        private static string directorioTemporal; // >- Directorios donde se guardan  las claves rsa
+        //private static string directorioTemporal; // >- Directorios donde se guardan  las claves rsa
 
 
         public static void SetLogger(ILogger logger)
@@ -23,15 +23,15 @@ namespace PortalWebLogin.Data
             log = logger;
         }      
 
-        public static void SetDirectorioTemporal(string directorio)
-        {
-            directorioTemporal = string.IsNullOrEmpty(directorio) ? throw new ArgumentNullException("DirectorioTemporal (appsettings.json)") : directorio;            
-        }
+        //public static void SetDirectorioTemporal(string directorio)
+        //{
+        //    directorioTemporal = string.IsNullOrEmpty(directorio) ? throw new ArgumentNullException("DirectorioTemporal (appsettings.json)") : directorio;            
+        //}
 
-        public static string GetDirectorioTemporal()
-        {
-            return string.IsNullOrEmpty(directorioTemporal) ? throw new ArgumentNullException("DirectorioTemporal (appsettings.json)") : directorioTemporal;
-        }
+        //public static string GetDirectorioTemporal()
+        //{
+        //    return string.IsNullOrEmpty(directorioTemporal) ? throw new ArgumentNullException("DirectorioTemporal (appsettings.json)") : directorioTemporal;
+        //}
 
 
         public static IServicioProyecto GetServicioProyecto()

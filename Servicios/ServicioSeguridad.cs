@@ -90,10 +90,12 @@ namespace Servicios
 
         // ficheroClavePublica: archivo donde guardara la clave publica
         // ficheroClavePrivada: archivo donde guardara la clave privada
-        public static Byte[] GenerarClavesRSA(string directorioTemporal, int keySize = 2048) 
-        {
+        public static Byte[] GenerarClavesRSA(int keySize = 2048) 
+        {           
+            string directorioTemporal = Path.GetTempPath();
+
             if (string.IsNullOrEmpty(directorioTemporal))
-                throw new ArgumentNullException("Directorio temporal no indicado");
+                throw new ArgumentNullException("directorioTemporal {ServicioSeguridad - Path.GetTempPath()}");
 
             string idOperacion = DateTime.Now.Ticks.ToString();
             DirectoryInfo dirTemp = new DirectoryInfo(directorioTemporal);
@@ -146,25 +148,7 @@ namespace Servicios
 
             return zipClaves;
         }
-           
-        // > -- METODO PARA GENERAR LAS CLAVES EN UN FICHERO TEMPORTAL Y MONTAR EL ZIP
-        //public static void DescargarClaves()
-        //{
-            
-        //    //obtener el directorio para almacenar las claves
-        //    string directorioTemp = Directory.GetCurrentDirectory()+"\\temp";
-
-        //    //generar las claves
-        //    GenerarClavesRSA(directorioTemp, directorioTemp);
-
-        //    //comprimir las claves en un zip
-        //    string zip = directorioTemp + "claves.zip";
-        //    ZipFile.CreateFromDirectory(directorioTemp, zip);
-
-        //    //https://docs.microsoft.com/es-es/dotnet/api/system.net.webclient.downloadfileasync?view=netcore-3.1
-        //}
-
-        // > ----------- AES
+       
         private static Aes GenerarClaveAES()
         {
             Aes clave = Aes.Create();
@@ -204,9 +188,8 @@ namespace Servicios
                     using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, cifrador, CryptoStreamMode.Write))
                     {
                         using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
-                        {
-                            //Write all data to the stream.
-                            swEncrypt.Write(textoPlano);
+                        {                            
+                            swEncrypt.Write(textoPlano); //Write all data to the stream.
                         }
                         cifrado = msEncrypt.ToArray();
                     }
