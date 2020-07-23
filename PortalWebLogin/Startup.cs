@@ -41,7 +41,6 @@ namespace PortalWebLogin
             Configuration = configuration;
 
             FactoriaServicios.CadenaConexion = configuration.GetValue<string>("CadenaConexion");
-            //FactoriaServicios.SetDirectorioTemporal(configuration.GetValue<string>("DirectorioTemporal"));
 
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
