@@ -26,10 +26,10 @@ else
 
     <div class="row" style="border-bottom: 1px solid #eee;">
         <div class="col-xl-6 xol-md-6 col-sm-12"><h2>PROYECTOS DISPONIBLES</h2></div>
-        <div class="col-lg-3 col-md-3 ml-auto mt-1">
+        <div class="col-lg-3 col-md-3 ml-auto">
             <button class="btn btn-primary" @onclick="@(async () => await Crear())" style="float:right;"><span class="oi oi-plus mr-2"></span>Crear proyecto</button>
         </div>
-        <div class="col-xl-2 col-lg-3 col-md-3 mt-1">
+        <div class="col-xl-3 col-lg-3 col-md-3">
             <button class="btn btn-info" @onclick="@(async () => await GenerarClaves())" style="float:right;"><span class="oi oi-lock-locked mr-2"></span>Generar claves RSA</button>
         </div>
     </div>
@@ -117,7 +117,6 @@ else
                     }
                     <div style="color:dodgerblue; float:left; padding-top:10px; cursor:pointer">
                         <a class="btn" @onclick="@(async () => await CrearEB(proyecto.Id))"><span class="oi oi-plus"></span> Añadir <strong>estación base</strong></a><br />
-
                     </div>
                 </div>
             </div>
@@ -281,8 +280,9 @@ else
                     else
                     {
                         @*<div class="modal-body @claseModal" role="alert" style="text-align:center;">@mensajeEliminar</div>*@
-
-                        <div class=@claseModal role="alert" style="text-align:center;"><strong>@mensajeEliminar</strong></div>
+                        <div class="modal-body">
+                            <div class=@claseModal role="alert" style="text-align:center;"><strong>@mensajeEliminar</strong></div>
+                        </div>                        
                     }
                 </div>
             </div>
