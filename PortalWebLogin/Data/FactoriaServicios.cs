@@ -26,11 +26,11 @@ namespace PortalWebLogin.Data
         {
             if(CadenaConexion == null)
             {
-                throw new ArgumentNullException("Cadena de conexión vacía");
+                throw new ArgumentNullException("CadenaConexion - {appsetting.json}");
             }
             else if(log == null)
             {
-                throw new ArgumentNullException("Log vacío");
+                throw new ArgumentNullException("Log - {appsettings.json}");
             }
             else
             {
@@ -46,11 +46,11 @@ namespace PortalWebLogin.Data
         {
             if (CadenaConexion == null)
             {
-                throw new ArgumentNullException("Cadena de conexión vacía");
+                throw new ArgumentNullException("CadenaConexion - {appsetting.json}");
             }
             else if (log == null)
             {
-                throw new ArgumentNullException("Log vacío");
+                throw new ArgumentNullException("Log - {appsettings.json}");
             }
             else
             {
@@ -67,11 +67,11 @@ namespace PortalWebLogin.Data
         {
             if (CadenaConexion == null)
             {
-                throw new ArgumentNullException("Cadena de conexión vacía");
+                throw new ArgumentNullException("CadenaConexion - {appsetting.json}");
             }
             else if (log == null)
             {
-                throw new ArgumentNullException("Log vacío");
+                throw new ArgumentNullException("Log - {appsettings.json}");
             }
             else
             {
