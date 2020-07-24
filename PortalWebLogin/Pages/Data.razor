@@ -13,103 +13,104 @@
 {
     @if (!string.IsNullOrEmpty(sensor) && !string.IsNullOrEmpty(idEstacionBase))
     {
-        <div class="container-fluid">
-            <h1><span class="oi oi-rss"></span> @nombreSensor</h1>
+    <div class="container-fluid">
+        @*<h1><span class="oi oi-rss"></span> @nombreSensor</h1>*@
+        <h1>📍 @nombreSensor</h1>
 
-            <div class="row justify-content-end" style="padding-bottom:20px;">
-                <label class="form-check-label mr-2">Cantidad de datos a mostrar:</label>
+        <div class="row justify-content-end" style="padding-bottom:20px;">
+            <label class="form-check-label mr-2">Cantidad de datos a mostrar:</label>
+            @foreach (var item2 in new int[] { 3, 5, 10, 20 })
+            {
+                <div class="form-check form-check-inline">
+                    <input type="radio" class="form-check-input" id="@item2" value="@item2" @onchange="RadioSelection2" checked=@(RadioValue2.Equals(item2)) />
+                    <label class="form-check-label" for="@item2">@item2</label>
+
+                </div>
+            }
+        </div>
+
+        @*<div class="row">
+            <div class="col-md-3">
+                <label>Cantidad de datos a mostrar: </label>
+            </div>
+            @foreach (var item in new int[] { 1, 10, 100, 100 })
+            {
+                <div class="form-check form-check-inline">
+                    <input type="radio" class="form-check-input" id="@item" value="@item"/>
+                    <label class="form-check-label" for="@item">@item</label>
+
+                </div>
+            }
+        </div>*@
+
+        @*<div class="container">
+            <div class="row justify-content-end">
+                <label>Cantidad de datos a mostrar: </label>
+
                 @foreach (var item2 in new int[] { 3, 5, 10, 20 })
                 {
-                    <div class="form-check form-check-inline">
-                        <input type="radio" class="form-check-input" id="@item2" value="@item2" @onchange="RadioSelection2" checked=@(RadioValue2.Equals(item2)) />
-                        <label class="form-check-label" for="@item2">@item2</label>
-
+                    <div class="col-md-1">
+                        <input type="radio" name="technology" id="@item2" value="@item2" @onchange="RadioSelection2" checked=@(RadioValue2.Equals(item2)) />
+                        <label for="@item2">@item2</label>
                     </div>
                 }
             </div>
+        </div>*@
 
-            @*<div class="row">
-                    <div class="col-md-3">
-                        <label>Cantidad de datos a mostrar: </label>
-                    </div>
-                    @foreach (var item in new int[] { 1, 10, 100, 100 })
-                    {
-                        <div class="form-check form-check-inline">
-                            <input type="radio" class="form-check-input" id="@item" value="@item"/>
-                            <label class="form-check-label" for="@item">@item</label>
+        <div class="row">
+            <div class="col-xl-6">
+                <div class="card mb-4">
 
-                        </div>
-                    }
-                </div>*@
-
-            @*<div class="container">
-                    <div class="row justify-content-end">
-                        <label>Cantidad de datos a mostrar: </label>
-
-                        @foreach (var item2 in new int[] { 3, 5, 10, 20 })
-                        {
-                            <div class="col-md-1">
-                                <input type="radio" name="technology" id="@item2" value="@item2" @onchange="RadioSelection2" checked=@(RadioValue2.Equals(item2)) />
-                                <label for="@item2">@item2</label>
-                            </div>
-                        }
-                    </div>
-                </div>*@
-
-            <div class="row">
-                <div class="col-xl-6">
-                    <div class="card mb-4">
-
-                        <div class="card-header"><span class="oi oi-sun mr-1"></span>Datos de temperatura</div>
-                        <div class="card-body"><LineChart @ref="lineChartTemperature" TItem="double" /></div>
-                    </div>
-                </div>
-                <div class="col-xl-6">
-                    <div class="card mb-4">
-                        <div class="card-header"><span class="oi oi-droplet mr-1"></span>Datos de humedad</div>
-                        <div class="card-body"><LineChart @ref="lineChartHumity" TItem="double" /></div>
-                    </div>
+                    <div class="card-header"><span class="oi oi-sun mr-1"></span>Datos de temperatura</div>
+                    <div class="card-body"><LineChart @ref="lineChartTemperature" TItem="double" /></div>
                 </div>
             </div>
-            <div class="card mb-4">
-                <div class="card-header"><span class="oi oi-spreadsheet mr-1"></span>Tabla resumen</div>
-                <div class="card-body">
-                    @if (datos == null)
-                    {
-                        <p><em>Cargando datos...</em></p>
-
-                    }
-                    else
-                    {
-                        <div class="table-responsive" id="tabla-resumen">
-                            <table class="table table-bordered" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th>Fecha</th>
-                                        <th>Temperatura (ºC)</th>
-                                        <th>Humedad (%)</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                    @foreach (EntidadDatoBase dato in datos)
-                                    {
-                                        <tr>
-                                            <td>@dato.Stamp</td>
-                                            <td>@dato.Temperatura</td>
-                                            <td>@dato.Humedad</td>
-                                        </tr>
-                                    }
-
-                                </tbody>
-                            </table>
-                        </div>
-
-                    }
-
+            <div class="col-xl-6">
+                <div class="card mb-4">
+                    <div class="card-header"><span class="oi oi-droplet mr-1"></span>Datos de humedad</div>
+                    <div class="card-body"><LineChart @ref="lineChartHumity" TItem="double" /></div>
                 </div>
             </div>
         </div>
+        <div class="card mb-4">
+            <div class="card-header"><span class="oi oi-spreadsheet mr-1"></span>Tabla resumen</div>
+            <div class="card-body">
+                @if (datos == null)
+                {
+                    <p><em>Cargando datos...</em></p>
+
+                }
+                else
+                {
+                    <div class="table-responsive" id="tabla-resumen">
+                        <table class="table table-bordered" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Temperatura (ºC)</th>
+                                    <th>Humedad (%)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (EntidadDatoBase dato in datos)
+                                {
+                                    <tr>
+                                        <td>@dato.Stamp</td>
+                                        <td>@dato.Temperatura</td>
+                                        <td>@dato.Humedad</td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                }
+
+            </div>
+        </div>
+    </div>
     }
     else
     {
