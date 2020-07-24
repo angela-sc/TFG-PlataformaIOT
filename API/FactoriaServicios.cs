@@ -21,11 +21,11 @@ namespace API
         {
             if (CadenaConexion == null)
             {
-                throw new ArgumentNullException("Cadena de conexión vacía");
+                throw new ArgumentNullException("CadenaConexion - {appsettings.json}");
             }
             else if (Log == null)
             {
-                throw new ArgumentNullException("Log vacío");
+                throw new ArgumentNullException("Log - {appsettings.json}");
             }
             else
             {
@@ -41,9 +41,9 @@ namespace API
         public static IServicioSeguridad GetServicioSeguridad()
         {
             if(FicheroClaveRSA == null)
-                throw new ArgumentNullException("FicheroClavesRSA no existe.");
+                throw new ArgumentNullException("FicheroClaveRSA - {appsettings.json}");
             if (Log == null)
-                throw new ArgumentNullException("Log vacío.");
+                throw new ArgumentNullException("Log - {appsettings.json}");
 
            
             if (servicioSeguridad == null)
