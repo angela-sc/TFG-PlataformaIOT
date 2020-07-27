@@ -13,7 +13,7 @@ namespace Libreria.Interfaces
         Task<int> ObtenerId(string nombreSensor, int idEstacionBase);
         Task<string> ObtenerNombre(int idSensor, int idEstacionBase);
         Task<IEnumerable<EntidadDatoBase>> ObtenerDatos(int idSensor, int top);
-        Task<IEnumerable<EntidadDatoBase>> ObtenerDatos(int idSensor, DateTime? fechaInicio, DateTime? fechaFin);
+        Task<IEnumerable<EntidadDatoBase>> ObtenerDatos(int idSensor, DateTime? fechaInicio, DateTime? fechaFin); //filtra los datos segun fecha de inicio y fin
 
         //Metodos para eliminar un sensor y sus datos
         Task<bool> EliminarDatos(int fk_sensorid);

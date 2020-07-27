@@ -20,10 +20,7 @@ namespace Servicios
             this.repositorioUsuario = new RepositorioUsuario(cadenaConexion, log);
         }
 
-        /*
-         * Metodo que llama a RepositorioUsuario con los datos del usuario para registrarlo
-         * Devuelvo true si ha ido todo ok, false en otro caso.
-         */
+        //Llama a RepositorioUsuario con los datos del usuario para registrarlo
         public async Task<bool> RegistraUsuario(EntidadUsuario usuario)
         {
             bool registrado = false;
@@ -39,21 +36,5 @@ namespace Servicios
 
             return registrado;
         }
-
-        ////Metodo que obtienen los proyectos de un usuario
-        //public async Task<IEnumerable<EntidadProyecto>> Proyectos(int idUsuario)
-        //{
-        //    IEnumerable<EntidadProyecto> proyectos = null;
-        //    try
-        //    {
-        //        proyectos = await repositorioUsuario.ObtenerProyectosAsync(idUsuario);
-
-        //    }
-        //    catch (Exception)
-        //    {
-        //        log.Error($"Error en el servicio de usuario: no se han podido obtener los proyectos del usuario {idUsuario}");
-        //    }
-        //    return proyectos;
-        //}
     }
 }

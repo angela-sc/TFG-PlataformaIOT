@@ -202,35 +202,6 @@ namespace Repositorio.SQLServer
             return resultado;
         }
 
-        
-        //public async Task<IEnumerable<EntidadEstacionBase>> ObtenerEstacionesBase(string Proyecto) //A partir del nombre del proyecto obtiene la estacion base
-        //{
-        //    Dictionary<string, object> parametros = new Dictionary<string, object>() 
-        //    {
-        //        {"@proyecto", Proyecto} 
-        //    };
-
-        //    string query = @"
-        //                     SELECT eb.* FROM [plataforma_iot].[dbo].[EstacionBase] eb
-        //                     JOIN [plataforma_iot].[dbo].[Proyecto] p ON eb.[fk_idproyecto] = p.[id]
-        //                     WHERE p.[nombre] = @proyecto
-        //                    ";
-
-        //    IEnumerable<EntidadEstacionBase> estaciones = null;
-        //    try
-        //    {
-        //        using (SqlConnection conn = new SqlConnection(cadenaConexion))
-        //        {
-        //            estaciones = await conn.QueryAsync<EntidadEstacionBase>(query, parametros);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        log.Error($"ERR. REPOSITORIO ESTACION BASE (ObtenerEstacionesBase) - {ex.Message}");
-        //    }
-        //    return estaciones;
-        //}
-
         public async Task<bool> Eliminar(int idEstacionBase)
         {
             bool eliminada = false;
@@ -285,7 +256,6 @@ namespace Repositorio.SQLServer
             catch (Exception ex)
             {
                 log.Error($"ERR. REPOSITORIO ESTACIÓN BASE (Editar) - {ex.Message}");
-                //Console.WriteLine(ex.Message, "Error: ");
                 editado = false;
             }
             return editado;
@@ -312,8 +282,6 @@ namespace Repositorio.SQLServer
             catch (Exception ex)
             {
                 log.Error($"ERR. REPOSITORIO ESTACION BASE (Crear) - {ex.Message}");
-                //return false; //si sucede algo, directamente devuelve false
-                //Console.WriteLine(ex.Message, "Error en crear de repositorio estacion base:");
             }           
         }
 

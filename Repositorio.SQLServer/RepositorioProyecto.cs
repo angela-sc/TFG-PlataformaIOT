@@ -21,31 +21,7 @@ namespace Repositorio.SQLServer
             this.cadenaConexion = cadenaConexion;
             this.log = logger;
         }
-        //public async Task InsertaProyecto(EntidadProyecto proyecto)
-        //{                
-        //    Dictionary<string, object> parametros = new Dictionary<string, object>
-        //    {
-        //        { "@nombre", proyecto.Nombre },
-        //        { "@descripcion", proyecto.Descripcion}
-                
-        //    };
-
-        //    string query = @"INSERT INTO [plataforma_iot].[dbo].[Proyecto] ([nombre],[descripcion])
-        //                    VALUES (@nombre, @descripcion)";
-        //    try
-        //    {
-        //        using(SqlConnection conn = new SqlConnection(cadenaConexion))
-        //        {
-        //            await conn.ExecuteAsync(query, parametros);
-        //        }             
-        //    }
-        //    catch(Exception ex)
-        //    {
-        //        //log.Error($"Se ha producido un error al insertar el proyecto {proyecto.name} en la base de datos - ERR. REPOSITORIO PROYECTO");
-        //        Console.WriteLine("Error en el método InsertaProyecto "+ex.Message); // --ELIMINAR CUANDO SE PASE EL LOG   
-        //    }
-        //}
-
+       
         public async Task<IEnumerable<EntidadProyecto>> ObtenerProyectos(string idUsuario)
         {
             Dictionary<string, object> parametros = new Dictionary<string, object>
@@ -130,32 +106,6 @@ namespace Repositorio.SQLServer
             return editado;
         }
 
-        //public async Task AsociarUsuarioProyecto(int idProyecto, int idUsuario)
-        //{
-        //    Dictionary<string, object> parametros = new Dictionary<string, object>
-        //    {
-        //        { "@idproyecto", idProyecto },
-        //        { "@idusuario", idUsuario}
-
-        //    };
-
-        //    string query = @"INSERT INTO [plataforma_iot].[dbo].[Usuario_en_Proyecto] ([id_usuario],[id_proyecto])
-        //                    VALUES (@idusuario, @idproyecto)";
-        //    try
-        //    {
-        //        using (SqlConnection conn = new SqlConnection(cadenaConexion))
-        //        {
-        //            await conn.ExecuteAsync(query, parametros);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        //log.Error($"Se ha producido un error al insertar el proyecto {proyecto.name} en la base de datos - ERR. REPOSITORIO PROYECTO");
-        //        Console.WriteLine("Error en el método AsociarUsuarioProyecto " + ex.Message); // --ELIMINAR CUANDO SE PASE EL LOG   
-        //    }
-
-        //}
-
         public async Task<bool> InsertaProyecto(EntidadProyecto proyecto, string idUsuario)
         {
             bool insertado;
@@ -184,38 +134,8 @@ namespace Repositorio.SQLServer
             {
                 log.Error($"ERR. REPOSITORIO PROYECTO (InsertaProyecto) - {ex.Message}");
                 insertado = false;
-                //Console.WriteLine("Error en el método InsertaProyecto " + ex.Message); // --ELIMINAR CUANDO SE PASE EL LOG   
             }
             return insertado;
-        }
-
-        //public async Task<int> ObtenerId(string Proyecto)
-        //{
-        //    Dictionary<string, object> parametros = new Dictionary<string, object>
-        //    {
-        //        { "@nombre", Proyecto }
-        //    };
-
-        //    string query = @"SELECT [id] FROM [plataforma_iot].[dbo].[Proyecto] WHERE [nombre]=@nombre";
-
-        //    //IEnumerable<EntidadProyecto> resultado = null;
-        //    int resultado = -1;
-        //    try
-        //    {
-        //        using (SqlConnection conn = new SqlConnection(cadenaConexion))
-        //        {
-        //            var r = await conn.QueryAsync<int>(query, parametros);
-        //            resultado = r.FirstOrDefault();
-
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        //log.Error($"Error al obtener los proyectos del usuario {idUsuario} - ERR. REPOSITORIO PROYECTO");
-        //        Console.WriteLine(ex.Message, "Error en obtener id de Respositorio proyecto: ");
-        //        resultado = -1;
-        //    }
-        //    return resultado;
-        //}
+        }       
     }
 }

@@ -57,7 +57,6 @@ namespace Repositorio.SQLServer
             catch (Exception ex)
             {
                 log.Error($"ERR. REPOSITORIO SENSOR (InsertaSensor) - {ex.Message}");
-                //Console.WriteLine(ex.Message, $"Ha habido un problema al insertar el sensor {sensor.Nombre} en la base de datos - ERR. REPOSITORIO SENSOR");
                 insertado = false; //si sucede algo devuelve false
             }
             return insertado;
@@ -164,32 +163,7 @@ namespace Repositorio.SQLServer
             }
             return result;
         }
-
-        //public async Task<IEnumerable<EntidadSensorResultado>> ObtenerDatosSensores(int idEstacionBase) // > -- Obtiene los datos de los sensores de una estacion base
-        //{
-        //    Dictionary<string, object> parametros = new Dictionary<string, object>
-        //    {
-        //        { "@idEstacionBase", idEstacionBase}               
-        //    };
-
-        //    IEnumerable<EntidadSensorResultado> resultado = null;
-
-        //    string query = @"SELECT ";
-        //    try
-        //    {
-        //        using (SqlConnection conn = new SqlConnection(cadenaConexion))
-        //        {
-        //            resultado = await conn.QueryAsync<EntidadSensorResultado>(query, parametros);
-        //        }
-        //    }
-        //    catch(Exception ex)
-        //    {
-        //        //log.Warning($"Ha habido un problema al obtener los datos de la estación base {idEstacionBase} de la base de datos - ERR. REPOSITORIO SENSOR 'ObtenerDatosSensores'");
-        //        Console.WriteLine(ex.Message, " -- ERR. REPOSITORIO SENSOR 'ObtenerDatosSensores'");
-        //    }
-        //    return resultado;
-        //}
-
+        
         public async Task<int> ObtenerId(string nombreSensor, int idEstacionBase)
         {
             int id = -1;
@@ -269,8 +243,6 @@ namespace Repositorio.SQLServer
             }catch(Exception ex)
             {
                 log.Error($"ERR. REPOSITORIO SENSOR (EliminarDatos) - {ex.Message}");
-                //Console.WriteLine($"Error al borrar los datos del sensor {fk_idsensor}: ", ex.Message);
-
                 return eliminado; //¿esto va aqui?
             }
             return eliminado;
@@ -331,7 +303,6 @@ namespace Repositorio.SQLServer
             catch (Exception ex)
             {
                 log.Error($"ERR. REPOSITORIO SENSOR (Editar) - {ex.Message}");
-                //Console.WriteLine(ex.Message, "Error: ");
                 editado = false;
             }
 

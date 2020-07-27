@@ -9,6 +9,5 @@ namespace Libreria.Interfaces
     public interface IRepositorioUsuario
     {
         Task<bool> InsertaUsuario(EntidadUsuario usuario);
-        //Task <IEnumerable<EntidadProyecto>> ObtenerProyectosAsync(int idUsuario);
     }
 }
