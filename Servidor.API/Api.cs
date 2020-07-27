@@ -66,19 +66,19 @@ namespace Servidor.API
 
                 foreach (var item in server.EndPoints)
                 {
-                    Console.Write(" ");
-                    Console.Write(item.LocalEndPoint);
+                    //Console.Write(" ");
+                    //Console.Write(item.LocalEndPoint);
                     //Log.Information($" {item.LocalEndPoint.ToString()}");
                     Log.Information($"API (CoAP Server) {server.Config.Version} is listening on {item.LocalEndPoint.ToString()}");
                 }
-                Console.WriteLine();
+                //Console.WriteLine();
             }
             catch (Exception ex)
             {
                 Log.Fatal($"ERR API//SERVIDOR CoAP - {ex.Message}");
             }
-            Console.WriteLine("Press any key to exit.");
-            Console.ReadKey();
+            //Console.WriteLine("Press any key to exit.");
+           // Console.ReadKey();
 
             Log.CloseAndFlush();
 
