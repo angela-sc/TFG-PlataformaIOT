@@ -25,11 +25,11 @@ namespace EstacionBase.WorkerService
         {
             if (Log == null)
             {
-                throw new ArgumentNullException("Log vacío.");
+                throw new ArgumentNullException("Log - {appsettings.json}");
             }
             else if (string.IsNullOrEmpty(FicheroClaveRSA))
             {
-                throw new ArgumentNullException("FicheroClaveRSA vacío.");
+                throw new ArgumentNullException("FicheroClaveRSA -{appsettings.json}");
             }
             else
             {

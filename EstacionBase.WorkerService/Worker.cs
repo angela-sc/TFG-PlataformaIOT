@@ -32,11 +32,11 @@ namespace EstacionBase.WorkerService
         public Worker(ILogger<Worker> logger)
         {
             if (FactoriaServicios.Log == null)
-                throw new ArgumentNullException("Log vacío.");
+                throw new ArgumentNullException("Log - {appsettings.json}");
             if(FactoriaServicios.UriCOAP == null)
                 throw new ArgumentNullException("URI COAP vacía.");
             if(string.IsNullOrEmpty(FactoriaServicios.DirectorioSensores))
-                throw new ArgumentNullException("cadena de directorios de sensores vacía.");
+                throw new ArgumentNullException("DirectorioSensores - {appsettings.json}");
 
             _logger = FactoriaServicios.Log;
             uri = FactoriaServicios.UriCOAP;
@@ -98,7 +98,7 @@ namespace EstacionBase.WorkerService
                     _logger.Error($"ERR WORKER (ExecuteAsync) - {ex.Message}");
                 }
                 
-                await Task.Delay(60 * 1000, stoppingToken);
+                await Task.Delay(60 * 1000, stoppingToken); //reenvia la info cada minuto
                 //await Task.Delay(300*1000, stoppingToken);                
             }
         }
