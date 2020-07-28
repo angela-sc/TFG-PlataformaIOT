@@ -66,19 +66,14 @@ namespace EstacionBase.WorkerService
                 try
                 {
                     var files = Directory.EnumerateFiles(directorioSensores, "*.txt");
-                    //_logger.Information("Worker running at: {time}", DateTimeOffset.Now);
 
-                    //accion que queremos ejecutar, post > PostPetition();
                     foreach (string file in files)
                     {
                         var fileName = new FileInfo(file).Name;
 
                         string payload = GetData(fileName);
-                        //var size = Encoding.ASCII.GetBytes(payload);
                         if (!string.IsNullOrEmpty(payload))
                         {
-                            //var cifrado = servicioSeguridad.CifrarRSA(payload);
-                            
                             var result = client.Post(payload);
 
                             if (result.StatusCode.ToString() == "Changed")
@@ -93,7 +88,6 @@ namespace EstacionBase.WorkerService
                                 File.Delete(file); //elimina el fichero
                             }
                         }
-                        //con _logger.Information("...",result.StatusCode); 
                     }
                 }
                 catch(Exception ex)
@@ -101,32 +95,15 @@ namespace EstacionBase.WorkerService
                     _logger.Error($"ERR WORKER (ExecuteAsync) - {ex.Message}");
                 }
                 
-                await Task.Delay(tiempoEnvio * 1000, stoppingToken);
-                //await Task.Delay(60 * 1000, stoppingToken); //reenvia la info cada minuto
-                //await Task.Delay(300*1000, stoppingToken);                
+                await Task.Delay(tiempoEnvio * 1000, stoppingToken);              
             }
         }
-
-        /*private async Task PostPetition()
-        {
-            var files = Directory.EnumerateFiles(directorioSensores, "*.txt");
-
-            foreach(string file in files)
-            {
-                var fileName = new FileInfo(file).Name;
-                string request = GetData(fileName);
-
-                var response = client.Post(request);
-
-            }
-        }*/
 
         private string GetData(string fileName)
         {
             string request;
             
             var dateFormat = "yyyy-MM-dd HH:mm:ss"; //formato utilizado al componer el json en el campo stamp
-            //var dateFormat = "dd-MM-yyyy HH:mm:ss";
             var dateTimeConverter = new IsoDateTimeConverter { DateTimeFormat = dateFormat };
 
             List<EntidadDatoBase> data = new List<EntidadDatoBase>();

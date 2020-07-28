@@ -22,13 +22,10 @@ namespace EstacionBase.WorkerService
             {
                 log.Information("PROGRAM (Main) - Iniciando el servicio");
                 CreateHostBuilder(args).Build().Run();
-                //return;
             }
             catch(Exception ex)
             {
-                //Console.WriteLine(ex.Message);
                 log.Fatal($"ERR PROGRAM (Main) - {ex.Message}");
-                //return;
             }
             finally
             {
@@ -63,19 +60,6 @@ namespace EstacionBase.WorkerService
             FactoriaServicios.EstacionBase = config["EstacionBase"];
             FactoriaServicios.SetTiempoEnvio(config["TiempoEnvio"]);
         }
-
-
-//        private static IConfigurationRoot GetConfiguration()
-//        {
-//            return new ConfigurationBuilder()
-//              .SetBasePath(Directory.GetCurrentDirectory())
-//#if DEBUG
-//              .AddJsonFile("appsettings-debug.json", optional: true, reloadOnChange: true)
-//#else
-//              .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-//#endif
-//              .Build();
-//        }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)

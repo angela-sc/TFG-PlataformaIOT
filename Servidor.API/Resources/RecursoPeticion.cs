@@ -39,10 +39,10 @@ namespace Servidor.API.Resources
                     EntidadPeticion peticion = servicioSeguridad.ToEntidadPeticion(peticionSegura);
 
                     var insercion = Task.Run(async () => await servicioInsertaInformacion.InsertaPeticion(peticion));   //Lanzamos la peticion para que inserte los datos de forma asincrona
-                    log.Information($"Resultado insercion (despues de Task.Run): {insercion.Result.ToString()}");
+                    
                     if (insercion.Result)
                     {
-                        log.Information($"Datos insertados: {peticion.Proyecto}-{peticion.EstacionBase}-{peticion.Sensor} ({peticion.Datos.Count()})");
+                        //log.Information($"Datos insertados: {peticion.Proyecto}-{peticion.EstacionBase}-{peticion.Sensor} ({peticion.Datos.Count()})");
                         exchange.Respond(CoAP.StatusCode.Changed);
                     }
                     else
