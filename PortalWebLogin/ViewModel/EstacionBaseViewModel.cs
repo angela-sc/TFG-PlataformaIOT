@@ -64,10 +64,7 @@ namespace PortalWebLogin.ViewModel
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            if (firstRender)
-            {
-                mapa.Refresh();
-            }
+            mapa.Refresh();
         }
     }
 

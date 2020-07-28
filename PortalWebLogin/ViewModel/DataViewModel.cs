@@ -70,7 +70,6 @@ namespace PortalWebLogin.ViewModel
             }
 
             Labels = labels.ToArray();
-            //StateHasChanged();
         }
 
         protected override async Task OnSecureParameterSetAsync()
@@ -90,26 +89,39 @@ namespace PortalWebLogin.ViewModel
             }
         }
 
+        protected async Task HandleRedrawHumedad()
+        {
+            await lineChartHumity.Clear();
+            await lineChartHumity.AddLabel(Labels);
+            await lineChartHumity.AddDataSet(GetLineChartHumityDataset());
+            await lineChartHumity.Update();
+        }
+
+        protected async Task HandleRedrawTemperatura()
+        {
+            await lineChartTemperature.Clear();
+            await lineChartTemperature.AddLabel(Labels);
+            await lineChartTemperature.AddDataSet(GetLineChartTemperatureDataset());
+            await lineChartTemperature.Update();
+        }
+
         protected async Task HandleRedraw()
         {
             await CargaDatos();
             
             await lineChartTemperature.Clear();
             await lineChartTemperature.Update();
-            StateHasChanged();
             await lineChartTemperature.AddLabel(Labels);
             await lineChartTemperature.AddDataSet(GetLineChartTemperatureDataset());
             await lineChartTemperature.Update();
-            StateHasChanged();
 
             await lineChartHumity.Clear();
             await lineChartHumity.Update();
-            StateHasChanged();
             await lineChartHumity.AddLabel(Labels);
             await lineChartHumity.AddDataSet(GetLineChartHumityDataset());
             await lineChartHumity.Update();
+
             StateHasChanged();
-            //await JSRuntime.InvokeVoidAsync("resizeEvent", new object[] { });
         }
 
         LineChartDataset<double> GetLineChartTemperatureDataset()
@@ -146,8 +158,11 @@ namespace PortalWebLogin.ViewModel
         public async void RadioSelection2(ChangeEventArgs args)
         {
             RadioValue2 = Convert.ToInt32(args.Value);
-            await HandleRedraw();
-            //StateHasChanged();
+
+            await CargaDatos();
+            await HandleRedrawHumedad();
+            await HandleRedrawTemperatura();
+            StateHasChanged();
         }
     }
 }
