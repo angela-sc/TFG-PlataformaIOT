@@ -80,7 +80,7 @@ namespace Servidor.API
             //Console.WriteLine("Press any key to exit.");
            // Console.ReadKey();
 
-            Log.CloseAndFlush();
+            //Log.CloseAndFlush();
 
             //while (!stoppingToken.IsCancellationRequested)
             //{

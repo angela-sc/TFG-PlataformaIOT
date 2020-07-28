@@ -9,7 +9,7 @@ namespace Servidor.API
 {
     public static class FactoriaServicios
     {
-        public static ILogger Log { get; set; }
+        public static Serilog.ILogger Log { get; set; }
         public static string CadenaConexion { get; set; }
         public static string FicheroClaveRSA { get; set; }
         public static string Puerto { get; set; }

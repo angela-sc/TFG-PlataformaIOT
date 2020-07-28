@@ -100,7 +100,7 @@ namespace EstacionBase.WorkerService
                 {                    
                     _logger.Error($"ERR WORKER (ExecuteAsync) - {ex.Message}");
                 }
-
+                
                 await Task.Delay(tiempoEnvio * 1000, stoppingToken);
                 //await Task.Delay(60 * 1000, stoppingToken); //reenvia la info cada minuto
                 //await Task.Delay(300*1000, stoppingToken);                

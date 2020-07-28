@@ -39,13 +39,13 @@ namespace Servidor.API
         private static void CargarConfiguracion()
         {
             var config = new ConfigurationBuilder()
-                            .SetBasePath(Directory.GetCurrentDirectory())
+                .SetBasePath(Directory.GetCurrentDirectory())
 #if DEBUG
-                            .AddJsonFile("appsettings-debug.json", optional: true, reloadOnChange: true)
+                .AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true)
 #else
-                            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
 #endif
-                            .Build();
+                .Build();
 
             var directorioLog = config["DirectorioLog"];
 
@@ -55,9 +55,9 @@ namespace Servidor.API
                 .WriteTo.File(directorioLog)
                 .CreateLogger();
 
+            FactoriaServicios.Log = Log.Logger;
             FactoriaServicios.CadenaConexion = config["CadenaConexion"];
             FactoriaServicios.FicheroClaveRSA = config["FicheroClaveRSA"];
-            FactoriaServicios.Log = Log.Logger;
             FactoriaServicios.Puerto = config["Puerto"];
         }
     }

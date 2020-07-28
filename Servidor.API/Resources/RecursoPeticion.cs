@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,7 +15,7 @@ namespace Servidor.API.Resources
     {
         private IServicioInsertaInformacion servicioInsertaInformacion;
         private IServicioSeguridad servicioSeguridad;
-        private ILogger log;
+        private Serilog.ILogger log;
 
         public RecursoPeticion() : base("COAPServer")
         {
@@ -32,14 +33,17 @@ namespace Servidor.API.Resources
 
             if (payload != null)
             {
-                EntidadPeticionSegura peticionSegura = JsonConvert.DeserializeObject<EntidadPeticionSegura>(payload);  //Deserializamos la peticion en un objeto de tipo json
-                EntidadPeticion peticion = servicioSeguridad.ToEntidadPeticion(peticionSegura);
                 try
                 {
-                    var insercion = Task.Run(async () => await servicioInsertaInformacion.InsertaPeticion(peticion));   //Lanzamos la peticion para que inserte los datos de forma asincrona
+                    EntidadPeticionSegura peticionSegura = JsonConvert.DeserializeObject<EntidadPeticionSegura>(payload);  //Deserializamos la peticion en un objeto de tipo json
+                    EntidadPeticion peticion = servicioSeguridad.ToEntidadPeticion(peticionSegura);
 
-                    if (insercion.Result)
+                    bool insercion = false;
+                    Task.Run(async () => insercion = await servicioInsertaInformacion.InsertaPeticion(peticion));   //Lanzamos la peticion para que inserte los datos de forma asincrona
+
+                    if (insercion)
                     {
+                        //log.Information($"Datos insertados: {peticion.Proyecto}-{peticion.EstacionBase}-{peticion.Sensor} ({peticion.Datos.Count()})");
                         exchange.Respond(CoAP.StatusCode.Changed);
                     }
                     else
@@ -51,11 +55,13 @@ namespace Servidor.API.Resources
                 catch(Exception ex)
                 {
                     log.Error($"ERR RECURSOPETICION (DoPost) - {ex.Message}");
+                    exchange.Respond(CoAP.StatusCode.BadRequest);
                 }                
             }
             else
             {
                 log.Error("ERR RECURSOPETICION (DoPost) - La petición está vacía.");
+                exchange.Respond(CoAP.StatusCode.BadRequest);
             }
         }
 
