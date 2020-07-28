@@ -14,7 +14,6 @@
     @if (!string.IsNullOrEmpty(sensor) && !string.IsNullOrEmpty(idEstacionBase))
     {
     <div class="container-fluid">
-        @*<h1><span class="oi oi-rss"></span> @nombreSensor</h1>*@
         <h1>📍 @nombreSensor</h1>
 
         <div class="row justify-content-end" style="padding-bottom:20px;">
@@ -28,34 +27,6 @@
                 </div>
             }
         </div>
-
-        @*<div class="row">
-            <div class="col-md-3">
-                <label>Cantidad de datos a mostrar: </label>
-            </div>
-            @foreach (var item in new int[] { 1, 10, 100, 100 })
-            {
-                <div class="form-check form-check-inline">
-                    <input type="radio" class="form-check-input" id="@item" value="@item"/>
-                    <label class="form-check-label" for="@item">@item</label>
-
-                </div>
-            }
-        </div>*@
-
-        @*<div class="container">
-            <div class="row justify-content-end">
-                <label>Cantidad de datos a mostrar: </label>
-
-                @foreach (var item2 in new int[] { 3, 5, 10, 20 })
-                {
-                    <div class="col-md-1">
-                        <input type="radio" name="technology" id="@item2" value="@item2" @onchange="RadioSelection2" checked=@(RadioValue2.Equals(item2)) />
-                        <label for="@item2">@item2</label>
-                    </div>
-                }
-            </div>
-        </div>*@
 
         <div class="row">
             <div class="col-xl-6">

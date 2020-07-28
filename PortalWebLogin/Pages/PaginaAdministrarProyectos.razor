@@ -24,18 +24,7 @@ else
             <button class="col  btn btn-outline-info" @onclick="@(async () => await GenerarClaves())"><span class="oi oi-lock-locked mr-2"></span>Descargar claves RSA</button>
         </div>
     </div>
-    <div class="row" style="border-bottom: 1px solid #eee;
-    "></div>
-
-    @*<div class="row" style="border-bottom: 1px solid #eee;">
-        <div class="col-xl-6 xol-md-6 col-sm-12"><h2>PROYECTOS DISPONIBLES</h2></div>
-        <div class="col-lg-3 col-md-3 ml-auto">
-            <button class="btn btn-primary" @onclick="@(async () => await Crear())" style="float:right;"><span class="oi oi-plus mr-2"></span>Crear proyecto</button>
-        </div>
-        <div class="col-xl-3 col-lg-3 col-md-3">
-            <button class="btn btn-info" @onclick="@(async () => await GenerarClaves())" style="float:right;"><span class="oi oi-lock-locked mr-2"></span>Generar claves RSA</button>
-        </div>
-    </div>*@
+    <div class="row" style="border-bottom: 1px solid #eee;"></div>
 
     <div class="row mt-2">
         <!-- bucle que muestra los proyectos -->
@@ -278,7 +267,6 @@ else
                             <EditForm Model="ProyectoEditar" OnSubmit="@(async () => await EditarProyecto())">
                                 <DataAnnotationsValidator />
                                 <ValidationSummary />
-
                                 <div class="form-group">
                                     <div style="margin-bottom: 5px">
                                         <label for="nombre">Nombre</label>
@@ -319,16 +307,12 @@ else
                             <EditForm Model="EstacionBaseEditar" OnSubmit="@(async () => await EditarEstacionBase())">
                                 <DataAnnotationsValidator />
                                 <ValidationSummary />
-
                                 <div class="form-group">
                                     <div style="margin-bottom: 5px">
                                         <label for="nombre">Nombre</label>
                                         <InputText class="form-control" id="nombre" @bind-Value="EstacionBaseEditar.Nombre"></InputText>
                                         <ValidationMessage For="@(()=> EstacionBaseEditar.Nombre)" />
                                     </div>
-
-
-
                                 </div>
                                 <button class="btn btn-primary" type="submit">Aceptar</button>
                             </EditForm>

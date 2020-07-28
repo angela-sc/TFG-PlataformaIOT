@@ -58,6 +58,7 @@ namespace Servicios
                         result = (result && await repositorioSensor.InsertaDato(dato)); //si falla alguna da false
                     }
                     //leer entidadPeticion e insertar en las tablas correspondientes usando los repositorio
+                    log.Information($"Resultado insercion (tras insertarlos): {result}");
                 }
                 else
                 {

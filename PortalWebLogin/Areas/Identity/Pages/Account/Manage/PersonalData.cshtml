@@ -1,7 +1,6 @@
 ﻿@page
 @model PersonalDataModel
 @{
-    //ViewData["Title"] = "Personal Data";
     ViewData["Title"] = "Información personal";
     ViewData["ActivePage"] = ManageNavPages.PersonalData;
 }
@@ -10,20 +9,14 @@
 
 <div class="row">
     <div class="col-md-6">
-        @*<p>Your account contains personal data that you have given us. This page allows you to download or delete that data.</p>*@
         <p>Tu cuenta contiene la información personal que has proporcionado. Esta página te permite eliminar dicha información.</p>
         <p>
-            @*<strong>Deleting this data will permanently remove your account, and this cannot be recovered.</strong>*@
             <svg class="bi bi-exclamation-triangle-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="red" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 5zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
             </svg>
             <strong>Se eliminarán permanente tus datos personales, pero no tus proyectos.</strong>
         </p>
-        @*<form id="download-data" asp-page="DownloadPersonalData" method="post" class="form-group">
-            <button class="btn btn-primary" type="submit">Download</button>
-        </form>*@
         <p>
-            @*<a id="delete" asp-page="DeletePersonalData" class="btn btn-primary">Delete</a>*@
             <a id="delete" asp-page="DeletePersonalData" class="btn btn-primary">Eliminar</a>
         </p>
     </div>

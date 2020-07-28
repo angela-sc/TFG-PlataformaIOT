@@ -30,11 +30,5 @@ namespace PortalWebLogin.Model
         public RangeAttributeExtension(double minimum, double maximum) : base(minimum, maximum) { }
 
         public override bool IsValid(object value) => ((value.ToString().StartsWith("-") && value.ToString().Length <= 17) || value.ToString().Length <= 16) ? (base.IsValid(value)) : false;
-
-        //public override bool IsValid(object value)
-        //{
-        //    string valor = value.ToString();
-        //    return ((valor.StartsWith("-") && valor.Length <= 17) || valor.Length <= 16) ? (base.IsValid(value)) : false;
-        //}
     }
 }

@@ -8,10 +8,7 @@
 <h4>@ViewData["Title"]</h4>
 
 <div class="alert alert-warning" role="alert">
-    <p>
-        @*<strong>Deleting this data will permanently remove your account, and this cannot be recovered.</strong>*@
-        <strong>Tu cuenta será borrada definitivamente.Después, no podrás recuperar los datos.</strong>
-    </p>
+    <p><strong>Tu cuenta será borrada definitivamente.Después, no podrás recuperar los datos.</strong></p>
 </div>
 
 <div>
@@ -25,7 +22,6 @@
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
         }
-        @*<button class="btn btn-danger" type="submit">Delete data and close my account</button>*@
         <button class="btn btn-danger" type="submit">Eliminar datos y cerrar mi cuenta</button>
     </form>
 </div>

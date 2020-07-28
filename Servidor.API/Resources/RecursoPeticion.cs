@@ -38,12 +38,11 @@ namespace Servidor.API.Resources
                     EntidadPeticionSegura peticionSegura = JsonConvert.DeserializeObject<EntidadPeticionSegura>(payload);  //Deserializamos la peticion en un objeto de tipo json
                     EntidadPeticion peticion = servicioSeguridad.ToEntidadPeticion(peticionSegura);
 
-                    bool insercion = false;
-                    Task.Run(async () => insercion = await servicioInsertaInformacion.InsertaPeticion(peticion));   //Lanzamos la peticion para que inserte los datos de forma asincrona
-
-                    if (insercion)
+                    var insercion = Task.Run(async () => await servicioInsertaInformacion.InsertaPeticion(peticion));   //Lanzamos la peticion para que inserte los datos de forma asincrona
+                    log.Information($"Resultado insercion (despues de Task.Run): {insercion.Result.ToString()}");
+                    if (insercion.Result)
                     {
-                        //log.Information($"Datos insertados: {peticion.Proyecto}-{peticion.EstacionBase}-{peticion.Sensor} ({peticion.Datos.Count()})");
+                        log.Information($"Datos insertados: {peticion.Proyecto}-{peticion.EstacionBase}-{peticion.Sensor} ({peticion.Datos.Count()})");
                         exchange.Respond(CoAP.StatusCode.Changed);
                     }
                     else
