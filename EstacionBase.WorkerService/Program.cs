@@ -61,6 +61,7 @@ namespace EstacionBase.WorkerService
             FactoriaServicios.Log = Log.Logger;
             FactoriaServicios.Proyecto = config["Proyecto"];
             FactoriaServicios.EstacionBase = config["EstacionBase"];
+            FactoriaServicios.SetTiempoEnvio(config["TiempoEnvio"]);
         }
 
 
