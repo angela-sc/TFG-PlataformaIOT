@@ -38,8 +38,8 @@ namespace Servicios
             }
             catch(Exception ex)
             {
-                //log.Error($"ERR SERVICIOSEGURIDAD (CifrarRSA) - {ex.Message}");
-                Console.WriteLine($"ERR SERVICIOSEGURIDAD (CifrarRSA) - {ex.Message}");
+                log.Error($"ERR SERVICIOSEGURIDAD (CifrarRSA) - {ex.Message}");
+                //Console.WriteLine($"ERR SERVICIOSEGURIDAD (CifrarRSA) - {ex.Message}");
             }
 
             return bytesCifrados;
@@ -158,7 +158,7 @@ namespace Servicios
 
         private static byte[] CifrarAES(string textoPlano, byte[] clave, byte[] IV)
         {
-            byte[] cifrado;
+            byte[] cifrado = null;
 
             if(textoPlano == null || textoPlano.Length <= 0)
             {
@@ -173,28 +173,34 @@ namespace Servicios
                 throw new ArgumentNullException("IV");
             }
 
-            //Creamos un objeto de tipo AES con una clave y vector de inicializacion (IV) especificos
-            using(var aes = Aes.Create())
+            try
             {
-                aes.Key = clave;
-                aes.IV = IV;
-
-                // Create an encryptor to perform the stream transform.
-                ICryptoTransform cifrador = aes.CreateEncryptor(aes.Key, aes.IV);
-
-                // Create the streams used for encryption.
-                using (MemoryStream msEncrypt = new MemoryStream())
+                //Creamos un objeto de tipo AES con una clave y vector de inicializacion (IV) especificos
+                using (var aes = Aes.Create())
                 {
-                    using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, cifrador, CryptoStreamMode.Write))
+                    aes.Key = clave;
+                    aes.IV = IV;
+
+                    // Create an encryptor to perform the stream transform.
+                    ICryptoTransform cifrador = aes.CreateEncryptor(aes.Key, aes.IV);
+
+                    // Create the streams used for encryption.
+                    using (MemoryStream msEncrypt = new MemoryStream())
                     {
-                        using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
-                        {                            
-                            swEncrypt.Write(textoPlano); //Write all data to the stream.
+                        using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, cifrador, CryptoStreamMode.Write))
+                        {
+                            using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
+                            {
+                                swEncrypt.Write(textoPlano); //Write all data to the stream.
+                            }
+                            cifrado = msEncrypt.ToArray();
                         }
-                        cifrado = msEncrypt.ToArray();
                     }
                 }
-            }
+            }catch(Exception ex)
+            {
+                Log.Error($"ERR SERVICIO SEGURIDAD (CifrarAES) - {ex.Message} ");
+            }            
 
             return cifrado;
         }
@@ -210,28 +216,33 @@ namespace Servicios
 
             string textoPlano = string.Empty;
 
-            using(var aes = Aes.Create())
+            try
             {
-                aes.Key = clave;
-                aes.IV = IV;
-
-                ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
-
-                using (MemoryStream msDecrypt = new MemoryStream(textoCifrado))
+                using (var aes = Aes.Create())
                 {
-                    using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
-                    {
-                        using (StreamReader srDecrypt = new StreamReader(csDecrypt))
-                        {
+                    aes.Key = clave;
+                    aes.IV = IV;
 
-                            // Read the decrypted bytes from the decrypting stream
-                            // and place them in a string.
-                            textoPlano = srDecrypt.ReadToEnd();
+                    ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
+
+                    using (MemoryStream msDecrypt = new MemoryStream(textoCifrado))
+                    {
+                        using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
+                        {
+                            using (StreamReader srDecrypt = new StreamReader(csDecrypt))
+                            {
+                                // Read the decrypted bytes from the decrypting stream and place them in a string.
+                                textoPlano = srDecrypt.ReadToEnd();
+                            }
                         }
                     }
                 }
             }
-
+            catch(Exception ex)
+            {
+                Log.Error($"ERR SERVICIO SEGURIDAD (DescifrarAES) - {ex.Message}");
+            }
+            
             return textoPlano;
         }
 
@@ -251,8 +262,7 @@ namespace Servicios
             catch(Exception ex)
             {
                 entidadPeticion = null;
-                log.Error($"SERVICIOSEGURIDAD (ToEntidadPeticion) - {ex.Message}");
-                //Console.WriteLine($"SERVICIOSEGURIDAD (ToEntidadPeticion) - {ex.Message}");                
+                log.Error($"SERVICIOSEGURIDAD (ToEntidadPeticion) - {ex.Message}");            
             }
 
             return entidadPeticion;
@@ -279,7 +289,6 @@ namespace Servicios
             {
                 entidadPeticionSegura = null;
                 log.Error($"SERVICIOSEGURIDAD (ToEntidadPeticionSegura) - {ex.Message}");
-                //Console.WriteLine($"SERVICIOSEGURIDAD (ToEntidadPeticionSegura) - {ex.Message}");
             }
 
             return entidadPeticionSegura;

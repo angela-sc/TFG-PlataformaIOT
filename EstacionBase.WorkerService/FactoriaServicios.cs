@@ -19,6 +19,24 @@ namespace EstacionBase.WorkerService
         public static string Proyecto { get; set; }
         public static string EstacionBase { get; set; }
 
+        private static int tiempoEnvio; //cada cuanto tiempo se leen ficheros en el worker
+        public static void SetTiempoEnvio(string envio)
+        {
+            if (string.IsNullOrEmpty(envio))
+                throw new ArgumentNullException("TiempoEnvio - {appsettings.json}");
+
+            int envioInt;
+            Int32.TryParse(envio, out envioInt);
+            tiempoEnvio = envioInt;
+            if(tiempoEnvio < 60) // > como mínimo se envía información cada minuto, sino es mucha carga
+            {
+                tiempoEnvio = 60;
+            }
+        }
+        public static int GetTiempoEnvio()
+        {
+            return tiempoEnvio;
+        }
 
 
         public static IServicioSeguridad GetServicioSeguridad()

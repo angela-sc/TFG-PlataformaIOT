@@ -220,7 +220,7 @@ namespace Repositorio.SQLServer
                 {
                     await conn.ExecuteAsync(query, parametros);
                     eliminada = true;
-                    //log.Information("Se ha eliminado correctamente una estacion base");
+                    log.Information($"REPOSITORIO ESTACION BASE (Eliminar) - Se ha eliminado la estación base {idEstacionBase}");
                 }                
             }
             catch (Exception ex)

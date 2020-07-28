@@ -24,6 +24,7 @@ namespace EstacionBase.WorkerService
         private readonly Serilog.ILogger _logger;
         private readonly Uri uri; //URL donde montamos el servidor 
         private readonly string directorioSensores; //Directorio donde estan los .txt
+        private readonly int tiempoEnvio;
 
         private CoapClient client;
 
@@ -36,11 +37,13 @@ namespace EstacionBase.WorkerService
             if(FactoriaServicios.UriCOAP == null)
                 throw new ArgumentNullException("URI COAP vacía.");
             if(string.IsNullOrEmpty(FactoriaServicios.DirectorioSensores))
-                throw new ArgumentNullException("DirectorioSensores - {appsettings.json}");
+                throw new ArgumentNullException("DirectorioSensores - {appsettings.json}");            
 
             _logger = FactoriaServicios.Log;
             uri = FactoriaServicios.UriCOAP;
             directorioSensores = FactoriaServicios.DirectorioSensores;
+
+            tiempoEnvio = FactoriaServicios.GetTiempoEnvio();
         }
 
         //Inicializo el cliente cuando arranca el servicio
@@ -98,7 +101,8 @@ namespace EstacionBase.WorkerService
                     _logger.Error($"ERR WORKER (ExecuteAsync) - {ex.Message}");
                 }
                 
-                await Task.Delay(60 * 1000, stoppingToken); //reenvia la info cada minuto
+                await Task.Delay(tiempoEnvio * 1000, stoppingToken);
+                //await Task.Delay(60 * 1000, stoppingToken); //reenvia la info cada minuto
                 //await Task.Delay(300*1000, stoppingToken);                
             }
         }

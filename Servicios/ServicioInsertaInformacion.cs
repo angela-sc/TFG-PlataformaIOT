@@ -36,44 +36,52 @@ namespace Servicios
             string nombreSensor = entidadPeticion.Sensor;
 
             int estacionId = -1, sensorId = -1;
-            
-            //obtenemos los datos: id de la estacion e id del sensor
-            estacionId = await repositorioEstacion.ObtenerId(nombreProyecto, nombreEstacionBase);
-            sensorId = await repositorioSensor.ObtenerId(nombreSensor, estacionId);
-
             bool result = true; //booleano para saber si ha ocurrido un error durante la insercion de datos
 
-            if(estacionId != -1 && sensorId != -1)
+            try
             {
-                foreach (EntidadDatoBase datoBase in entidadPeticion.Datos)
+                //obtenemos los datos: id de la estacion e id del sensor
+                estacionId = await repositorioEstacion.ObtenerId(nombreProyecto, nombreEstacionBase);
+                sensorId = await repositorioSensor.ObtenerId(nombreSensor, estacionId);
+
+                if (estacionId != -1 && sensorId != -1)
                 {
-                    var dato = new EntidadDato();
+                    foreach (EntidadDatoBase datoBase in entidadPeticion.Datos)
+                    {
+                        var dato = new EntidadDato();
 
-                    dato.Stamp = datoBase.Stamp;
-                    dato.Humedad = datoBase.Humedad;
-                    dato.Temperatura = datoBase.Temperatura;
-                    dato.FK_IdSensor = sensorId;
+                        dato.Stamp = datoBase.Stamp;
+                        dato.Humedad = datoBase.Humedad;
+                        dato.Temperatura = datoBase.Temperatura;
+                        dato.FK_IdSensor = sensorId;
 
-                    result = (result && await repositorioSensor.InsertaDato(dato)); //si falla alguna da false
+                        result = (result && await repositorioSensor.InsertaDato(dato)); //si falla alguna da false
+                    }
+                    //leer entidadPeticion e insertar en las tablas correspondientes usando los repositorio
                 }
-                //leer entidadPeticion e insertar en las tablas correspondientes usando los repositorio
-                return result;               
+                else
+                {
+                    if (estacionId == -1)
+                    {
+                        //log.Debug("Fallo en ServicioInsertaInformacion en el método InsertaPeticion");
+                        log.Warning($"ERR. SERVICIO INSERTA INFORMACION (InsertaPeticion) -  No existe la estacion '{nombreEstacionBase}' en la base de datos");
+                    }
+
+                    if (sensorId == -1)
+                    {
+                        //log.Debug("Fallo en ServicioInsertaInformacion en el método InsertaPeticion");
+                        log.Warning($"ERR. SERVICIO INSERTA INFORMACION (InsertaPeticion) - No existe el sensor {sensorId} en la base de datos");
+                    }
+                    result = false;
+                }
             }
-            else
+            catch(Exception ex)
             {
-                if(estacionId == -1)
-                {                    
-                    //log.Debug("Fallo en ServicioInsertaInformacion en el método InsertaPeticion");
-                    log.Warning($"ERR. SERVICIO INSERTA INFORMACION (InsertaPeticion) -  No existe la estacion '{nombreEstacionBase}' en la base de datos");
-                }
-                
-                if(sensorId == -1)
-                {                   
-                    //log.Debug("Fallo en ServicioInsertaInformacion en el método InsertaPeticion");
-                    log.Warning($"ERR. SERVICIO INSERTA INFORMACION (InsertaPeticion) - No existe el sensor {sensorId} en la base de datos");
-                }
-                return false;
+                log.Error($"ERR. SERVICIO INSERTA INFORMACION (InsertaPeticion) -{ex.Message}");
+                result = false;
             }
+
+            return result;
         }
     }
 }

@@ -37,9 +37,8 @@ namespace PortalWebLogin.ViewModel
             this.StateHasChanged();
         }
 
-        //Metodos para la búsqueda de proyectos+
+        //Metodos para la búsqueda de proyectos
         public List<EntidadProyecto> proyectosFiltrados => proyectos.Where(i => i.Nombre.ToLower().Contains(SearchTerm.ToLower())).ToList();
-
 
         // Metodos para mostrar las tarjetas de estaciones base
         protected bool mostrar = false;
@@ -59,6 +58,5 @@ namespace PortalWebLogin.ViewModel
             this.mostrar = true;
             this.StateHasChanged();
         }
-
     }
 }
