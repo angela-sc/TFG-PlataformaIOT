@@ -49,10 +49,11 @@ namespace Servicios
             {
                 creado = await repositorioProyecto.InsertaProyecto(proyecto, idUsuario);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 //log.Warning($"Problema al obtener los proyectos del usuario {idUsuario}. No tiene ningún proyecto asociado.");
                 creado = false;
+                log.Error($"ERR. SERVICIO PROYECTO (Crear) - {ex.Message}");
             }
 
             return creado;
@@ -67,16 +68,26 @@ namespace Servicios
                 eliminado = await repositorioProyecto.EliminarProyecto(idProyecto);
                 return eliminado;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                log.Error($"ERR. SERVICIO PROYECTO (Eliminar) - {ex.Message}");
                 return eliminado = false;
             }
         }
 
         public async Task<bool> Editar(EntidadProyecto proyecto)
         {
-            return await repositorioProyecto.EditarProyecto(proyecto);      
+            bool editado;
+            try
+            {
+                editado = await repositorioProyecto.EditarProyecto(proyecto);
+            }
+            catch(Exception ex)
+            {
+                editado = false;
+                log.Error($"ERR. SERVICIO PROYECTO (Editar) - {ex.Message}");
+            }
+            return editado; 
         }
         
     }

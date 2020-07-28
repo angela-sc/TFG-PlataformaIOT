@@ -39,7 +39,6 @@ namespace Servicios
             catch(Exception ex)
             {
                 log.Error($"ERR SERVICIOSEGURIDAD (CifrarRSA) - {ex.Message}");
-                //Console.WriteLine($"ERR SERVICIOSEGURIDAD (CifrarRSA) - {ex.Message}");
             }
 
             return bytesCifrados;

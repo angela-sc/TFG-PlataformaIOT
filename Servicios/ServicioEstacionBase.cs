@@ -34,7 +34,15 @@ namespace Servicios
         public async Task<IEnumerable<EntidadSensorResultado>> ObtenerSensores(int idEstacionBase)
         {
             IEnumerable<EntidadSensorResultado> sensores = new List<EntidadSensorResultado>();
-            sensores = await repositorioEstacionBase.ObtenerSensores(idEstacionBase);
+            try
+            {
+                sensores = await repositorioEstacionBase.ObtenerSensores(idEstacionBase);
+            }
+            catch(Exception ex)
+            {
+                sensores = null;
+                log.Error($"ERR. SERVICIO ESTACION BASE (ObtenerSensores) - {ex.Message}");
+            }
 
             return sensores;
         }
@@ -46,9 +54,10 @@ namespace Servicios
             {
                 estacionesBase = await repositorioEstacionBase.ObtenerEstacionesBase(idProyecto);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 estacionesBase = null;
+                log.Error($"ERR. SERVICIO ESTACION BASE (ListaEstacionesBase) - {ex.Message}");
             }
 
             return estacionesBase;
@@ -61,16 +70,27 @@ namespace Servicios
             {
                 eliminada = await repositorioEstacionBase.Eliminar(idEstacionBase);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 eliminada = false;
+                log.Error($"ERR. SERVICIO ESTACION BASE (Eliminar) - {ex.Message}");
             }
             return eliminada;
         }
 
         public async Task<bool> Editar(EntidadEstacionBase estacionBase)
         {
-            return await repositorioEstacionBase.Editar(estacionBase);
+            bool editado;
+            try
+            {
+                editado = await repositorioEstacionBase.Editar(estacionBase);
+            }
+            catch(Exception ex)
+            {
+                editado = false;
+                log.Error($"ERR. SERVICIO ESTACION BASE (Editar) - {ex.Message}");
+            }
+            return editado;
         }
 
         public async Task Crear(EntidadEstacionBase estacionBase)
@@ -81,10 +101,15 @@ namespace Servicios
         public async Task<bool> Autorizado(string idUsuario, int idEstacionBase)
         {
             bool autorizado = false;
-
-            var estacionesBaseUsuario = await repositorioEstacionBase.ObtenerEstacionesBase(idUsuario);
-            if(estacionesBaseUsuario != null && estacionesBaseUsuario.Count() > 0)
-                autorizado = estacionesBaseUsuario.Select(_ => _.Id).Contains(idEstacionBase);
+            try {
+                var estacionesBaseUsuario = await repositorioEstacionBase.ObtenerEstacionesBase(idUsuario);
+                if (estacionesBaseUsuario != null && estacionesBaseUsuario.Count() > 0)
+                    autorizado = estacionesBaseUsuario.Select(_ => _.Id).Contains(idEstacionBase);
+            }
+            catch(Exception ex)
+            {
+                log.Error($"ERR. SERVICIO ESTACION BASE (Autorizado) - {ex.Message}");
+            }
 
             return autorizado;
         }

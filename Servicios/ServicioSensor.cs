@@ -68,14 +68,16 @@ namespace Servicios
 
         public async Task<int> ObtenerId(string nombreSensor, int idEstacionBase)
         {
-            int resultado = -1;
+            int resultado;// = -1;
             try
             {
                 resultado = await repositorioSensor.ObtenerId(nombreSensor, idEstacionBase);
             }
             catch(Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                //Console.WriteLine(ex.Message);
+                log.Error($"ERR. SERVICIO SENSOR (ObtenerId) - {ex.Message}");
+                resultado = -1;
             }
 
             return resultado;
@@ -88,17 +90,51 @@ namespace Servicios
 
         public async Task<bool> EliminarDatos(int fk_SensorId)
         {
-            return await repositorioSensor.EliminarDatos(fk_SensorId);
+            bool eliminado; // = false;
+            try
+            {
+                eliminado = await repositorioSensor.EliminarDatos(fk_SensorId);
+            }catch(Exception ex)
+            {
+                eliminado = false;
+                log.Error($"ERR. SERVICIO SENSOR (EliminarDatos) - {ex.Message}");
+            }
+            return eliminado; 
         }
 
         public async Task<bool> EliminarSensor(int sensorid)
         {
-            return await repositorioSensor.EliminarSensor(sensorid);
+            //return await repositorioSensor.EliminarSensor(sensorid);
+
+            bool eliminado;
+
+            try
+            {
+                eliminado = await repositorioSensor.EliminarSensor(sensorid);
+            }
+            catch (Exception ex)
+            {
+                eliminado = false;
+                log.Error($"ERR. SERVICIO SENSOR (EliminarSensor) - {ex.Message}");
+            }
+            return eliminado;
         }
 
         public async Task<bool> Editar(EntidadSensor sensor)
         {
-            return await repositorioSensor.Editar(sensor);
+            //return await repositorioSensor.Editar(sensor);
+            bool editado;
+
+            try
+            {
+                editado = await repositorioSensor.Editar(sensor);
+            }
+            catch (Exception ex)
+            {
+                editado = false;
+                log.Error($"ERR. SERVICIO SENSOR (Editar) - {ex.Message}");
+            }
+            return editado;
         }
 
         public async Task Crear(EntidadSensor sensor)

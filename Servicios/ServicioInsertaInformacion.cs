@@ -57,20 +57,16 @@ namespace Servicios
 
                         result = (result && await repositorioSensor.InsertaDato(dato)); //si falla alguna da false
                     }
-                    //leer entidadPeticion e insertar en las tablas correspondientes usando los repositorio
-                    log.Information($"Resultado insercion (tras insertarlos): {result}");
                 }
                 else
                 {
                     if (estacionId == -1)
                     {
-                        //log.Debug("Fallo en ServicioInsertaInformacion en el método InsertaPeticion");
                         log.Warning($"ERR. SERVICIO INSERTA INFORMACION (InsertaPeticion) -  No existe la estacion '{nombreEstacionBase}' en la base de datos");
                     }
 
                     if (sensorId == -1)
                     {
-                        //log.Debug("Fallo en ServicioInsertaInformacion en el método InsertaPeticion");
                         log.Warning($"ERR. SERVICIO INSERTA INFORMACION (InsertaPeticion) - No existe el sensor {sensorId} en la base de datos");
                     }
                     result = false;

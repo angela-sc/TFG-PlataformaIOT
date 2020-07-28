@@ -53,7 +53,7 @@ namespace Repositorio.SQLServer
             catch (Exception ex)
             {
                 log.Error($"ERR. REPOSITORIO USUARIO (InsertaUsuario) - {ex.Message}");
-                return insertado; //¿esto se puede quitar?
+                insertado = false;
             }
             return insertado;
         }
