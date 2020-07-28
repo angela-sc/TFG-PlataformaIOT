@@ -60,7 +60,15 @@ namespace PortalWebLogin.ViewModel
 
                 mapa.Refresh(); // Refrescar mapa
             }
-        }   
+        }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
+            {
+                mapa.Refresh();
+            }
+        }
     }
 
     //Clase "intermedia" utilizada para añadir marcadores al mapa
