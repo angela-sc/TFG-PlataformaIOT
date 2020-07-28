@@ -27,7 +27,7 @@ namespace PortalWebLogin
     public class Startup
     {
         /**
-         * Documentacion Syncfusion (mapas de pago)
+         * Documentacion Syncfusion (mapas)
          * https://blazor.syncfusion.com/documentation/maps/providers/openstreetmap/
          * https://blazor.syncfusion.com/documentation/maps/markers/
          * 
@@ -48,11 +48,6 @@ namespace PortalWebLogin
                 .WriteTo.File(configuration.GetValue<string>("DirectorioLog"))
                 .CreateLogger();
             FactoriaServicios.SetLogger(Log.Logger);
-
-            /**
-             * DE MOMENTO SE HARDCODEARÁ AQUÍ HASTA QUE SE IMPLEMENTE EL LOGIN DE USUARIO
-             */
-            //InformacionUsuario.IdUsuario = "016ba22d-3dbd-4af6-a6d1-578c9b4af427";
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.

@@ -116,15 +116,11 @@ namespace PortalWebLogin.ViewModel
 
         protected async Task Crear()
         {
-            //Console.WriteLine("Función crear activada.");
             Proyecto = new ModeloProyecto();
             this.crear = true;
         }
         public async Task CrearProyecto()
         {
-            //Console.WriteLine("Función crear proyecto activada.");
-            //servicioProyecto = new ServicioProyecto(cadenaConexion, null);
-
            proyecto_creado = await servicioProyecto.Crear(new EntidadProyecto()
             {
                 Nombre = Proyecto.Nombre,
@@ -399,7 +395,6 @@ namespace PortalWebLogin.ViewModel
             this.eliminar = false;
             this.eliminado = false;
 
-            //this.claseModal = "";
             this.EstacionBaseEditar = null;
             this.SensorEditar = null;
             this.ProyectoEditar = null;

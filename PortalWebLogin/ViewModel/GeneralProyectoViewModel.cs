@@ -16,12 +16,11 @@ namespace PortalWebLogin.ViewModel
     {
         protected IEnumerable<EntidadProyecto> proyectos;
         public List<Tuple<int, EntidadEstacionBase>> listaEstacionesBase;
-        protected string SearchTerm { get; set; } = "";  // Initialize SearchTerm to "" to prevent null's
+        protected string SearchTerm { get; set; } = "";
 
-        // > -- ATRIBUTOS PRIVADOS
-        private IServicioProyecto servicioProyecto;// = FactoriaServicios.GetServicioProyecto();
-        private IServicioEstacionBase servicioEstacionBase; // = FactoriaServicios.GetServicioEstacionBase();
-        private IServicioSensor servicioSensor; // = FactoriaServicios.GetServicioSensor(); // -- añadido hoy       
+        private IServicioProyecto servicioProyecto;
+        private IServicioEstacionBase servicioEstacionBase;
+        private IServicioSensor servicioSensor;    
 
         protected override async Task OnInitializedAsync()
         {

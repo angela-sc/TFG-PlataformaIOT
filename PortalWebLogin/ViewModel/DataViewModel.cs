@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using Microsoft.JSInterop;
-//using PortalWeb.Resources;
 using PortalWebLogin.Data;
 using Servicios;
 using Syncfusion.Blazor.PivotView;
@@ -22,8 +21,7 @@ namespace PortalWebLogin.ViewModel
 {
     public class DataViewModel : UsuarioAutenticadoViewModel
     {       
-        //[Inject]
-        //protected IJSRuntime JSRuntime { get; set; }
+
 
         [Parameter]
         public string sensor { get; set; }   
