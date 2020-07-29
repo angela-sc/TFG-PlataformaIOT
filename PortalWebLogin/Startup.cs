@@ -74,6 +74,8 @@ namespace PortalWebLogin
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Mjk2MzAxQDMxMzgyZTMyMmUzMEFENHB3MFdua1hWR2V3aXdpNjY1eWphbC95eE9QVmJnTTlieWV1N1Q1dmM9;Mjk2MzAyQDMxMzgyZTMyMmUzMExvYklWY0grWFExTmpqZkFHbU9ZeUtpSFYxb3pZSlJMRjlHWStENGNJWHM9;Mjk2MzAzQDMxMzgyZTMyMmUzMGNIdktpaFdXZk8rMnU4dVNxN2ZjQm1pZ2tJVzFtUGM0aStDV0pMUE5lTkk9");
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

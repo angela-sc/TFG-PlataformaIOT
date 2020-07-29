@@ -98,7 +98,7 @@ namespace Repositorio.SQLServer
         {
             Dictionary<string, object> parametros = new Dictionary<string, object>
             {
-                { "@id", idSensor},
+                { "@id", idSensor },
                 { "@top", top }
             };
 
@@ -125,13 +125,13 @@ namespace Repositorio.SQLServer
 
             Dictionary<string, object> parametros = new Dictionary<string, object>
             {
-                { "@id", idSensor},
+                { "@id", idSensor },
                 { "@fechainicio", fechaInicio },
-                { "@fechafin", fechaFin}
+                { "@fechafin", fechaFin }
             };
 
             string query = @"SELECT [stamp] [Stamp], [humedad] [Humedad], [temperatura] [Temperatura] 
-                             FROM [plataforma_iot].[dbo].[Datos] WHERE [stamp] BETWEEN @fechainicio AND @fechafin";
+                             FROM [plataforma_iot].[dbo].[Datos] WHERE [fk_idsensor] = @id AND [stamp] BETWEEN @fechainicio AND @fechafin";
             
             IEnumerable<EntidadDatoBase> result = null;
 
