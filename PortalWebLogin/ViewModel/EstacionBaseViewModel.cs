@@ -39,18 +39,26 @@ namespace PortalWebLogin.ViewModel
                 listaSensores = await servicioEstacionBase.ObtenerSensores(idEb);
 
                 //que pasa si la estacion base no tiene sensores -> devuelve una lista null
-
+                List<MapMarkerDataSource> marcadores = new List<MapMarkerDataSource>();
+                string colorMarcador;
                 foreach (EntidadSensorResultado sensor in listaSensores)
                 {
                     if (sensor.Fecha == default(DateTime))
                     {
-                        MarkerDataSource.Add(new MapMarkerDataSource { latitude = Convert.ToDouble(sensor.Latitud), longitude = Convert.ToDouble(sensor.Longitud), name = sensor.NombreSensor, color = "red" });
+                        //MarkerDataSource.Add(new MapMarkerDataSource { latitude = Convert.ToDouble(sensor.Latitud), longitude = Convert.ToDouble(sensor.Longitud), name = sensor.NombreSensor, color = "red" });
+                        colorMarcador = "red";
                     }
                     else
                     {
-                        MarkerDataSource.Add(new MapMarkerDataSource { latitude = Convert.ToDouble(sensor.Latitud), longitude = Convert.ToDouble(sensor.Longitud), name = sensor.NombreSensor, color = "green" });
+                        //MarkerDataSource.Add(new MapMarkerDataSource { latitude = Convert.ToDouble(sensor.Latitud), longitude = Convert.ToDouble(sensor.Longitud), name = sensor.NombreSensor, color = "green" });
+                        colorMarcador = "green";
                     }
+
+                    marcadores.Add(new MapMarkerDataSource { latitude = Convert.ToDouble(sensor.Latitud), longitude = Convert.ToDouble(sensor.Longitud), name = sensor.NombreSensor, color = colorMarcador });
                 }
+
+                MarkerDataSource.AddRange(marcadores);
+
                 if (listaSensores.Count() > 0)
                 {
                     latitudInicial = MarkerDataSource.ElementAt(0).latitude;
