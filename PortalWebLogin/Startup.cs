@@ -64,7 +64,7 @@ namespace PortalWebLogin
             services.AddBlazorDownloadFile();
 
             // >- Referencias para usar synfusion y blazorise
-            services.AddSyncfusionBlazor();
+            services.AddSyncfusionBlazor(true);
 
             services.AddBlazorise(options => { options.ChangeTextOnKeyPress = true; })
                .AddBootstrapProviders()

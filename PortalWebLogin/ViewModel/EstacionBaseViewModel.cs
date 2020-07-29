@@ -58,13 +58,15 @@ namespace PortalWebLogin.ViewModel
                     longitudInicial = MarkerDataSource.ElementAt(0).longitude;
                 }
 
+                mapa.Theme = MapsTheme.Bootstrap4;
                 mapa.Refresh(); // Refrescar mapa
             }
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            mapa.Refresh();
+            if(firstRender)
+                mapa.Refresh();
         }
     }
 
