@@ -21,8 +21,6 @@ namespace PortalWebLogin.ViewModel
 {
     public class DataViewModel : UsuarioAutenticadoViewModel
     {       
-
-
         [Parameter]
         public string sensor { get; set; }   
        
@@ -30,13 +28,9 @@ namespace PortalWebLogin.ViewModel
 
         private List<double> datosTemperatura;
         private List<double> datosHumedad;
-        //private List<double> datosGrafica;
 
         public IEnumerable<EntidadDatoBase> datos; //Datos que se representan en la página web
         public LineChart<double> lineChartTemperature, lineChartHumity; //graficas        
-        //public LineChart<double> graficaLineas;
-        //protected static readonly string Temperatura = "temperatura";
-        //protected static readonly string Humedad = "humedad";
 
         protected string nombreSensor = null;
 
@@ -53,7 +47,6 @@ namespace PortalWebLogin.ViewModel
 
         // > -- SERVICIO
         private IServicioSensor servicioSensor;
-        private IServicioEstacionBase servicioEstacionBase = FactoriaServicios.GetServicioEstacionBase();
 
         private async Task CargaDatos()
         {
@@ -75,30 +68,6 @@ namespace PortalWebLogin.ViewModel
             Labels = labels.ToArray();
         }
 
-        //private async Task<List<double>> CargaDatos(string selectorDato)
-        //{
-        //    datos = new List<EntidadDatoBase>();
-        //    datos = await servicioSensor.ObtenerDatos(idSensor, RadioValue2);
-        //    var grafica = new List<double>();
-        //    //datosHumedad = new List<double>();
-
-        //    List<string> labels = new List<string>();
-
-        //    foreach (var dato in datos)
-        //    {
-        //        if (selectorDato == Temperatura)
-        //            grafica.Add(dato.Temperatura);
-        //        else if (selectorDato == Humedad)
-        //            grafica.Add(dato.Humedad);
-
-        //        labels.Add(dato.Stamp.ToString());
-        //    }
-
-        //    Labels = labels.ToArray();
-
-        //    return grafica;
-        //}
-
         protected override async Task OnSecureParameterSetAsync()
         {
             Int32.TryParse(idEstacionBase, out int idEb);
@@ -118,74 +87,25 @@ namespace PortalWebLogin.ViewModel
             }
         }
 
-        //protected async Task HandleRedrawHumedad()
-        //{
-        //    await lineChartHumity.Clear();
-        //    await lineChartHumity.AddLabel(Labels);
-        //    await lineChartHumity.AddDataSet(GetLineChartHumityDataset());
-        //    await lineChartHumity.Update();
-        //}
-
-        //protected async Task HandleRedrawTemperatura()
-        //{
-        //    await lineChartTemperature.Clear();
-        //    await lineChartTemperature.AddLabel(Labels);
-        //    await lineChartTemperature.AddDataSet(GetLineChartTemperatureDataset());
-        //    await lineChartTemperature.Update();
-        //}
-
-        //protected async Task HandleRedraw()
-        //{
-        //    await CargaDatos();
-
-        //    await lineChartTemperature.Clear();
-        //    await lineChartTemperature.Update();
-        //    await lineChartTemperature.AddLabel(Labels);
-        //    await lineChartTemperature.AddDataSet(GetLineChartTemperatureDataset());
-        //    await lineChartTemperature.Update();
-
-        //    await lineChartHumity.Clear();
-        //    await lineChartHumity.Update();
-        //    await lineChartHumity.AddLabel(Labels);
-        //    await lineChartHumity.AddDataSet(GetLineChartHumityDataset());
-        //    await lineChartHumity.Update();
-
-        //    StateHasChanged();
-        //}
-
         protected async Task HandleRedraw()
         {
             await CargaDatos();
-            LineChartDataset<double> datosEnGrafica = await GetLineChartTemperatureDataset();
+            LineChartDataset<double> datosEnGrafica = GetLineChartTemperatureDataset();
 
             await lineChartTemperature.Clear();
             await lineChartTemperature.AddLabelsDatasetsAndUpdate(Labels, datosEnGrafica);
 
-            datosEnGrafica = await GetLineChartHumityDataset();
+            datosEnGrafica = GetLineChartHumityDataset();
             await lineChartHumity.Clear();
             await lineChartHumity.AddLabelsDatasetsAndUpdate(Labels, datosEnGrafica);
         }
 
-        //protected async Task HandleRedraw()
-        //{
-        //    LineChartDataset<double> datosEnGrafica = new LineChartDataset<double>();
-        //    if (DataSelected == Temperatura)
-        //        datosEnGrafica = await GetLineChartTemperatureDataset();
-        //    else if (DataSelected == Humedad)
-        //        datosEnGrafica = await GetLineChartHumityDataset();
-
-        //    await graficaLineas.Clear();
-        //    await graficaLineas.AddLabelsDatasetsAndUpdate(Labels, datosEnGrafica);
-        //}
-
-        async Task<LineChartDataset<double>> GetLineChartTemperatureDataset()
+        LineChartDataset<double> GetLineChartTemperatureDataset()
         {
-            //var datos = await CargaDatos(DataSelected);
             return new LineChartDataset<double>
             {
                 Label = "Temperatura (ºC)",
                 Data = datosTemperatura,
-                //Data = datos,
                 BackgroundColor = backgroundColors,
                 BorderColor = borderColors,
                 Fill = true,
@@ -194,14 +114,12 @@ namespace PortalWebLogin.ViewModel
             };
         }
 
-        async Task<LineChartDataset<double>> GetLineChartHumityDataset()
+        LineChartDataset<double> GetLineChartHumityDataset()
         {
-            //var datos = await CargaDatos(DataSelected);
             return new LineChartDataset<double>
             {
                 Label = "Humedad (%)",
                 Data = datosHumedad,
-                //Data = datos,
                 BackgroundColor = backgroundColorsHumedad,
                 BorderColor = borderColorsHumedad,
                 Fill = true,
@@ -210,27 +128,13 @@ namespace PortalWebLogin.ViewModel
             };
         }
 
-
         public int RadioValue2 = 10;  //cantidad de datos que se muestra en la vista
 
         public async void RadioSelection2(ChangeEventArgs args)
         {
             RadioValue2 = Convert.ToInt32(args.Value);
-
-            //await CargaDatos();
-            //await HandleRedrawHumedad();
-            //await HandleRedrawTemperatura();
             await HandleRedraw();
             StateHasChanged();
         }
-
-        //public string DataSelected = Temperatura;
-
-        //public async void DataSelection(ChangeEventArgs args)
-        //{
-        //    DataSelected = args.Value.ToString();
-        //    await HandleRedraw();
-        //    StateHasChanged();
-        //}
     }
 }

@@ -86,29 +86,28 @@ namespace PortalWebLogin.ViewModel
         private async Task CargarGrafica()
         {
             await graficaTemperatura.Clear();
-            await graficaTemperatura.AddLabel(Labels);
-
             int indiceColor = 0; // -- indice utilizado en el array de colores para que cada sensor (dataset) tenga un color
+            List<LineChartDataset<double>> dataset = new List<LineChartDataset<double>>();
             foreach (var datosSensor in listaDatosTemp.OrderBy(_ => _.Item1)) // -- datasets ordenados por nombre de sensor
             {
-                await graficaTemperatura.AddDataSet(ObtenerDataSet(datosSensor.Item1, datosSensor.Item2, indiceColor));
+                //await graficaTemperatura.AddDataSet(ObtenerDataSet(datosSensor.Item1, datosSensor.Item2, indiceColor));
+                dataset.Add(ObtenerDataSet(datosSensor.Item1, datosSensor.Item2, indiceColor));
                 indiceColor = (indiceColor + 1) % coloresGraficas.Count();
             }
-            await graficaTemperatura.Update();
-            StateHasChanged();
+            await graficaTemperatura.AddLabelsDatasetsAndUpdate(Labels, dataset.ToArray());
 
             await graficaHumedad.Clear();
-            await graficaHumedad.AddLabel(Labels);
             indiceColor = 0;
+            dataset = new List<LineChartDataset<double>>();
             foreach (var datosSensor in listaDatosHum.OrderBy(_ => _.Item1)) // -- datasets ordenados por nombre de sensor
             {
-                await graficaHumedad.AddDataSet(ObtenerDataSet(datosSensor.Item1, datosSensor.Item2, indiceColor));
+                //await graficaHumedad.AddDataSet(ObtenerDataSet(datosSensor.Item1, datosSensor.Item2, indiceColor));
+                dataset.Add(ObtenerDataSet(datosSensor.Item1, datosSensor.Item2, indiceColor));
                 indiceColor = (indiceColor + 1) % coloresGraficas.Count();
             }
-            await graficaHumedad.Update();
-            StateHasChanged();
-
+            await graficaHumedad.AddLabelsDatasetsAndUpdate(Labels, dataset.ToArray());
         }
+
         LineChartDataset<double> ObtenerDataSet(string nombreSensor, List<double> datosSensor, int indice) // obtiene cada uno de los datasets de temperatura: 1 dataset x sensor
         {
             return new LineChartDataset<double>
