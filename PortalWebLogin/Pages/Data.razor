@@ -18,7 +18,7 @@
 
         <div class="row justify-content-end" style="padding-bottom:20px;">
             <label class="form-check-label mr-2">Cantidad de datos a mostrar:</label>
-            @foreach (var item2 in new int[] { 3, 5, 10, 20 })
+            @foreach (var item2 in new int[] { 3, 10, 30})
             {
                 <div class="form-check form-check-inline">
                     <input type="radio" class="form-check-input" id="@item2" value="@item2" @onchange="RadioSelection2" checked=@(RadioValue2.Equals(item2)) />
@@ -92,5 +92,3 @@ else
 {
     <h5 class="alert alert-danger" role="alert"><strong><span class="oi oi-ban"></span>ERROR: @Constantes.ErrorNoAutorizado</strong></h5>
 }
-
-<!-- iconos obtenido de 'Open Iconic — www.useiconic.com/open' -->

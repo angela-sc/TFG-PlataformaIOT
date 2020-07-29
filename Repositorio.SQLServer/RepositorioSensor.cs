@@ -22,17 +22,6 @@ namespace Repositorio.SQLServer
             this.log = logger;
         }
 
-        /**
-         * <summary>
-         * <example>
-         *      <code>
-         *           await repoSensor.InsertaSensor(entidadSensor)
-         *      </code>
-         * </example>
-         * <param name="sensor">Datos del sensor a insertar</param>
-         * <returns>Task<bool></returns>
-         * </summary>
-         * */
         public async Task<bool> InsertaSensor(EntidadSensor sensor)
         {
             bool insertado;
@@ -154,11 +143,11 @@ namespace Repositorio.SQLServer
                 result = null;
                 if (fechaFin == null)
                 {
-                    log.Error("fecha de fin vacía - ERR. REPOSITORIO SENSOR (ObtenerDatos)");
+                    log.Error("ERR. REPOSITORIO SENSOR (ObtenerDatos) - fecha de fin vacía");
                 }
                 if(fechaInicio == null)
                 {
-                    log.Error("fecha de inicio vacía - ERR. REPOSITORIO SENSOR (ObtenerDatos)");
+                    log.Error("ERR. REPOSITORIO SENSOR (ObtenerDatos) - fecha de inicio vacía");
                 }                
             }
             return result;
@@ -243,7 +232,7 @@ namespace Repositorio.SQLServer
             }catch(Exception ex)
             {
                 log.Error($"ERR. REPOSITORIO SENSOR (EliminarDatos) - {ex.Message}");
-                return eliminado; //¿esto va aqui?
+                eliminado = false; 
             }
             return eliminado;
         }

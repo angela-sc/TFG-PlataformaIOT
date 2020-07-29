@@ -35,16 +35,14 @@
                 <MapsCenterPosition Latitude=latitudInicial Longitude=longitudInicial></MapsCenterPosition>
 
                 <MapsLayers>
-                    <MapsLayer LayerType="ShapeLayerType.OSM">
-                        @* Add marker *@
+                    <MapsLayer LayerType="ShapeLayerType.OSM">                      
                         <MapsMarkerSettings>
                             <MapsMarker Visible="true"
                                         Height="25"
                                         Width="25"
                                         DataSource="MarkerDataSource"
                                         ColorValuePath="color">
-                                <MapsMarkerTooltipSettings ValuePath="name" Visible="true"></MapsMarkerTooltipSettings>
-                                @*para dar formato y añadir más valores Format="<b>${name}</b><br>Finalist: <b>${Winner}</b><br>Win: <b>${Finalist} en MapsMarkerTooltipSettings*@
+                                <MapsMarkerTooltipSettings ValuePath="name" Visible="true"></MapsMarkerTooltipSettings>                              
                             </MapsMarker>
                         </MapsMarkerSettings>
                     </MapsLayer>

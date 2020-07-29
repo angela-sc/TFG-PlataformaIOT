@@ -43,16 +43,10 @@ namespace PortalWebLogin.ViewModel
                 string colorMarcador;
                 foreach (EntidadSensorResultado sensor in listaSensores)
                 {
-                    if (sensor.Fecha == default(DateTime))
-                    {
-                        //MarkerDataSource.Add(new MapMarkerDataSource { latitude = Convert.ToDouble(sensor.Latitud), longitude = Convert.ToDouble(sensor.Longitud), name = sensor.NombreSensor, color = "red" });
+                    if (sensor.Fecha == default(DateTime))                      
                         colorMarcador = "red";
-                    }
-                    else
-                    {
-                        //MarkerDataSource.Add(new MapMarkerDataSource { latitude = Convert.ToDouble(sensor.Latitud), longitude = Convert.ToDouble(sensor.Longitud), name = sensor.NombreSensor, color = "green" });
+                    else                     
                         colorMarcador = "green";
-                    }
 
                     marcadores.Add(new MapMarkerDataSource { latitude = Convert.ToDouble(sensor.Latitud), longitude = Convert.ToDouble(sensor.Longitud), name = sensor.NombreSensor, color = colorMarcador });
                 }
@@ -64,16 +58,8 @@ namespace PortalWebLogin.ViewModel
                     latitudInicial = MarkerDataSource.ElementAt(0).latitude;
                     longitudInicial = MarkerDataSource.ElementAt(0).longitude;
                 }
-
-                //mapa.Refresh(); // Refrescar mapa
             }
-        }
-
-        protected override async Task OnAfterRenderAsync(bool firstRender)
-        {
-                //if (firstRender)
-                    //mapa.Refresh();
-        }
+        }        
     }
 
     //Clase "intermedia" utilizada para añadir marcadores al mapa

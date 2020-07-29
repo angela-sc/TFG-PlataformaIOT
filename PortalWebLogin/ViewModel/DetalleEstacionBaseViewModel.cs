@@ -90,7 +90,6 @@ namespace PortalWebLogin.ViewModel
             List<LineChartDataset<double>> dataset = new List<LineChartDataset<double>>();
             foreach (var datosSensor in listaDatosTemp.OrderBy(_ => _.Item1)) // -- datasets ordenados por nombre de sensor
             {
-                //await graficaTemperatura.AddDataSet(ObtenerDataSet(datosSensor.Item1, datosSensor.Item2, indiceColor));
                 dataset.Add(ObtenerDataSet(datosSensor.Item1, datosSensor.Item2, indiceColor));
                 indiceColor = (indiceColor + 1) % coloresGraficas.Count();
             }
@@ -101,7 +100,6 @@ namespace PortalWebLogin.ViewModel
             dataset = new List<LineChartDataset<double>>();
             foreach (var datosSensor in listaDatosHum.OrderBy(_ => _.Item1)) // -- datasets ordenados por nombre de sensor
             {
-                //await graficaHumedad.AddDataSet(ObtenerDataSet(datosSensor.Item1, datosSensor.Item2, indiceColor));
                 dataset.Add(ObtenerDataSet(datosSensor.Item1, datosSensor.Item2, indiceColor));
                 indiceColor = (indiceColor + 1) % coloresGraficas.Count();
             }
@@ -131,8 +129,7 @@ namespace PortalWebLogin.ViewModel
             }
             else
             {               
-                await HandleRedraw(); //Si las fechas son incorrectas no se mostrará nada diferente
-                
+                await HandleRedraw(); //Si las fechas son incorrectas no se mostrara nada diferente                
                 this.StateHasChanged();
             }
         }

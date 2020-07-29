@@ -67,11 +67,11 @@ namespace Servicio.Test.Integracion
             }
         }
 
-        [TestMethod]
-        public void TestGenerarClavesRSA()
-        {
-            //ServicioSeguridad.GenerarClavesRSA(@"E:\Descargas\claves\publica.key", @"E:\Descargas\claves\privada.key");
-        }
+        //[TestMethod]
+        //public void TestGenerarClavesRSA()
+        //{
+        //    //ServicioSeguridad.GenerarClavesRSA(@"E:\Descargas\claves\publica.key", @"E:\Descargas\claves\privada.key");
+        //}
 
 
         //[TestMethod]

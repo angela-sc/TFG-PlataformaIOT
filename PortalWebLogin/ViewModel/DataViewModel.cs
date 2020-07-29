@@ -24,7 +24,7 @@ namespace PortalWebLogin.ViewModel
         [Parameter]
         public string sensor { get; set; }   
        
-        private int idSensor; // = 2; //para obtener el id del sensor debemos tener el nombre y la estación base
+        private int idSensor; //para obtener el id del sensor debemos tener el nombre y la estación base
 
         private List<double> datosTemperatura;
         private List<double> datosHumedad;
@@ -128,7 +128,7 @@ namespace PortalWebLogin.ViewModel
             };
         }
 
-        public int RadioValue2 = 10;  //cantidad de datos que se muestra en la vista
+        public int RadioValue2 = 3;  //cantidad de datos que se muestra en la vista
 
         public async void RadioSelection2(ChangeEventArgs args)
         {

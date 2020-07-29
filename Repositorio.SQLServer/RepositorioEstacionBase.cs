@@ -196,7 +196,6 @@ namespace Repositorio.SQLServer
             }
             catch (Exception ex)
             {
-                //Console.WriteLine(ex.Message);
                 log.Error($"ERR. REPOSITORIO ESTACION BASE (ObtenerSensores) - {ex.Message}");
             }
             return resultado;
