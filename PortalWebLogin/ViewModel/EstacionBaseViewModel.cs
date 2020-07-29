@@ -18,7 +18,6 @@ namespace PortalWebLogin.ViewModel
 {
     public class EstacionBaseViewModel : UsuarioAutenticadoViewModel
     {
-        //[Parameter]
         public string nombreEstacionBase { get; set; }      
 
         public IEnumerable<EntidadSensorResultado> listaSensores = new List<EntidadSensorResultado>(); //lista de sensores de dicha estacion base
@@ -58,14 +57,14 @@ namespace PortalWebLogin.ViewModel
                     longitudInicial = MarkerDataSource.ElementAt(0).longitude;
                 }
 
-                mapa.Refresh(); // Refrescar mapa
+                //mapa.Refresh(); // Refrescar mapa
             }
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            if (firstRender)
-                mapa.Refresh();
+                //if (firstRender)
+                    //mapa.Refresh();
         }
     }
 
