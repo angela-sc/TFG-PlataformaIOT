@@ -30,18 +30,31 @@
 
         <div class="row">
             <div class="col-xl-6">
-                <div class="card mb-4">
+            <div class="card mb-4">
 
-                    <div class="card-header"><span class="oi oi-sun mr-1"></span>Datos de temperatura</div>
-                    <div class="card-body"><LineChart @ref="lineChartTemperature" TItem="double" /></div>
-                </div>
+                <div class="card-header"><span class="oi oi-sun mr-1"></span>Datos de temperatura</div>
+                <div class="card-body"><LineChart @ref="lineChartTemperature" TItem="double" /></div>
             </div>
-            <div class="col-xl-6">
+        </div>
+        <div class="col-xl-6">
+            <div class="card mb-4">
+                <div class="card-header"><span class="oi oi-droplet mr-1"></span>Datos de humedad</div>
+                <div class="card-body"><LineChart @ref="lineChartHumity" TItem="double" /></div>
+            </div>
+        </div>
+            @*@foreach (var tipoDato in new string[] { Temperatura, Humedad })
+            {
+                <div class="form-check form-check-inline">
+                    <input type="radio" class="form-check-input" id="@tipoDato" value="@tipoDato" @onchange="DataSelection" checked=@(DataSelected.Equals(tipoDato)) />
+                    <label class="form-check-label" for="@tipoDato">@tipoDato</label>
+
+                </div>
+            }
+            <div class="col-xl-9">
                 <div class="card mb-4">
-                    <div class="card-header"><span class="oi oi-droplet mr-1"></span>Datos de humedad</div>
-                    <div class="card-body"><LineChart @ref="lineChartHumity" TItem="double" /></div>
+                    <div class="card-body"><LineChart @ref="graficaLineas" TItem="double" /></div>
                 </div>
-            </div>
+            </div>*@
         </div>
         <div class="card mb-4">
             <div class="card-header"><span class="oi oi-spreadsheet mr-1"></span>Tabla resumen</div>
