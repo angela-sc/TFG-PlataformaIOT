@@ -41,7 +41,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pruebas.PortalWebLogin", "P
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PortalWebLogin", "PortalWebLogin\PortalWebLogin.csproj", "{EC4FDA1A-EF0E-48A0-A7A5-A258DE302F9B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Servidor.API", "Servidor.API\Servidor.API.csproj", "{4E74CE2C-F75F-435A-A960-E6C852CAAEBF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Servidor.API", "Servidor.API\Servidor.API.csproj", "{4E74CE2C-F75F-435A-A960-E6C852CAAEBF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

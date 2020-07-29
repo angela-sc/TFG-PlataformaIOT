@@ -1,0 +1,47 @@
+﻿@page "/estacionbase/detalle/{idEstacionBase}"
+
+@using Blazorise.Charts
+@using PortalWebLogin.Data
+
+<h3>EstacionBaseDetalle</h3>
+
+@code {
+
+    LineChart<double> temperatura, humedad;
+    List<string> colores = new List<string> { ChartColor.FromRgba(255, 99, 132, 1f), ChartColor.FromRgba(54, 162, 235, 1f), ChartColor.FromRgba(255, 206, 86, 1f), ChartColor.FromRgba(75, 192, 192, 1f), ChartColor.FromRgba(153, 102, 255, 1f), ChartColor.FromRgba(255, 159, 64, 1f) };
+    string[] etiquetas;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await HandleRedraw();
+        }
+    }
+
+    async Task HandleRedraw()
+    {
+        await temperatura.Clear();
+        await humedad.Clear();
+
+        //await temperatura.AddLabelsDatasetsAndUpdate(etiquetas, GetDataset());
+        //await humedad.AddLabelsDatasetsAndUpdate(etiquetas, GetDataset());
+    }
+
+    LineChartDataset<double> GetDataset(int indice, List<double> datos, string sensor )
+    {
+        return new LineChartDataset<double>
+        {
+            Data = datos,
+            Label = sensor,
+            BackgroundColor = colores.ElementAt(indice),
+            BorderColor = colores.ElementAt(indice),
+            Fill = true,
+            PointRadius = 2,
+            BorderDash = new List<int> { }
+        };
+    }
+
+    private
+
+}
